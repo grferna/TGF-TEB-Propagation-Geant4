@@ -1,0 +1,106 @@
+//
+// ********************************************************************
+// * License and Disclaimer                                           *
+// *                                                                  *
+// * The  Geant4 software  is  copyright of the Copyright Holders  of *
+// * the Geant4 Collaboration.  It is provided  under  the terms  and *
+// * conditions of the Geant4 Software License,  included in the file *
+// * LICENSE and available at  http://cern.ch/geant4/license .  These *
+// * include a list of copyright holders.                             *
+// *                                                                  *
+// * Neither the authors of this software system, nor their employing *
+// * institutes,nor the agencies providing financial support for this *
+// * work  make  any representation or  warranty, express or implied, *
+// * regarding  this  software system or assume any liability for its *
+// * use.  Please see the license in the file  LICENSE  and URL above *
+// * for the full disclaimer and the limitation of liability.         *
+// *                                                                  *
+// * This  code  implementation is the result of  the  scientific and *
+// * technical work of the GEANT4 collaboration.                      *
+// * By using,  copying,  modifying or  distributing the software (or *
+// * any work based  on the software)  you  agree  to acknowledge its *
+// * use  in  resulting  scientific  publications,  and indicate your *
+// * acceptance of all terms of the Geant4 Software license.          *
+// ********************************************************************
+//
+//
+// $Id: G4Trap.icc 103371 2017-04-03 07:36:29Z gcosmo $
+//
+// --------------------------------------------------------------------
+// GEANT 4 inline definitions file
+//
+// G4Trap.icc
+//
+// Implementation of inline methods of G4Trap
+// --------------------------------------------------------------------
+
+inline
+G4double G4Trap::GetZHalfLength() const
+{
+  return fDz ;
+}
+
+inline
+G4ThreeVector G4Trap::GetSymAxis() const
+{
+  G4double cosTheta = 1.0/std::sqrt(1+fTthetaCphi*fTthetaCphi +
+                               fTthetaSphi*fTthetaSphi) ;
+
+  return G4ThreeVector(fTthetaCphi*cosTheta,
+                       fTthetaSphi*cosTheta,
+                       cosTheta) ;
+}
+
+inline
+G4double G4Trap::GetYHalfLength1() const
+{
+  return fDy1 ;
+}
+
+inline
+G4double G4Trap::GetXHalfLength1() const
+{
+  return fDx1 ;
+}
+
+inline
+G4double G4Trap::GetXHalfLength2() const
+{
+  return fDx2 ;
+}
+
+inline
+G4double G4Trap::GetTanAlpha1() const
+{
+  return fTalpha1 ;
+}
+
+inline
+G4double G4Trap::GetYHalfLength2() const
+{
+  return fDy2 ;
+}
+
+inline
+G4double G4Trap::GetXHalfLength3() const
+{
+  return fDx3 ;
+}
+
+inline
+G4double G4Trap::GetXHalfLength4() const
+{
+  return fDx4 ;
+}
+
+inline
+G4double G4Trap::GetTanAlpha2() const
+{
+  return fTalpha2 ;
+}
+
+inline
+TrapSidePlane G4Trap::GetSidePlane( G4int n ) const
+{
+  return fPlanes[n] ;
+}
