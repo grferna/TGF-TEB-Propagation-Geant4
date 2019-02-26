@@ -62,7 +62,7 @@ using namespace std;
 double get_wall_time() {
     struct timeval tv{};
 
-    gettimeofday(&tv, NULL);
+    gettimeofday(&tv, nullptr);
     return tv.tv_sec + (tv.tv_usec / 1000000.0);
 }
 

@@ -41,13 +41,13 @@ public:
 
     TGF_PhysicsList();
 
-    ~TGF_PhysicsList();
+    ~TGF_PhysicsList() override;
 
-    void SetCuts();
+    void SetCuts() override;
 
-    void ConstructParticle();
+    void ConstructParticle() override;
 
-    void ConstructProcess();
+    void ConstructProcess() override;
 
 private:
 

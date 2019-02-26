@@ -138,9 +138,9 @@ G4VPhysicalVolume *TGFDetectorConstruction::Construct()
 
     // cleaning geometry
     G4GeometryManager::GetInstance()->OpenGeometry();
-    G4PhysicalVolumeStore::GetInstance()->Clean();
-    G4LogicalVolumeStore::GetInstance()->Clean();
-    G4SolidStore::GetInstance()->Clean();
+    G4PhysicalVolumeStore::Clean();
+    G4LogicalVolumeStore::Clean();
+    G4SolidStore::Clean();
 
     // construct field managers (for magnetic fields)
     if (settings->MAG_FIELD_ON)

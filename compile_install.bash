@@ -122,7 +122,7 @@ build_geant4() {
       PATH=/usr/bin \
       ../../cmake/bin/cmake \
       -DCMAKE_INSTALL_PREFIX=$installdir_g4 \
-      -DCMAKE_BUILD_TYPE=DEBUG \
+      -DCMAKE_BUILD_TYPE=Release \
       -DGEANT4_BUILD_MULTITHREADED=OFF \
       -DGEANT4_BUILD_CXXSTD=c++11 \
       -DGEANT4_INSTALL_DATA=ON \
@@ -178,7 +178,7 @@ build_tgf_propa() {
   ../cmake/bin/cmake \
   -DCMAKE_BUILD_TYPE=DEBUG \
   -DGeant4_DIR=$geant4_lib_dir \
-  ../src/
+  ../
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'

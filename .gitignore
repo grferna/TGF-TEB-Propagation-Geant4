@@ -39,4 +39,5 @@ src/cmake-build-debug/
 src/cmake-build-release/
 cmake-build-Debug/
 cmake-build-Release/
+.idea/workspace.xml
 
