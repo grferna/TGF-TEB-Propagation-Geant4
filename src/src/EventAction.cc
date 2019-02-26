@@ -35,8 +35,8 @@
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-EventAction::EventAction() :
-        G4UserEventAction() {
+EventAction::EventAction() : G4UserEventAction()
+{
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -45,7 +45,8 @@ EventAction::~EventAction() = default;
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void EventAction::BeginOfEventAction(const G4Event *evt) {
+void EventAction::BeginOfEventAction(const G4Event *evt)
+{
     // initializations
 
     evtNb++;
@@ -57,13 +58,14 @@ void EventAction::BeginOfEventAction(const G4Event *evt) {
 
 #endif
 
-    Settings::NB_EVENT=evtNb;
+    settings->NB_EVENT = evtNb;
 
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void EventAction::EndOfEventAction(const G4Event *) {
+void EventAction::EndOfEventAction(const G4Event *)
+{
     //     xgreAnalysis* analysis = xgreAnalysis::getInstance();
     //     if (fTotalEnergyDeposit>5.*keV) analysis->analyseDeposit(fTotalEnergyDeposit);
     //     if (fTotalEnergyDepositPlas>5.*keV) analysis->analyseDepositPlas(fTotalEnergyDepositPlas);

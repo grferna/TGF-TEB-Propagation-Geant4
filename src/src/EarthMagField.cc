@@ -34,12 +34,8 @@
 using namespace std;
 
 // interface avec code fortran igrf12 provenance du site : http://www.ngdc.noaa.gov/IAGA/vmod/igrf.html
-extern "C"
-{
-void
-igrf12syn_(int *isv, double *date, int *itype, double *alt, double *colat, double *elong, double *x, double *y,
-           double *z,
-           double *f, int *ier);
+extern "C" {
+void igrf12syn_(int *isv, double *date, int *itype, double *alt, double *colat, double *elong, double *x, double *y, double *z, double *f, int *ier);
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -52,8 +48,9 @@ EarthMagField::~EarthMagField() = default;
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void EarthMagField::GetFieldValue(const double Point[3], double *Bfield) const {
-//  geodetic_converter::GeodeticConverter g_geodetic_converter;
+void EarthMagField::GetFieldValue(const double Point[3], double *Bfield) const
+{
+    //  geodetic_converter::GeodeticConverter g_geodetic_converter;
 
     xx = Point[0] / m;
     yy = Point[1] / m;
@@ -64,7 +61,8 @@ void EarthMagField::GetFieldValue(const double Point[3], double *Bfield) const {
     // input x y z in meters, output altitude in km, output lat lon in degrees
     geod_conv::GeodeticConverter::ecef2Geodetic(xx, yy, zz, lat, lon, alt);
 
-    if (alt < 45000.0) {
+    if (alt < 45000.0)
+    {
         Bfield[0] = 0;
         Bfield[1] = 0;
         Bfield[2] = 0;
@@ -85,8 +83,7 @@ void EarthMagField::GetFieldValue(const double Point[3], double *Bfield) const {
     //           = distance from centre of Earth in km if itype = 2 (>3485 km)                                              // degrees
 
     // IGRF magnetic field
-    igrf12syn_(&isv, &date, &itype, &alt_km, &colat, &elong, &Bx, &By, &Bz, &f,
-               &ier); // gives NED (North East Down) components, in nT
+    igrf12syn_(&isv, &date, &itype, &alt_km, &colat, &elong, &Bx, &By, &Bz, &f, &ier); // gives NED (North East Down) components, in nT
 
     //     G4cout << Bx << " " << By << " " << Bz << G4endl;
 

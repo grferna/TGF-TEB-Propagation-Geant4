@@ -27,13 +27,14 @@
 #include "RegionInformation.hh"
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-RegionInformation::RegionInformation() :
-        G4VUserRegionInformation(), fis_world(false), fis_considered_atmosphere(false) {
+RegionInformation::RegionInformation() : G4VUserRegionInformation(), fis_world(false), fis_considered_atmosphere(false)
+{
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 RegionInformation::~RegionInformation() = default;
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void RegionInformation::Print() const {
+void RegionInformation::Print() const
+{
 }

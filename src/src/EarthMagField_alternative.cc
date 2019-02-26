@@ -37,18 +37,16 @@
 using namespace std;
 
 // interface avec code fortran igrf12 provenance du site : http://www.ngdc.noaa.gov/IAGA/vmod/igrf.html
-extern "C"
-{
-void
-cofrm_(float* date);
+extern "C" {
+void cofrm_(float *date);
 
-void
-feldg_(int * IENTY, float* XCORD,float* YCORD, float* ZCORD, float* Bfield_ecef_x, float* Bfield_ecef_y, float* Bfield_ecef_z, float* Bfield_mag);
+void feldg_(int *IENTY, float *XCORD, float *YCORD, float *ZCORD, float *Bfield_ecef_x, float *Bfield_ecef_y, float *Bfield_ecef_z, float *Bfield_mag);
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-EarthMagField_alt::EarthMagField_alt() {
+EarthMagField_alt::EarthMagField_alt()
+{
 
     cofrm_(&date);
 
@@ -60,8 +58,9 @@ EarthMagField_alt::~EarthMagField_alt() = default;
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void EarthMagField_alt::GetFieldValue(const double Point[3], double *Bfield) const {
-//  geodetic_converter::GeodeticConverter g_geodetic_converter;
+void EarthMagField_alt::GetFieldValue(const double Point[3], double *Bfield) const
+{
+    //  geodetic_converter::GeodeticConverter g_geodetic_converter;
 
     XCORD = static_cast<float>(Point[0] / earthradius);
     YCORD = static_cast<float>(Point[1] / earthradius);

@@ -38,12 +38,14 @@
 
 class G4Step;
 
-struct record_coords {
+struct record_coords
+{
     G4ThreeVector position;
     G4double time;
 };
 
-class SteppingAction : public G4UserSteppingAction {
+class SteppingAction : public G4UserSteppingAction
+{
 public:
 
     //        G4double Get_Altitude(const G4double &x,
@@ -59,35 +61,30 @@ public:
 
     ~SteppingAction() override;
 
-    void
-    UserSteppingAction(const G4Step *aStep) override;
+    void UserSteppingAction(const G4Step *aStep) override;
 
 private:
+
+    Settings *settings = Settings::getInstance();
 
     G4int current_NB_EVENT = -10; // just initilization
 
     std::vector<int> ID_list;
 
-    bool
-    IDpart_not_recorded_yet_elec(G4int ID);
+    bool IDpart_not_recorded_yet_elec(G4int ID);
 
-    void
-    analyze_number_electrons_per_primary(const G4Step *step);
+    void analyze_number_electrons_per_primary(const G4Step *step);
 
-    bool
-    is_new_event();
+    bool is_new_event();
 
     G4int nb_produced_electrons_from_primary_photons = 0;
 
-    void
-    output_produced_electrons_spec_time(const G4Step *step);
+    void output_produced_electrons_spec_time(const G4Step *step);
 
-    void
-    analyze_produced_photons();
+    void analyze_produced_photons();
 
     G4String asciiFileName = "initilization_value";
     G4String asciiFileName_phot = "initilization_value";
 
-    void
-    output_produced_bremstrahlung_photons_spec_time(const G4Step *step);
+    void output_produced_bremstrahlung_photons_spec_time(const G4Step *step);
 };

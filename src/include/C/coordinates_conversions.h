@@ -34,23 +34,23 @@
 
 struct ecef_coords
 {
-	double x; // km
-	double y; // km
-	double z; // km
+    double x; // km
+    double y; // km
+    double z; // km
 };
 
 struct geocentric_coords
 {
-	double lat; //degree
-	double lon; //degree
-	double alt; //km
+    double lat; //degree
+    double lon; //degree
+    double alt; //km
 };
 
 struct geodetic_coords
 { // = geographic
-	double lat; //degree
-	double lon; //degree
-	double alt; //km
+    double lat; //degree
+    double lon; //degree
+    double alt; //km
 };
 
 // PROTOTYPES

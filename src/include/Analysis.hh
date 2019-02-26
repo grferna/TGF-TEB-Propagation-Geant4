@@ -38,33 +38,29 @@
 
 class G4Track;
 
-class TGFAnalysis {
+class Analysis
+{
 public:
 
-    ~TGFAnalysis();
+    ~Analysis();
 
-    void
-    save_in_output_buffer(const G4int PDG_NB, const G4double &time, const G4double &energy,
-                          const G4double &dist_rad, const G4int ID, const G4double &ecef_x, const G4double &ecef_y,
-                          const G4double &ecef_z);
+    void save_in_output_buffer(const G4int PDG_NB, const G4double &time, const G4double &energy, const G4double &dist_rad, const G4int ID, const G4double &ecef_x, const G4double &ecef_y, const G4double &ecef_z);
 
-    static TGFAnalysis *
-    getInstance();
+    static Analysis *getInstance();
 
-    void
-    write_in_output_file();
+    void write_in_output_file();
 
-    void
-    write_in_output_file_endOfRun();
+    void write_in_output_file_endOfRun();
 
-    G4int
-    get_NB_RECORDED() const;
+    G4int get_NB_RECORDED() const;
 
 private:
 
-    TGFAnalysis();
+    Analysis();
 
-    static TGFAnalysis *instance;
+    static Analysis *instance;
+
+    Settings *settings = Settings::getInstance();
 
     std::vector<G4String> output_lines;
 

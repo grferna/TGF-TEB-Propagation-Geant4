@@ -35,23 +35,23 @@
 
 class G4VPhysicsConstructor;
 
-class TGF_PhysicsList : public G4VUserPhysicsList {
+class TGF_PhysicsList : public G4VUserPhysicsList
+{
 public:
 
     TGF_PhysicsList();
 
     ~TGF_PhysicsList();
 
-    void
-    SetCuts();
+    void SetCuts();
 
-    void
-    ConstructParticle();
+    void ConstructParticle();
 
-    void
-    ConstructProcess();
+    void ConstructProcess();
 
 private:
+
+    Settings *settings = Settings::getInstance();
 
     G4double cutForGamma = 0;
     G4double cutForElectron = 0;
@@ -60,9 +60,7 @@ private:
     G4VPhysicsConstructor *emPhysicsList = nullptr;
     G4VPhysicsConstructor *radDecPhysicsList = nullptr;
 
-    void
-    Add_StepMax_for_record_regions();
+    void Add_StepMax_for_record_regions();
 
-    void
-    AddStepMax(G4double stepMax_elec, G4double stepMax_phot);
+    void AddStepMax(G4double stepMax_elec, G4double stepMax_phot);
 };

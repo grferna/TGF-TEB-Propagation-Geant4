@@ -25,7 +25,8 @@
  */
 
 template<class T>
-class FMATRIX {
+class FMATRIX
+{
 public:
     FMATRIX(size_t dim1, size_t dim2);
 
@@ -33,8 +34,7 @@ public:
 
     operator T *();
 
-    T &
-    operator()(size_t index1, size_t index2);
+    T &operator()(size_t index1, size_t index2);
 
     ~FMATRIX();
 
@@ -47,7 +47,8 @@ public:
 
 template<class T>
 FMATRIX<T>::FMATRIX(size_t dim1, size_t dim2) :
-        cpprep(NULL), f77rep(new T[dim1 * dim2]), ndim(2) {
+        cpprep(NULL), f77rep(new T[dim1 * dim2]), ndim(2)
+{
     dim[0] = dim1;
     dim[1] = dim2;
     dim[2] = 0;
@@ -59,7 +60,8 @@ FMATRIX<T>::FMATRIX(size_t dim1, size_t dim2) :
 
 template<class T>
 FMATRIX<T>::FMATRIX(T *cpparr, size_t dim1, size_t dim2) :
-        cpprep(cpparr), f77rep(new T[dim1 * dim2]), ndim(2) {
+        cpprep(cpparr), f77rep(new T[dim1 * dim2]), ndim(2)
+{
     dim[0] = dim1;
     dim[1] = dim2;
     dim[2] = 0;
@@ -72,8 +74,10 @@ FMATRIX<T>::FMATRIX(T *cpparr, size_t dim1, size_t dim2) :
     size_t index_cpp = 0;
     size_t index_f77;
 
-    for (size_t i = 0; i < dim[0]; i++) {
-        for (size_t j = 0; j < dim[1]; j++) {
+    for (size_t i = 0; i < dim[0]; i++)
+    {
+        for (size_t j = 0; j < dim[1]; j++)
+        {
             index_f77 = j * dim[0] + i;
             f77rep[index_f77] = cpprep[index_cpp++];
         }
@@ -81,14 +85,15 @@ FMATRIX<T>::FMATRIX(T *cpparr, size_t dim1, size_t dim2) :
 }
 
 template<class T>
-FMATRIX<T>::operator T *() {
+FMATRIX<T>::operator T *()
+{
     // Pass the FORTRAN representation when calling a function
     return f77rep;
 }
 
 template<class T>
-T &
-FMATRIX<T>::operator()(size_t index1, size_t index2) {
+T &FMATRIX<T>::operator()(size_t index1, size_t index2)
+{
     assert(ndim == 2);  // only 2d arrays supported (so far)
 
     // indexing according to F77 conventions
@@ -99,16 +104,20 @@ FMATRIX<T>::operator()(size_t index1, size_t index2) {
 }
 
 template<class T>
-FMATRIX<T>::~FMATRIX() {
-    if (cpprep) {
+FMATRIX<T>::~FMATRIX()
+{
+    if (cpprep)
+    {
         assert(ndim == 2);  // only 2d arrays supported (so far)
 
         // copy back from FORTRAN to C++ array
         size_t index_cpp;
         size_t index_f77 = 0;
 
-        for (size_t j = 0; j < dim[1]; j++) {
-            for (size_t i = 0; i < dim[0]; i++) {
+        for (size_t j = 0; j < dim[1]; j++)
+        {
+            for (size_t i = 0; i < dim[0]; i++)
+            {
                 index_cpp = i * dim[1] + j;
                 cpprep[index_cpp] = f77rep[index_f77++];
             }

@@ -1,55 +1,22 @@
 #include "Settings.hh"
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-namespace Settings {
-// All these variables are put here to be shared amounts source file
-// (not very c++ but easier to implement)
-//
+Settings *Settings::instance = nullptr;
 
-// Earth radius
-    const G4double earthRadius = 6378.137 * km;
 
-// parameters : initialization values, can be modified in the main code
-    G4long RANDOM_SEED = 12345; // dummy value that will be replaced
+Settings *Settings::getInstance()
+{
+    if (instance == nullptr)
+    {
+        instance = new Settings;
+    }
 
-    G4int NB_EVENT = 0;
-
-    G4String CACHED_LENGTH = "10";   // for magnetic field solver, in meters
-
-// Source parameters, geodetic coordinates ( = geographic = GPS)
-    const G4double SOURCE_LAT = 11.01;     // degree
-    const G4double SOURCE_LONG = -95.40;      // degree
-    G4double SOURCE_ALT = 15.;       // km
-
-    G4double OPENING_ANGLE = 40.;    // degree
-    G4String BEAMING_TYPE = "Uniform";
-    G4double TILT_ANGLE = 0.0;
-
-    G4double TIME_LIMIT = 2.0 * second;
-    G4double MIN_ENERGY_OUTPUT = 10.0 * keV;
-
-    G4double SOURCE_SIGMA_TIME = 0.; // microsecond
-
-// output altitudes
-    std::vector<G4double> record_altitudes; // ! : geodetic altitudes (remark: when building the geometry, geocentric altitudes are used)
-
-    G4bool MAG_FIELD_ON = true;
-
-    G4bool USE_STEP_MAX_for_record = true; // force max step only for layers where particles are recorded
-    G4bool USE_STEP_MAX_global = false; // force max step everywhere
-
-    G4bool OUTPUT_ALT_LAYERS_TO_FILE = false; // output list of altitude and densities of layer to file (for debug)
-
-    G4bool RECORD_ELEC_POSI_ONLY = true; // record only electron and positrons
-    G4bool RECORD_PHOT_ONLY = false; // record only photons
-
-    G4bool OUTPUT_ECEF_COORDS = false;
-    G4bool OUTPUT_RadDist = false; // Radial distance can also be calculated a posteriori form ECEF data (e.g. Matlab routines)
+    return instance;
 }
 
 ////// Global static pointer used to ensure a single instance of the class.
 ///// (singleton pattern)
-//Settings *Settings::m_pInstance = 0;
+//Settings *Settings::instance = 0;
 
 //void
 //Settings::diplay_settings()

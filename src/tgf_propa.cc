@@ -72,16 +72,18 @@ double get_wall_time() {
 int main(int argc, char **argv) {
     double wall0 = get_wall_time();
 
+    Settings *settings = Settings::getInstance();
+
     // random seed, different each time code is run
     std::chrono::high_resolution_clock m_clock;
     long start = std::chrono::duration_cast<std::chrono::nanoseconds>(m_clock.now().time_since_epoch()).count();
     G4cout << start << " ns" << G4endl;
-    Settings::RANDOM_SEED = start;
+    settings->RANDOM_SEED = start;
     //
 
     G4String nb_to_get_per_run = "10000";
 
-    Settings::record_altitudes.push_back(400.);
+    settings->record_altitudes.push_back(400.);
 
     G4String Mode = "run";
 
@@ -96,11 +98,11 @@ int main(int argc, char **argv) {
     if (argc > 3) {
         Mode = "run";
         nb_to_get_per_run = argv[1];
-        Settings::SOURCE_ALT = std::stod(argv[2]);
-        Settings::OPENING_ANGLE = std::stod(argv[3]);
-        Settings::TILT_ANGLE = std::stod(argv[4]);
-        Settings::BEAMING_TYPE = argv[5];
-        Settings::SOURCE_SIGMA_TIME = std::stod(argv[6]);
+        settings->SOURCE_ALT = std::stod(argv[2]);
+        settings->OPENING_ANGLE = std::stod(argv[3]);
+        settings->TILT_ANGLE = std::stod(argv[4]);
+        settings->BEAMING_TYPE = argv[5];
+        settings->SOURCE_SIGMA_TIME = std::stod(argv[6]);
     } else {
         // default values can be seen in src/src/Settings.cc
         Mode = "run";
@@ -109,7 +111,7 @@ int main(int argc, char **argv) {
 
     // choose the Random engine and give seed
     //    G4Random::setTheEngine(new CLHEP::MTwistEngine);
-    G4Random::setTheSeed(Settings::RANDOM_SEED);
+    G4Random::setTheSeed(settings->RANDOM_SEED);
 
     // Construct the default run manager
     auto *runManager = new G4RunManager;
@@ -138,7 +140,7 @@ int main(int argc, char **argv) {
 
     //    G4BlineTracer* theBlineTool = new G4BlineTracer();
 
-    TGFAnalysis *analysis = TGFAnalysis::getInstance();
+    Analysis *analysis = Analysis::getInstance();
 
     // Initialize G4 kernel
     runManager->Initialize();

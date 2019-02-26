@@ -34,8 +34,8 @@
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
-TGF_PhysicsList::TGF_PhysicsList() :
-        G4VUserPhysicsList() {
+TGF_PhysicsList::TGF_PhysicsList() : G4VUserPhysicsList()
+{
     emPhysicsList = new G4EmStandardPhysics_option1();
 
     this->DumpCutValuesTable();
@@ -43,13 +43,15 @@ TGF_PhysicsList::TGF_PhysicsList() :
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
-TGF_PhysicsList::~TGF_PhysicsList() {
+TGF_PhysicsList::~TGF_PhysicsList()
+{
     delete emPhysicsList;
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
-void TGF_PhysicsList::ConstructParticle() {
+void TGF_PhysicsList::ConstructParticle()
+{
     emPhysicsList->ConstructParticle();
 
     //   G4GenericIon::GenericIon();
@@ -63,7 +65,8 @@ void TGF_PhysicsList::ConstructParticle() {
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
-void TGF_PhysicsList::ConstructProcess() {
+void TGF_PhysicsList::ConstructProcess()
+{
     AddTransportation();
     emPhysicsList->ConstructProcess();
 
@@ -82,7 +85,8 @@ void TGF_PhysicsList::ConstructProcess() {
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
-void TGF_PhysicsList::SetCuts() {
+void TGF_PhysicsList::SetCuts()
+{
     defaultCutValue = 1. * nm;
 
     //
@@ -115,11 +119,15 @@ void TGF_PhysicsList::SetCuts() {
     //       G4ProductionCutsTable * aPCTable = G4ProductionCutsTable::GetProductionCutsTable();
     //       aPCTable->SetEnergyRange(lowlimit,100*CLHEP::GeV);
 
-    if (Settings::USE_STEP_MAX_for_record)
+    if (settings->USE_STEP_MAX_for_record)
+    {
         Add_StepMax_for_record_regions();
+    }
 
-    if (Settings::USE_STEP_MAX_global)
+    if (settings->USE_STEP_MAX_global)
+    {
         AddStepMax(10.0 * m, 10.0 * m);
+    }
 }
 
 ///////////////////////////////////////////////////////
@@ -127,7 +135,8 @@ void TGF_PhysicsList::SetCuts() {
 #include "G4StepLimiter.hh"
 #include "G4ProcessManager.hh"
 
-void TGF_PhysicsList::Add_StepMax_for_record_regions() {
+void TGF_PhysicsList::Add_StepMax_for_record_regions()
+{
     // Step limitation seen as a process
     G4StepLimiter *stepLimiter = new G4StepLimiter();
     ////G4UserSpecialCuts* userCuts = new G4UserSpecialCuts();
@@ -135,7 +144,8 @@ void TGF_PhysicsList::Add_StepMax_for_record_regions() {
     auto particleIterator = GetParticleIterator();
     particleIterator->reset();
 
-    while ((*particleIterator)()) {
+    while ((*particleIterator)())
+    {
         G4ParticleDefinition *particle = particleIterator->value();
         G4ProcessManager *pmanager = particle->GetProcessManager();
         pmanager->AddDiscreteProcess(stepLimiter);
@@ -147,7 +157,8 @@ void TGF_PhysicsList::Add_StepMax_for_record_regions() {
 
 #include "StepMax.hh"
 
-void TGF_PhysicsList::AddStepMax(G4double stepMax_elec, G4double stepMax_phot) {
+void TGF_PhysicsList::AddStepMax(G4double stepMax_elec, G4double stepMax_phot)
+{
     // Step limitation seen as a process
     StepMax *stepMaxProcess_elec = new StepMax();
     stepMaxProcess_elec->SetMaxStep(stepMax_elec);
@@ -158,14 +169,19 @@ void TGF_PhysicsList::AddStepMax(G4double stepMax_elec, G4double stepMax_phot) {
     auto particleIterator = GetParticleIterator();
     particleIterator->reset();
 
-    while ((*particleIterator)()) {
+    while ((*particleIterator)())
+    {
         G4ParticleDefinition *particle = particleIterator->value();
         G4ProcessManager *pmanager = particle->GetProcessManager();
 
-        if (stepMaxProcess_elec->IsApplicable(*particle)) {
-            if (particle->GetParticleName() == "gamma") {
+        if (stepMaxProcess_elec->IsApplicable(*particle))
+        {
+            if (particle->GetParticleName() == "gamma")
+            {
                 pmanager->AddDiscreteProcess(stepMaxProcess_phot);
-            } else {
+            }
+            else
+            {
                 pmanager->AddDiscreteProcess(stepMaxProcess_elec);
             }
         }

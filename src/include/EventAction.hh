@@ -37,7 +37,8 @@
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class EventAction : public G4UserEventAction {
+class EventAction : public G4UserEventAction
+{
 public:
 
     EventAction();
@@ -46,16 +47,16 @@ public:
 
 public:
 
-    void
-    BeginOfEventAction(const G4Event *evt);
+    void BeginOfEventAction(const G4Event *evt);
 
-    void
-    EndOfEventAction(const G4Event *) override;
+    void EndOfEventAction(const G4Event *) override;
 
 private:
 
     G4int printModulo = 20000;
     G4int evtNb = 0;
+
+    Settings *settings = Settings::getInstance();
 
 };
 

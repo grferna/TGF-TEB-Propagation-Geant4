@@ -33,49 +33,74 @@
 #include <vector>
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
+
+// singleton pattern with parameters set as public to avoid the overhead of using getters and setters
+
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-namespace Settings {
-// Earth radius
-    extern const G4double earthRadius;
+class Settings
+{
+private:
 
-// parameters : initialization values, can be modified in the main code
-    extern G4long RANDOM_SEED;
+    Settings()
+    {
+    } // Private so that it can not be called
 
-    extern G4int NB_EVENT;
+    Settings(Settings const &)
+    {
+    }
 
-    extern G4String CACHED_LENGTH;   // for magnetic field solver
+    // copy constructor is private
+    // assignment operator is private
+    static Settings *instance;
 
-// Source parameters, geodetic coordinates ( = geographic = GPS)
-    extern const G4double SOURCE_LAT;     // degree
-    extern const G4double SOURCE_LONG;      // degree
-    extern G4double SOURCE_ALT;       // km
+public:
 
-    extern G4double OPENING_ANGLE;    // degree
-    extern G4String BEAMING_TYPE;
-    extern G4double TILT_ANGLE;
+    static Settings *getInstance();
 
-    extern G4double TIME_LIMIT;
-    extern G4double MIN_ENERGY_OUTPUT;
 
-    extern G4double SOURCE_SIGMA_TIME; // microsecond
+public: //////////////// Parameters are listed below ////////////////
+    // Earth radius
+    const G4double earthRadius = 6378.137 * km;
 
-// output altitudes
-    extern std::vector<G4double> record_altitudes; // ! : geodetic altitudes (remark: when building the geometry, geocentric altitudes are used)
+    // parameters : initialization values, can be modified in the main code
+    G4long RANDOM_SEED = 12345; // dummy value that will be replaced
 
-    extern G4bool MAG_FIELD_ON;
+    G4int NB_EVENT = 0;
 
-    extern G4bool USE_STEP_MAX_for_record;
-    extern G4bool USE_STEP_MAX_global;
+    G4String CACHED_LENGTH = "10";   // for magnetic field solver, in meters
 
-    extern G4bool OUTPUT_ALT_LAYERS_TO_FILE;
+    // Source parameters, geodetic coordinates ( = geographic = GPS)
+    const G4double SOURCE_LAT = 11.01;     // degree
+    const G4double SOURCE_LONG = -95.40;      // degree
+    G4double SOURCE_ALT = 15.;       // km
 
-    extern G4bool RECORD_ELEC_POSI_ONLY;
+    G4double OPENING_ANGLE = 40.;    // degree
+    G4String BEAMING_TYPE = "Uniform";
+    G4double TILT_ANGLE = 0.0;
 
-    extern G4bool RECORD_PHOT_ONLY;
+    G4double TIME_LIMIT = 2.0 * second;
+    G4double MIN_ENERGY_OUTPUT = 10.0 * keV;
 
-    extern G4bool OUTPUT_ECEF_COORDS; // add ECEF (x,y,z) coordinates to output
-    extern G4bool OUTPUT_RadDist; // add radial distance to output
-}
+    G4double SOURCE_SIGMA_TIME = 0.; // microsecond
+
+    // output altitudes
+    std::vector<G4double> record_altitudes; // ! : geodetic altitudes (remark: when building the geometry, geocentric altitudes are used)
+
+    G4bool MAG_FIELD_ON = true;
+
+    G4bool USE_STEP_MAX_for_record = true; // force max step only for layers where particles are recorded
+    G4bool USE_STEP_MAX_global = false; // force max step everywhere
+
+    G4bool OUTPUT_ALT_LAYERS_TO_FILE = false; // output list of altitude and densities of layer to file (for debug)
+
+    G4bool RECORD_ELEC_POSI_ONLY = true; // record only electron and positrons
+    G4bool RECORD_PHOT_ONLY = false; // record only photons
+
+    G4bool OUTPUT_ECEF_COORDS = false;
+    G4bool OUTPUT_RadDist = false; // Radial distance can also be calculated a posteriori form ECEF data (e.g. Matlab routines)
+};
+
+
 
 //#pragma once
 
@@ -100,7 +125,7 @@ namespace Settings {
 
 //        // copy constructor is private
 //        // assignment operator is private
-//        static Settings *m_pInstance;
+//        static Settings *instance;
 
 //        // Earth radius
 //        const G4double earthRadius = 6378.137 * km;
@@ -137,13 +162,13 @@ namespace Settings {
 
 //        static Settings *get_Instance()
 //        {
-//            if (m_pInstance == 0)   // Only allow one instance of class to be generated (lazy initialization)
+//            if (instance == 0)   // Only allow one instance of class to be generated (lazy initialization)
 //                {
-//                    m_pInstance = new
+//                    instance = new
 //                    Settings();
 //                }
 
-//            return m_pInstance;
+//            return instance;
 //        }
 
 //        G4double AltMax_recorded() const

@@ -40,15 +40,15 @@
 #include "Randomize.hh"
 #include "G4SystemOfUnits.hh"
 
-class EarthMagField : public G4MagneticField {
+class EarthMagField : public G4MagneticField
+{
 public:
 
     EarthMagField();
 
     ~EarthMagField() override;
 
-    void
-    GetFieldValue(const double Point[3], double *Bfield) const override;
+    void GetFieldValue(const double Point[3], double *Bfield) const override;
 
 private:
 

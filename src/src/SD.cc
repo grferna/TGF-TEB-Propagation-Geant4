@@ -6,10 +6,10 @@
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-SensitiveDet::SensitiveDet(G4String name, const G4int ID, const G4double alt_in) :
-        G4VSensitiveDetector(name) {
+SensitiveDet::SensitiveDet(const G4String &name, const G4int ID, const G4double &ALT_RECORD_in_km) : G4VSensitiveDetector(name)
+{
     this->ID_SD = ID;
-    this->ALT_RECORD_in_km = alt_in;
+    this->ALT_RECORD_in_km = ALT_RECORD_in_km;
 
     this->ALT_RECORD_in_meter = ALT_RECORD_in_km * 1000.0;
 
@@ -35,7 +35,8 @@ void SensitiveDet::Initialize(G4HCofThisEvent *) // executed at begin of each ev
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4bool SensitiveDet::ProcessHits(G4Step *aStep, G4TouchableHistory * /*ROhist*/) {
+G4bool SensitiveDet::ProcessHits(G4Step *aStep, G4TouchableHistory * /*ROhist*/)
+{
 
     given_altitude_particle_record(aStep);
 
@@ -44,31 +45,41 @@ G4bool SensitiveDet::ProcessHits(G4Step *aStep, G4TouchableHistory * /*ROhist*/)
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void SensitiveDet::EndOfEvent(G4HCofThisEvent * /*HCE*/) {
+void SensitiveDet::EndOfEvent(G4HCofThisEvent * /*HCE*/)
+{
     // RK : see EndOfEventAction method in EventAction.cc
     recorded_ID_inside_event_and_SD.clear(); // redundant, but jsut to be safe
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void SensitiveDet::given_altitude_particle_record(const G4Step *step) {
+void SensitiveDet::given_altitude_particle_record(const G4Step *step)
+{
     G4Track *track = step->GetTrack();
     const G4int type_number = track->GetParticleDefinition()->GetPDGEncoding();
 
-    if (Settings::RECORD_ELEC_POSI_ONLY) {
+    if (settings->RECORD_ELEC_POSI_ONLY)
+    {
         if (type_number == 22)
-            return; // WARNING: no photon is recorded
+        {
+            return;
+        } // WARNING: no photon is recorded
     }
 
-    if (Settings::RECORD_PHOT_ONLY) {
+    if (settings->RECORD_PHOT_ONLY)
+    {
         if (type_number != 22)
-            return; // WARNING: no photon is recorded
+        {
+            return;
+        } // WARNING: no photon is recorded
     }
 
     //    const G4int PDG_nb = aStep->GetTrack()->GetParticleDefinition()->GetPDGEncoding();
 
     if (type_number != 22 && type_number != 11 && type_number != -11)
+    {
         return;
+    }
 
     thePrePoint = step->GetPreStepPoint();
 
@@ -90,13 +101,12 @@ void SensitiveDet::given_altitude_particle_record(const G4Step *step) {
 
         geod_conv::GeodeticConverter::ecef2Geodetic(ecef_x, ecef_y, ecef_z, pre_lat, pre_lon, pre_alt);
 
-        G4double delta_time = project_to_record_alt(type_number, track->GetKineticEnergy(), ecef_x, ecef_y, ecef_z,
-                                                    pre_alt,
-                                                    pre_lat, pre_lon);
+        G4double delta_time = project_to_record_alt(type_number, track->GetKineticEnergy(), ecef_x, ecef_y, ecef_z, pre_alt, pre_lat, pre_lon);
 
         G4double dist_rad = -1.0;
 
-        if (Settings::OUTPUT_RadDist) {
+        if (settings->OUTPUT_RadDist)
+        {
             dist_rad = Get_dist_rad(pre_lat, pre_lon, pre_alt * meter); // pre_alt is converted to geant4 unit
         }
 
@@ -120,8 +130,7 @@ void SensitiveDet::given_altitude_particle_record(const G4Step *step) {
         //                    if (creator_process == "annihil" && energy > 511.0) return;
         recorded_ID_inside_event_and_SD.push_back(ID);
 
-        analysis->save_in_output_buffer(type_number, time, energy, dist_rad / km, ID, ecef_x / 1000.0, ecef_y / 1000.0,
-                                        ecef_z / 1000.0); // conversion from m to km
+        analysis->save_in_output_buffer(type_number, time, energy, dist_rad / km, ID, ecef_x / 1000.0, ecef_y / 1000.0, ecef_z / 1000.0); // conversion from m to km
     }
 
     //        }
@@ -131,23 +140,27 @@ void SensitiveDet::given_altitude_particle_record(const G4Step *step) {
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4int SensitiveDet::getID_SD() const {
+G4int SensitiveDet::getID_SD() const
+{
     return ID_SD;
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-bool SensitiveDet::IDpart_not_recorded_yet(G4int ID) {
+bool SensitiveDet::IDpart_not_recorded_yet(G4int ID)
+{
     if (recorded_ID_inside_event_and_SD.empty())
+    {
         return true;
+    }
 
-    return !(std::find(recorded_ID_inside_event_and_SD.begin(), recorded_ID_inside_event_and_SD.end(), ID)
-             != recorded_ID_inside_event_and_SD.end());
+    return !(std::find(recorded_ID_inside_event_and_SD.begin(), recorded_ID_inside_event_and_SD.end(), ID) != recorded_ID_inside_event_and_SD.end());
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4double SensitiveDet::Get_dist_rad(const G4double &lat, const G4double &lon, const G4double &alt_record) {
+G4double SensitiveDet::Get_dist_rad(const G4double &lat, const G4double &lon, const G4double &alt_record)
+{
     // getting the radial distance (along curve parrallel to Earth surface)
 
     // Equirectangular approximation -> leads to "effective speed" of the output data that can be slightly greater than the speed of light
@@ -162,20 +175,19 @@ G4double SensitiveDet::Get_dist_rad(const G4double &lat, const G4double &lon, co
 
     // haversine formula (better)
 
-    const G4double RR = (Settings::earthRadius + alt_record);
+    const G4double RR = (settings->earthRadius + alt_record);
 
     const G4double phi1 = (lat) * degree;
-    const G4double phi2 = (Settings::SOURCE_LAT) * degree;
+    const G4double phi2 = (settings->SOURCE_LAT) * degree;
     const G4double delta_phi = (phi2 - phi1);
 
     const G4double sin_delta_phi_over_2 = sin(delta_phi / 2.);
 
-    const G4double delta_lambda = (Settings::SOURCE_LONG - lon) * degree;
+    const G4double delta_lambda = (settings->SOURCE_LONG - lon) * degree;
 
     const G4double sin_delta_lambda_over_2 = sin(delta_lambda / 2.);
 
-    const G4double aa = sin_delta_phi_over_2 * sin_delta_phi_over_2
-                        + cos(phi1) * cos(phi2) * sin_delta_lambda_over_2 * sin_delta_lambda_over_2;
+    const G4double aa = sin_delta_phi_over_2 * sin_delta_phi_over_2 + cos(phi1) * cos(phi2) * sin_delta_lambda_over_2 * sin_delta_lambda_over_2;
 
     const G4double cc = 2.0 * atan2(sqrt(aa), sqrt(1.0 - aa));
 
@@ -189,10 +201,7 @@ G4double SensitiveDet::Get_dist_rad(const G4double &lat, const G4double &lon, co
 // // linear interpolation to get the coordinates at the output altitude (alt_tmp)
 
 // added delta in time
-G4double
-SensitiveDet::project_to_record_alt(const G4int type_number, const G4double &kinE, G4double &ecef_x, G4double &ecef_y,
-                                    G4double &ecef_z, const G4double &alt_in, const G4double &lat_in,
-                                    const G4double &lon_in)
+G4double SensitiveDet::project_to_record_alt(const G4int type_number, const G4double &kinE, G4double &ecef_x, G4double &ecef_y, G4double &ecef_z, const G4double &alt_in, const G4double &lat_in, const G4double &lon_in)
 // input and output are in meters
 {
     G4double sin_lon, cos_lon, sin_lat, cos_lat;
@@ -211,9 +220,12 @@ SensitiveDet::project_to_record_alt(const G4int type_number, const G4double &kin
 
     G4double delta_time = 0;
 
-    if (type_number == 22) {
+    if (type_number == 22)
+    {
         delta_time = -delta_alt / c_light * second;
-    } else {
+    }
+    else
+    {
         G4double gamma = kinE / (510.9989461 * keV) + 1.0;
         G4double beta = std::sqrt(1.0 - std::pow(gamma, -2.0));
         delta_time = -delta_alt / (beta * c_light) * second;

@@ -43,8 +43,7 @@ class G4VPhysicalVolume;
 #include "G4VPVParameterisation.hh"
 #include "G4Element.hh"
 
-extern "C"
-{
+extern "C" {
 #include <C/nrlmsise-00.h>
 }
 
@@ -119,23 +118,24 @@ class G4UserLimits;
 
 using namespace std;
 
-class TGFDetectorConstruction : public G4VUserDetectorConstruction {
+class TGFDetectorConstruction : public G4VUserDetectorConstruction
+{
 public:
 
     TGFDetectorConstruction();
 
     ~TGFDetectorConstruction() override;
 
-    G4VPhysicalVolume *
-    Construct() override;
+    G4VPhysicalVolume *Construct() override;
 
 
 private:
 
+    Settings *settings = Settings::getInstance();
+
     std::vector<SensitiveDet *> sens_det_List;
 
-    std::vector<G4Material *>
-    Construct_Atmos_layers_Materials(const std::vector<G4double> altitudes_);
+    std::vector<G4Material *> Construct_Atmos_layers_Materials(const std::vector<G4double> altitudes_);
 
     //    void ConstructAtmosMats2();
     //    void ConstructAtmosMats3();
@@ -147,8 +147,7 @@ private:
     //    int    findNearestNeighbourIndex(double,
     //                                     vector < double >);
 
-    void
-    Construct_MagField_Managers();
+    void Construct_MagField_Managers();
 
     G4LogicalVolume *logicalWorld;
     G4VPhysicalVolume *physicalWorld;
@@ -187,24 +186,21 @@ private:
     // regions
     G4Region *considered_atmos_Region = new G4Region("considered_atmos");
 
-    void
-    calculate_altitudes_list();
+    void calculate_altitudes_list();
 
     G4double maxStep = 1 * CLHEP::m; // just initialization value
     G4UserLimits *stepLimit = new G4UserLimits(maxStep);
 
-    G4bool
-    not_contains(G4double value, const std::vector<G4double> &vec);
+    G4bool not_contains(G4double value, const std::vector<G4double> &vec);
 
     G4MagIntegratorStepper *fStepper = nullptr;
     G4Mag_UsualEqRhs *pMagFldEquation = nullptr;
-//    EarthMagField *myEarthMagField = nullptr;
+    //    EarthMagField *myEarthMagField = nullptr;
     EarthMagField_alt *myEarthMagField = nullptr;
     G4MagneticField *myCachedEarthMagField = nullptr;
 
     std::ofstream asciiFile;
 
-    bool
-    hasDuplicates(const std::vector<G4double> &arr);
+    bool hasDuplicates(const std::vector<G4double> &arr);
 
 };

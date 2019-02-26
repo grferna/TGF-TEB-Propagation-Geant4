@@ -31,20 +31,23 @@
 #include <RunAction.hh>
 #include "G4Run.hh"
 
-RunAction::RunAction() :
-        nEnteringTracks(0), totEnteringEnergy(0.) {
+RunAction::RunAction() : nEnteringTracks(0), totEnteringEnergy(0.)
+{
 }
 
 RunAction::~RunAction() = default;
 
-void RunAction::BeginOfRunAction(const G4Run *) {
+void RunAction::BeginOfRunAction(const G4Run *)
+{
 }
 
-void RunAction::EndOfRunAction(const G4Run *) {
-    TGFAnalysis *analysis = TGFAnalysis::getInstance();
+void RunAction::EndOfRunAction(const G4Run *)
+{
+    Analysis *analysis = Analysis::getInstance();
 
     analysis->write_in_output_file_endOfRun();
 }
 
-void RunAction::Update(G4double) {
+void RunAction::Update(G4double)
+{
 }

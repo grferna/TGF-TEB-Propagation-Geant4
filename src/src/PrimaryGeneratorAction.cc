@@ -27,7 +27,6 @@
 // // * acceptance of all terms of the Geant4 Software license.          *
 // // ********************************************************************
 ////////////////////////////////////////////////////////////////////////////////
-#include <Settings.hh>
 #include <PrimaryGeneratorAction.hh>
 #include "G4Event.hh"
 #include "G4ParticleGun.hh"
@@ -37,9 +36,8 @@ using namespace std;
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-PrimaryGeneratorAction::PrimaryGeneratorAction(const G4String &particleName, G4double energy,
-                                                             G4ThreeVector position, G4ThreeVector momentumDirection) :
-        G4VUserPrimaryGeneratorAction(), fParticleGun(nullptr) {
+PrimaryGeneratorAction::PrimaryGeneratorAction(const G4String &particleName, G4double energy, G4ThreeVector position, G4ThreeVector momentumDirection) : G4VUserPrimaryGeneratorAction(), fParticleGun(nullptr)
+{
     G4int nofParticles = 1;
 
     fParticleGun = new G4ParticleGun(nofParticles);
@@ -56,13 +54,15 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(const G4String &particleName, G4d
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-PrimaryGeneratorAction::~PrimaryGeneratorAction() {
+PrimaryGeneratorAction::~PrimaryGeneratorAction()
+{
     delete fParticleGun;
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent) {
+void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
+{
 
     // this function is called at the begining of event
     // 1/E
@@ -96,11 +96,13 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent) {
     G4double R_try;
     G4double sigma_sample_R;
 
-    if (Settings::BEAMING_TYPE == "Uniform" || Settings::BEAMING_TYPE == "uniform") {
-        R_max = std::tan(Settings::OPENING_ANGLE * degree);
+    if (settings->BEAMING_TYPE == "Uniform" || settings->BEAMING_TYPE == "uniform")
+    {
+        R_max = std::tan(settings->OPENING_ANGLE * degree);
         R_try = R_max + 10.; // just for initialization
 
-        while (R_try > R_max) {
+        while (R_try > R_max)
+        {
             X_try = 2. * (G4UniformRand() - 0.5) * R_max;
             Y_try = 2. * (G4UniformRand() - 0.5) * R_max;
 
@@ -109,14 +111,15 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent) {
 
         //         theta = std::acos(1. - G4UniformRand()*(1. - std::cos(settings->OpeningAngle() * degree))); // uniform over spherical(i.e a part of
         // sphere) area
-    } else if (Settings::BEAMING_TYPE == "Gaussian" || Settings::BEAMING_TYPE ==
-                                                       "gaussian" || Settings::BEAMING_TYPE == "normal" ||
-               Settings::BEAMING_TYPE == "Normal") {
+    }
+    else if (settings->BEAMING_TYPE == "Gaussian" || settings->BEAMING_TYPE == "gaussian" || settings->BEAMING_TYPE == "normal" || settings->BEAMING_TYPE == "Normal")
+    {
         R_max = 10000.;     // -> maximum angle is atan(10000) = 89.9943 degrees
-        sigma_sample_R = std::tan(Settings::OPENING_ANGLE * degree);
+        sigma_sample_R = std::tan(settings->OPENING_ANGLE * degree);
         R_try = R_max + 10.;// just for initialization
 
-        while (R_try > R_max) {
+        while (R_try > R_max)
+        {
             X_try = CLHEP::RandGauss::shoot(0., sigma_sample_R); // gaussian position sample
             Y_try = CLHEP::RandGauss::shoot(0., sigma_sample_R);// gaussian position sample
 
@@ -125,16 +128,18 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent) {
         }
 
         //         theta = sample_von_mises(0., settings->OpeningAngle()*degree); // gaussian over spherical (i.e a part of sphere) area
-    } else {
+    }
+    else
+    {
         G4cout << "ERROR : Beaming type is not Gaussian or Uniform. Aborting." << G4endl;
         std::abort();
     }
 
-    G4double lat = Settings::SOURCE_LAT;
+    G4double lat = settings->SOURCE_LAT;
 
-    G4double lon = Settings::SOURCE_LONG;
+    G4double lon = settings->SOURCE_LONG;
 
-    G4double alt = Settings::SOURCE_ALT * 1000.0; // km to m
+    G4double alt = settings->SOURCE_ALT * 1000.0; // km to m
 
     G4double ecef_x, ecef_y, ecef_z;
 
@@ -167,9 +172,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent) {
     localVertical_perp2 = G4ThreeVector(wx, wy, wz);
 
     // adding tilt angle and recomputing the two perpendicualr vectors
-    if (Settings::TILT_ANGLE != 0.0) {
-        G4ThreeVector tilt_shift =
-                localVertical_perp1 * std::sin(Settings::TILT_ANGLE * degree); // we could also use localVertical_perp2
+    if (settings->TILT_ANGLE != 0.0)
+    {
+        G4ThreeVector tilt_shift = localVertical_perp1 * std::sin(settings->TILT_ANGLE * degree); // we could also use localVertical_perp2
         localVertical = localVertical + tilt_shift;
         localVertical = position / position.mag();
 
@@ -202,10 +207,13 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent) {
 
     G4double time;
 
-    if (Settings::SOURCE_SIGMA_TIME == 0.) {
+    if (settings->SOURCE_SIGMA_TIME == 0.)
+    {
         time = 0.;
-    } else {
-        time = CLHEP::RandGauss::shoot(0., Settings::SOURCE_SIGMA_TIME) * microsecond;
+    }
+    else
+    {
+        time = CLHEP::RandGauss::shoot(0., settings->SOURCE_SIGMA_TIME) * microsecond;
     }
 
     ////////////// assignments /////////////////
@@ -221,12 +229,16 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent) {
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-double PrimaryGeneratorAction::BrokenPL(double p1, double p2, double ec, double x) {
+double PrimaryGeneratorAction::BrokenPL(double &p1, double &p2, double &ec, double &x)
+{
     double broken_PL = 0;
 
-    if (x < ec) {
+    if (x < ec)
+    {
         broken_PL = std::pow(x, p1);
-    } else if (x >= ec) {
+    }
+    else if (x >= ec)
+    {
         broken_PL = std::pow(ec, p1 - p2) * std::pow(x, p2);
     }
 
@@ -235,8 +247,8 @@ double PrimaryGeneratorAction::BrokenPL(double p1, double p2, double ec, double 
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4double
-PrimaryGeneratorAction::Sample_one_RREA_gammaray_energy(G4double MinEner, G4double MaxEner, G4double cut_ener) {
+G4double PrimaryGeneratorAction::Sample_one_RREA_gammaray_energy(G4double &MinEner, G4double &MaxEner, G4double &cut_ener)
+{
     // random samples the energy of one RREA gamma ray
     // RREEA gamma spectrum is approximately = 1/E * exp (-E / 7.3MeV)
 

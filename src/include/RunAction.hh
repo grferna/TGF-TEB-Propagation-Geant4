@@ -34,21 +34,19 @@
 
 class G4Run;
 
-class RunAction : public G4UserRunAction {
+class RunAction : public G4UserRunAction
+{
 public:
 
     RunAction();
 
     ~RunAction() override;
 
-    void
-    BeginOfRunAction(const G4Run *) override;
+    void BeginOfRunAction(const G4Run *) override;
 
-    void
-    EndOfRunAction(const G4Run *) override;
+    void EndOfRunAction(const G4Run *) override;
 
-    void
-    Update(G4double energy);
+    void Update(G4double energy);
 
 private:
 

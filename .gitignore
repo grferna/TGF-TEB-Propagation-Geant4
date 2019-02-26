@@ -3,7 +3,6 @@ build/output/*.out
 build/CMakeCache.txt
 build/cmake_install.cmake
 build/Makefile
-build/XrayTel
 *~
 *.nfs*
 *.mat
@@ -38,4 +37,6 @@ src/CMakeLists.txt.user
 cmake-build-debug/
 src/cmake-build-debug/
 src/cmake-build-release/
+cmake-build-Debug/
+cmake-build-Release/
 

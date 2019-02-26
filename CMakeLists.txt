@@ -30,24 +30,25 @@ include(${Geant4_USE_FILE})
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
 #
-include_directories(${PROJECT_SOURCE_DIR}/include
-        ${Geant4_INCLUDE_DIR})
+include_directories(${PROJECT_SOURCE_DIR}/src/include
+        ${Geant4_INCLUDE_DIR}/src)
 
-file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
-file(GLOB sourcesS ${PROJECT_SOURCE_DIR}/src/steppers/*.cc)
-file(GLOB sourcesSH ${PROJECT_SOURCE_DIR}/include/steppers/*.hh)
-file(GLOB sourcesBL ${PROJECT_SOURCE_DIR}/src/Bline_tracer/*.cc)
-file(GLOB sourcesBLH ${PROJECT_SOURCE_DIR}/include/Bline_tracer/*.hh)
+file(GLOB main ${PROJECT_SOURCE_DIR}/src/tgf_propa.cc)
+file(GLOB sources ${PROJECT_SOURCE_DIR}/src/src/*.cc)
+file(GLOB sourcesS ${PROJECT_SOURCE_DIR}/src/src/steppers/*.cc)
+file(GLOB sourcesSH ${PROJECT_SOURCE_DIR}/src/include/steppers/*.hh)
+file(GLOB sourcesBL ${PROJECT_SOURCE_DIR}/src/src/Bline_tracer/*.cc)
+file(GLOB sourcesBLH ${PROJECT_SOURCE_DIR}/src/include/Bline_tracer/*.hh)
 
-file(GLOB sourcesc ${PROJECT_SOURCE_DIR}/src/C/*.c)
-file(GLOB sourcesh ${PROJECT_SOURCE_DIR}/include/C/*.h)
-file(GLOB sourcesf ${PROJECT_SOURCE_DIR}/src/fortran/*.f)
-file(GLOB sourcesf2 ${PROJECT_SOURCE_DIR}/src/msis/*.for)
+file(GLOB sourcesc ${PROJECT_SOURCE_DIR}/src/src/C/*.c)
+file(GLOB sourcesh ${PROJECT_SOURCE_DIR}/src/include/C/*.h)
+file(GLOB sourcesf ${PROJECT_SOURCE_DIR}/src/src/fortran/*.f)
+file(GLOB sourcesf2 ${PROJECT_SOURCE_DIR}/src/src/msis/*.for)
 
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(TGF_Propa tgf_propa.cc ${sourcesf} ${sourcesf2} ${sourcesc} ${sourcesh} ${sources} ${headers} ${sourcesS} ${sourcesSH} ${sourcesBL} ${sourcesBLH})
+add_executable(TGF_Propa ${main} ${sourcesf} ${sourcesf2} ${sourcesc} ${sourcesh} ${sources} ${headers} ${sourcesS} ${sourcesSH} ${sourcesBL} ${sourcesBLH})
 target_link_libraries(TGF_Propa ${Geant4_LIBRARIES})
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
@@ -63,9 +64,3 @@ endif ()
 # (this avoids the need of typing the program name after make)
 #
 add_custom_target(TGF_propa DEPENDS TGF_Propa)
-
-#----------------------------------------------------------------------------
-# Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
-#
-install(TARGETS TGF_Propa DESTINATION bin)
-

@@ -17,7 +17,7 @@ nprocs = comm.Get_size()
 print('Number of threads '+ str(nprocs))
 
 # number of CPU to use (for local run)
-NB_CPU_LOCAL = 5
+NB_CPU_LOCAL = 4
 
 # number of times the list of command is copied (usually usefull for large number of CPU, like for clusters)
 NB_copy_commands = 100
