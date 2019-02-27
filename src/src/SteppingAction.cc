@@ -66,17 +66,34 @@ void SteppingAction::UserSteppingAction(const G4Step *aStep)
     //    output_produced_bremstrahlung_photons_spec_time(aStep);
 
     //    analyze_produced_electrons(aStep);
+
+#ifndef NDEBUG // debug mode only
+    if (aStep->GetStepLength() > settings->STEP_MAX_VAL)
+    {
+        G4cout << "Current step length : " << aStep->GetStepLength() / meter << " meter" << G4endl;
+        G4cout << "Error in SteppingAction : step is lager than the maximum allowed." << G4endl;
+        std::abort();
+    }
+#endif
+
     G4Track *track = aStep->GetTrack();
     G4double global_time = track->GetGlobalTime();
 
     if (global_time > settings->TIME_LIMIT)
     {
         track->SetTrackStatus(fStopAndKill);
+        return;
     }
 
     if (track->GetKineticEnergy() < settings->MIN_ENERGY_OUTPUT)
     {
-        track->SetTrackStatus(fStopAndKill);
+        const G4int PDG = aStep->GetTrack()->GetParticleDefinition()->GetPDGEncoding();
+
+        if (PDG != PDG_positron) // don't kill positrons to make sure they do annihilation before disappearing
+        {
+            aStep->GetTrack()->SetTrackStatus(fStopAndKill);
+            return;
+        }
     }
 
 }
@@ -86,7 +103,6 @@ bool SteppingAction::is_new_event()
 
     if (settings->NB_EVENT != current_NB_EVENT)
     {
-
         current_NB_EVENT = settings->NB_EVENT;
         return true;
     }

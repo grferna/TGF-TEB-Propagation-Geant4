@@ -188,7 +188,7 @@ private:
 
     void calculate_altitudes_list();
 
-    G4double maxStep = 1 * CLHEP::m; // just initialization value
+    G4double maxStep = settings->STEP_MAX_VAL;
     G4UserLimits *stepLimit = new G4UserLimits(maxStep);
 
     G4bool not_contains(G4double value, const std::vector<G4double> &vec);

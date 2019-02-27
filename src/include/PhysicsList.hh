@@ -62,5 +62,7 @@ private:
 
     void Add_StepMax_for_record_regions();
 
-    void AddStepMax(G4double stepMax_elec, G4double stepMax_phot);
+    double step_max = settings->STEP_MAX_VAL;
+
+    void AddStepMax(G4double stepMax);
 };

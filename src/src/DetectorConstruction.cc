@@ -484,8 +484,8 @@ void TGFDetectorConstruction::Construct_MagField_Managers()
     Null_FieldManager->SetDeltaIntersection(1000. * cm / 2);
     Null_FieldManager->GetChordFinder()->SetDeltaChord(1000. * cm / 2);
 
-    // set maximum acceptable step everywhere
-    G4TransportationManager::GetTransportationManager()->GetPropagatorInField()->SetLargestAcceptableStep(25.0 * meter);
+    // set maximum acceptable step everywhere, not used anymore
+//    G4TransportationManager::GetTransportationManager()->GetPropagatorInField()->SetLargestAcceptableStep(settings->STEP_MAX_VAL);
 
 }
 

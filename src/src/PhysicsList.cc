@@ -115,9 +115,10 @@ void TGF_PhysicsList::SetCuts()
     //   param->SetPIXEElectronCrossSectionModel("Penelope");
     //    param->SetLateralDisplacement(true);
     //    param->ActivateAngularGeneratorForIonisation(true);
-    //       G4double lowlimit=20.*CLHEP::keV;
-    //       G4ProductionCutsTable * aPCTable = G4ProductionCutsTable::GetProductionCutsTable();
-    //       aPCTable->SetEnergyRange(lowlimit,100*CLHEP::GeV);
+
+    G4double lowlimit = settings->MIN_ENERGY_OUTPUT;
+    G4ProductionCutsTable *aPCTable = G4ProductionCutsTable::GetProductionCutsTable();
+    aPCTable->SetEnergyRange(lowlimit, 100 * CLHEP::GeV);
 
     if (settings->USE_STEP_MAX_for_record)
     {
@@ -126,7 +127,7 @@ void TGF_PhysicsList::SetCuts()
 
     if (settings->USE_STEP_MAX_global)
     {
-        AddStepMax(10.0 * m, 10.0 * m);
+        AddStepMax(step_max);
     }
 }
 
@@ -157,14 +158,11 @@ void TGF_PhysicsList::Add_StepMax_for_record_regions()
 
 #include "StepMax.hh"
 
-void TGF_PhysicsList::AddStepMax(G4double stepMax_elec, G4double stepMax_phot)
+void TGF_PhysicsList::AddStepMax(G4double stepMax)
 {
     // Step limitation seen as a process
-    StepMax *stepMaxProcess_elec = new StepMax();
-    stepMaxProcess_elec->SetMaxStep(stepMax_elec);
-
-    StepMax *stepMaxProcess_phot = new StepMax();
-    stepMaxProcess_phot->SetMaxStep(stepMax_phot);
+    StepMax *stepMaxProcess = new StepMax();
+    stepMaxProcess->SetMaxStep(stepMax);
 
     auto particleIterator = GetParticleIterator();
     particleIterator->reset();
@@ -174,16 +172,9 @@ void TGF_PhysicsList::AddStepMax(G4double stepMax_elec, G4double stepMax_phot)
         G4ParticleDefinition *particle = particleIterator->value();
         G4ProcessManager *pmanager = particle->GetProcessManager();
 
-        if (stepMaxProcess_elec->IsApplicable(*particle))
+        if (stepMaxProcess->IsApplicable(*particle))
         {
-            if (particle->GetParticleName() == "gamma")
-            {
-                pmanager->AddDiscreteProcess(stepMaxProcess_phot);
-            }
-            else
-            {
-                pmanager->AddDiscreteProcess(stepMaxProcess_elec);
-            }
+            pmanager->AddDiscreteProcess(stepMaxProcess);
         }
     }
 }

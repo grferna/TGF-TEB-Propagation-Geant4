@@ -88,8 +88,9 @@ public: //////////////// Parameters are listed below ////////////////
 
     G4bool MAG_FIELD_ON = true;
 
-    G4bool USE_STEP_MAX_for_record = true; // force max step only for layers where particles are recorded
-    G4bool USE_STEP_MAX_global = false; // force max step everywhere
+    G4bool USE_STEP_MAX_for_record = false; // force max step only for layers where particles are recorded
+    G4bool USE_STEP_MAX_global = true; // force max step everywhere
+    const double STEP_MAX_VAL = 1000.0 * meter;
 
     G4bool OUTPUT_ALT_LAYERS_TO_FILE = false; // output list of altitude and densities of layer to file (for debug)
 

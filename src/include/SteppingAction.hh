@@ -87,4 +87,6 @@ private:
     G4String asciiFileName_phot = "initilization_value";
 
     void output_produced_bremstrahlung_photons_spec_time(const G4Step *step);
+
+    const G4int PDG_positron = -11;
 };
