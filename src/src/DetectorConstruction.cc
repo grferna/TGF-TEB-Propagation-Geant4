@@ -430,16 +430,16 @@ void TGFDetectorConstruction::Construct_MagField_Managers()
 {
     /////////// Magnetic field
 
-    myEarthMagField = new EarthMagField_alt;
-    //    myEarthMagField = new EarthMagField;
+    // myEarthMagField = new EarthMagField_alt;
+    myEarthMagField = new EarthMagField;
 
-    G4double distanceConst = std::stod(settings->CACHED_LENGTH) * meter;
+    G4double distanceConst = settings->CACHED_LENGTH;
 
     myCachedEarthMagField = new G4CachedMagneticField(myEarthMagField, distanceConst);
 
     globalfieldMgr = G4TransportationManager::GetTransportationManager()->GetFieldManager();
 
-    if (settings->CACHED_LENGTH == "0")
+    if (settings->CACHED_LENGTH == 0.0)
     {
         //            globalfieldMgr->CreateChordFinder(myEarthMagField);
         pMagFldEquation = new G4Mag_UsualEqRhs(myEarthMagField);
@@ -485,7 +485,7 @@ void TGFDetectorConstruction::Construct_MagField_Managers()
     Null_FieldManager->GetChordFinder()->SetDeltaChord(1000. * cm / 2);
 
     // set maximum acceptable step everywhere, not used anymore
-//    G4TransportationManager::GetTransportationManager()->GetPropagatorInField()->SetLargestAcceptableStep(settings->STEP_MAX_VAL);
+    G4TransportationManager::GetTransportationManager()->GetPropagatorInField()->SetLargestAcceptableStep(settings->STEP_MAX_DetConst);
 
 }
 

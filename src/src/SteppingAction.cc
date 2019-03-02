@@ -85,7 +85,7 @@ void SteppingAction::UserSteppingAction(const G4Step *aStep)
         return;
     }
 
-    if (track->GetKineticEnergy() < settings->MIN_ENERGY_OUTPUT)
+    if (track->GetKineticEnergy() < settings->MIN_ENERGY_OUTPUT) // killing particles with energy lower than threshold
     {
         const G4int PDG = aStep->GetTrack()->GetParticleDefinition()->GetPDGEncoding();
 

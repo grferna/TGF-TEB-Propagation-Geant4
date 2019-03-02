@@ -67,7 +67,7 @@ public: //////////////// Parameters are listed below ////////////////
 
     G4int NB_EVENT = 0;
 
-    G4String CACHED_LENGTH = "10";   // for magnetic field solver, in meters
+    const double CACHED_LENGTH = 5.0*meter;   // for magnetic field solver, in meters
 
     // Source parameters, geodetic coordinates ( = geographic = GPS)
     const G4double SOURCE_LAT = 11.01;     // degree
@@ -89,8 +89,9 @@ public: //////////////// Parameters are listed below ////////////////
     G4bool MAG_FIELD_ON = true;
 
     G4bool USE_STEP_MAX_for_record = false; // force max step only for layers where particles are recorded
-    G4bool USE_STEP_MAX_global = true; // force max step everywhere
+    G4bool USE_STEP_MAX_global = false; // force max step everywhere
     const double STEP_MAX_VAL = 1000.0 * meter;
+    const double STEP_MAX_DetConst = 15.0 * meter;
 
     G4bool OUTPUT_ALT_LAYERS_TO_FILE = false; // output list of altitude and densities of layer to file (for debug)
 

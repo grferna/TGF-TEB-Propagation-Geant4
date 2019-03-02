@@ -195,8 +195,8 @@ private:
 
     G4MagIntegratorStepper *fStepper = nullptr;
     G4Mag_UsualEqRhs *pMagFldEquation = nullptr;
-    //    EarthMagField *myEarthMagField = nullptr;
-    EarthMagField_alt *myEarthMagField = nullptr;
+    EarthMagField *myEarthMagField = nullptr;
+    // EarthMagField_alt *myEarthMagField = nullptr;
     G4MagneticField *myCachedEarthMagField = nullptr;
 
     std::ofstream asciiFile;
