@@ -3,23 +3,23 @@
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 Settings *Settings::instance = nullptr;
 
-Settings *Settings::getInstance()
+Settings * Settings::getInstance()
 {
-    if (instance == nullptr)
-    {
-        instance = new Settings;
-    }
+  if (instance == nullptr)
+  {
+    instance = new Settings;
+  }
 
-    return instance;
+  return instance;
 }
 
 ////// Global static pointer used to ensure a single instance of the class.
 ///// (singleton pattern)
-//Settings *Settings::instance = 0;
+// Settings *Settings::instance = 0;
 
-//void
-//Settings::diplay_settings()
-//{
+// void
+// Settings::diplay_settings()
+// {
 //    G4cout << G4endl;
 //    G4cout << "*************************************************************" << G4endl;
 //    G4cout << " SIMULATION SETTINGS : " << G4endl;
@@ -46,20 +46,20 @@ Settings *Settings::getInstance()
 
 //    G4cout << "*************************************************************" << G4endl;
 //    G4cout << G4endl;
-//}
+// }
 
-//G4String Settings::BeamingType() const
-//{
+// G4String Settings::BeamingType() const
+// {
 //    return BEAMING_TYPE;
-//}
+// }
 
-//void Settings::set_BeamingType(const G4String &value)
-//{
+// void Settings::set_BeamingType(const G4String &value)
+// {
 //    BEAMING_TYPE = value;
-//}
+// }
 
-//void Settings::set_AltMax_recorded()
-//{
+// void Settings::set_AltMax_recorded()
+// {
 //    G4double max_alt = 0.;
 
 //    for (int ii = 0; ii < nb_altitude_record; ++ii)
@@ -71,19 +71,19 @@ Settings *Settings::getInstance()
 //        }
 
 //    ALT_MAX_RECORDED = max_alt;
-//}
+// }
 
-//G4bool Settings::USE_STEP_MAX() const
-//{
+// G4bool Settings::USE_STEP_MAX() const
+// {
 //    return USE_STEP_MAX_;
-//}
+// }
 
-//void Settings::set_MAG_FIELD_ON(const G4bool MAG_FIELD_BOOL)
-//{
+// void Settings::set_MAG_FIELD_ON(const G4bool MAG_FIELD_BOOL)
+// {
 //    MAG_FIELD_ON_ = MAG_FIELD_BOOL;
-//}
+// }
 
-//G4bool Settings::MAG_FIELD_ON() const
-//{
+// G4bool Settings::MAG_FIELD_ON() const
+// {
 //    return MAG_FIELD_ON_;
-//}
+// }

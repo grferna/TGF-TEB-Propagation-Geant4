@@ -35,206 +35,198 @@
 
 SteppingAction::SteppingAction()
 {
+  //    asciiFileName = "./extra_outputs/created_electrons";
+  //    std::ofstream asciiFile00(asciiFileName, std::ios::trunc); // to clean the output file
+  //    asciiFile00.close();
 
-    //    asciiFileName = "./extra_outputs/created_electrons";
-    //    std::ofstream asciiFile00(asciiFileName, std::ios::trunc); // to clean the output file
-    //    asciiFile00.close();
-
-    //    asciiFileName_phot = "./extra_outputs/created_photons";
-    //    std::ofstream asciiFile11(asciiFileName_phot, std::ios::trunc); // to clean the output file
-    //    asciiFile11.close();
-
+  //    asciiFileName_phot = "./extra_outputs/created_photons";
+  //    std::ofstream asciiFile11(asciiFileName_phot, std::ios::trunc); // to clean the output file
+  //    asciiFile11.close();
 }
 
 SteppingAction::~SteppingAction() = default;
 
 void SteppingAction::UserSteppingAction(const G4Step *aStep)
 {
-    // Optional fucntions can be used to get information on particles, e.g.
-    // - number of electrons created by primary particle
-    // - produced electron energy and time distribution,
-    // - bremsstrahlung photon energy and time distribution
+  // Optional fucntions can be used to get information on particles, e.g.
+  // - number of electrons created by primary particle
+  // - produced electron energy and time distribution,
+  // - bremsstrahlung photon energy and time distribution
 
-    //    if (is_new_event()) {
-    ////      G4cout << double(nb_produced_electrons_from_primary_photons) / double(current_NB_EVENT) << G4endl;
-    //      ID_list.clear();
-    ////      nb_produced_electrons_from_primary_photons = 0;
-    //    }
+  //    if (is_new_event()) {
+  ////      G4cout << double(nb_produced_electrons_from_primary_photons) / double(current_NB_EVENT) << G4endl;
+  //      ID_list.clear();
+  ////      nb_produced_electrons_from_primary_photons = 0;
+  //    }
 
-    //    output_produced_electrons_spec_time(aStep);
+  //    output_produced_electrons_spec_time(aStep);
 
-    //    output_produced_bremstrahlung_photons_spec_time(aStep);
+  //    output_produced_bremstrahlung_photons_spec_time(aStep);
 
-    //    analyze_produced_electrons(aStep);
+  //    analyze_produced_electrons(aStep);
 
 #ifndef NDEBUG // debug mode only
+  const G4int PDG = aStep->GetTrack()->GetParticleDefinition()->GetPDGEncoding();
+
+  if ((PDG == PDG_electron) || (PDG == PDG_positron))
+  {
     if (aStep->GetStepLength() > settings->STEP_MAX_VAL)
     {
-        G4cout << "Current step length : " << aStep->GetStepLength() / meter << " meter" << G4endl;
-        G4cout << "Error in SteppingAction : step is lager than the maximum allowed." << G4endl;
-        std::abort();
+      G4cout << "Current step length : " << aStep->GetStepLength() / meter << " meter" << G4endl;
+      G4cout << "Error in SteppingAction : step is lager than the maximum allowed." << G4endl;
+      std::abort();
     }
-#endif
+  }
+#endif // ifndef NDEBUG
 
-    G4Track *track = aStep->GetTrack();
-    G4double global_time = track->GetGlobalTime();
+  G4Track *track       = aStep->GetTrack();
+  G4double global_time = track->GetGlobalTime();
 
-    if (global_time > settings->TIME_LIMIT)
+  if (global_time > settings->TIME_LIMIT)
+  {
+    track->SetTrackStatus(fStopAndKill);
+    return;
+  }
+
+  if (track->GetKineticEnergy() < settings->MIN_ENERGY_OUTPUT) // killing particles with energy lower than threshold
+  {
+    const G4int PDG = aStep->GetTrack()->GetParticleDefinition()->GetPDGEncoding();
+
+    if (PDG != PDG_positron) // don't kill positrons to make sure they do annihilation before disappearing
     {
-        track->SetTrackStatus(fStopAndKill);
-        return;
+      aStep->GetTrack()->SetTrackStatus(fStopAndKill);
+      return;
     }
-
-    if (track->GetKineticEnergy() < settings->MIN_ENERGY_OUTPUT) // killing particles with energy lower than threshold
-    {
-        const G4int PDG = aStep->GetTrack()->GetParticleDefinition()->GetPDGEncoding();
-
-        if (PDG != PDG_positron) // don't kill positrons to make sure they do annihilation before disappearing
-        {
-            aStep->GetTrack()->SetTrackStatus(fStopAndKill);
-            return;
-        }
-    }
-
+  }
 }
 
 bool SteppingAction::is_new_event()
 {
+  if (settings->NB_EVENT != current_NB_EVENT)
+  {
+    current_NB_EVENT = settings->NB_EVENT;
+    return true;
+  }
 
-    if (settings->NB_EVENT != current_NB_EVENT)
-    {
-        current_NB_EVENT = settings->NB_EVENT;
-        return true;
-    }
-
-    return false;
+  return false;
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void SteppingAction::analyze_number_electrons_per_primary(const G4Step *step)
 {
-    G4Track *track = step->GetTrack();
+  G4Track *track = step->GetTrack();
 
-    G4String creator_process = "initial";
+  G4String creator_process = "initial";
 
-    if (track->GetCreatorProcess())
+  if (track->GetCreatorProcess())
+  {
+    creator_process = track->GetCreatorProcess()->GetProcessName();
+  }
+
+  if (track->GetParentID())
+  {
+    G4int parent_ID = track->GetParentID();
+    G4int ID        = track->GetTrackID();
+
+    if (parent_ID == 1) // if primary particle (necessarily photon...)
     {
-        creator_process = track->GetCreatorProcess()->GetProcessName();
-    }
+      {
+        //            if (track->GetParticleDefinition()->GetParticleName()=="e-")
+        //            {
 
-    if (track->GetParentID())
-    {
-        G4int parent_ID = track->GetParentID();
-        G4int ID = track->GetTrackID();
-
-        if (parent_ID == 1) // if primary particle (necessarily photon...)
+        if (IDpart_not_recorded_yet_elec(ID))
         {
-            {
-                //            if (track->GetParticleDefinition()->GetParticleName()=="e-")
-                //            {
-
-                if (IDpart_not_recorded_yet_elec(ID))
-                {
-                    ID_list.push_back(ID);
-                    nb_produced_electrons_from_primary_photons++;
-                }
-
-                //            }
-            }
+          ID_list.push_back(ID);
+          nb_produced_electrons_from_primary_photons++;
         }
+
+        //            }
+      }
     }
+  }
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void SteppingAction::output_produced_electrons_spec_time(const G4Step *step)
 {
-    G4Track *track = step->GetTrack();
+  G4Track *track = step->GetTrack();
 
-    if (track->GetTrackID())
+  if (track->GetTrackID())
+  {
+    G4int ID = track->GetTrackID();
+
+    if (IDpart_not_recorded_yet_elec(ID) && (ID != 1))
     {
-        G4int ID = track->GetTrackID();
+      ID_list.push_back(ID);
 
-        if (IDpart_not_recorded_yet_elec(ID) && ID != 1)
+      if (track->GetParticleDefinition()->GetParticleName() == "e-")
+      {
+        if (track->GetKineticEnergy() > 10.0 * keV)
         {
+          std::ofstream asciiFile00;
+          asciiFile00.open(asciiFileName, std::ios::app);
 
-            ID_list.push_back(ID);
-
-            if (track->GetParticleDefinition()->GetParticleName() == "e-")
-            {
-                if (track->GetKineticEnergy() > 10.0 * keV)
-                {
-
-                    std::ofstream asciiFile00;
-                    asciiFile00.open(asciiFileName, std::ios::app);
-
-                    if (asciiFile00.is_open())
-                    {
-                        asciiFile00 << track->GetKineticEnergy() / keV << "  " << track->GetGlobalTime() / microsecond << G4endl;
-                        asciiFile00.close();
-                    }
-
-                }
-            }
-
+          if (asciiFile00.is_open())
+          {
+            asciiFile00 << track->GetKineticEnergy() / keV << "  " << track->GetGlobalTime() / microsecond << G4endl;
+            asciiFile00.close();
+          }
         }
+      }
     }
+  }
 }
 
 void SteppingAction::output_produced_bremstrahlung_photons_spec_time(const G4Step *step)
 {
-    G4Track *track = step->GetTrack();
+  G4Track *track = step->GetTrack();
 
-    if (track->GetTrackID())
+  if (track->GetTrackID())
+  {
+    G4int ID = track->GetTrackID();
+
+    if (IDpart_not_recorded_yet_elec(ID) && (ID != 1))
     {
-        G4int ID = track->GetTrackID();
+      ID_list.push_back(ID);
 
-        if (IDpart_not_recorded_yet_elec(ID) && ID != 1)
+      if (track->GetParticleDefinition()->GetParticleName() == "gamma")
+      {
+        G4String creator_process = track->GetCreatorProcess()->GetProcessName();
+
+        //                    G4cout << creator_process << G4endl;
+        if (creator_process == "eBrem") // check if it is  produced by bremsstrahlung (positron annihiliation is also possible but not wanted to
+                                        // record)
         {
+          if (track->GetKineticEnergy() > 10.0 * keV)
+          {
+            std::ofstream asciiFile11;
+            asciiFile11.open(asciiFileName_phot, std::ios::app);
 
-            ID_list.push_back(ID);
-
-            if (track->GetParticleDefinition()->GetParticleName() == "gamma")
+            if (asciiFile11.is_open())
             {
-                G4String creator_process = track->GetCreatorProcess()->GetProcessName();
-
-                //                    G4cout << creator_process << G4endl;
-                if (creator_process == "eBrem") // check if it is  produced by bremsstrahlung (positron annihiliation is also possible but not wanted to record)
-                {
-
-                    if (track->GetKineticEnergy() > 10.0 * keV)
-                    {
-
-                        std::ofstream asciiFile11;
-                        asciiFile11.open(asciiFileName_phot, std::ios::app);
-
-                        if (asciiFile11.is_open())
-                        {
-                            asciiFile11 << track->GetKineticEnergy() / keV << "  " << track->GetGlobalTime() / microsecond << G4endl;
-                            asciiFile11.close();
-                        }
-                    }
-                }
+              asciiFile11 << track->GetKineticEnergy() / keV << "  " << track->GetGlobalTime() / microsecond << G4endl;
+              asciiFile11.close();
             }
-
+          }
         }
+      }
     }
+  }
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void SteppingAction::analyze_produced_photons()
-{
-
-}
+{}
 
 bool SteppingAction::IDpart_not_recorded_yet_elec(G4int ID)
 {
-    if (ID_list.empty())
-    {
-        return true;
-    }
+  if (ID_list.empty())
+  {
+    return true;
+  }
 
-    return !(std::find(ID_list.begin(), ID_list.end(), ID) != ID_list.end());
+  return !(std::find(ID_list.begin(), ID_list.end(), ID) != ID_list.end());
 }

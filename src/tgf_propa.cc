@@ -59,17 +59,18 @@ using namespace std;
 
 /////////////////////////////////////////////////////////
 
-double get_wall_time() {
-    struct timeval tv{};
-
-    gettimeofday(&tv, nullptr);
-    return tv.tv_sec + (tv.tv_usec / 1000000.0);
+double get_wall_time()
+{
+    std::chrono::high_resolution_clock m_clock;
+    double time = std::chrono::duration_cast<std::chrono::seconds>(m_clock.now().time_since_epoch()).count();
+    return time;
 }
 
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     double wall0 = get_wall_time();
 
     Settings *settings = Settings::getInstance();
@@ -95,19 +96,22 @@ int main(int argc, char **argv) {
     //         std::cout << argv[i] << std::endl;
     //     }
 
-    if (argc > 3) {
-        Mode = "run";
-        nb_to_get_per_run = argv[1];
-        settings->SOURCE_ALT = std::stod(argv[2]);
-        settings->OPENING_ANGLE = std::stod(argv[3]);
-        settings->TILT_ANGLE = std::stod(argv[4]);
-        settings->BEAMING_TYPE = argv[5];
-        settings->SOURCE_SIGMA_TIME = std::stod(argv[6]);
-    } else {
-        // default values can be seen in src/src/Settings.cc
-        Mode = "run";
-        nb_to_get_per_run = "100000";
-    }
+    if (argc > 3)
+        {
+            Mode = "run";
+            nb_to_get_per_run = argv[1];
+            settings->SOURCE_ALT = std::stod(argv[2]);
+            settings->OPENING_ANGLE = std::stod(argv[3]);
+            settings->TILT_ANGLE = std::stod(argv[4]);
+            settings->BEAMING_TYPE = argv[5];
+            settings->SOURCE_SIGMA_TIME = std::stod(argv[6]);
+        }
+    else
+        {
+            // default values can be seen in src/src/Settings.cc
+            Mode = "run";
+            nb_to_get_per_run = "100000";
+        }
 
     // choose the Random engine and give seed
     //    G4Random::setTheEngine(new CLHEP::MTwistEngine);
@@ -149,27 +153,30 @@ int main(int argc, char **argv) {
     // get the pointer to the User Interface manager
     G4UImanager *UImanager = G4UImanager::GetUIpointer();
 
-    if (Mode == "visu") {
+    if (Mode == "visu")
+        {
 #ifdef G4VIS_USE
-        G4VisManager *visManager = new G4VisExecutive;
-        visManager->Initialize();
+            G4VisManager *visManager = new G4VisExecutive;
+            visManager->Initialize();
 #endif // ifdef G4VIS_USE
 
 #ifdef G4UI_USE
-        G4UIExecutive *ui = new G4UIExecutive(argc, argv);
+            G4UIExecutive *ui = new G4UIExecutive(argc, argv);
 # ifdef G4VIS_USE
-        UImanager->ApplyCommand("/control/execute vis.mac");
+            UImanager->ApplyCommand("/control/execute vis.mac");
 # endif // ifdef G4VIS_USE
-        ui->SessionStart();
-        delete ui;
+            ui->SessionStart();
+            delete ui;
 #endif // ifdef G4UI_USE
 #ifdef G4VIS_USE
-        delete visManager;
+            delete visManager;
 #endif // ifdef G4VIS_USE
-    } else if (Mode == "run") {
-        while (std::stoi(nb_to_get_per_run) > analysis->get_NB_RECORDED())
-            UImanager->ApplyCommand("/run/beamOn " + number_st);
-    }
+        }
+    else if (Mode == "run")
+        {
+            while (std::stoi(nb_to_get_per_run) > analysis->get_NB_RECORDED())
+                UImanager->ApplyCommand("/run/beamOn " + number_st);
+        }
 
     delete runManager;
 

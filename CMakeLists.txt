@@ -35,6 +35,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src/include
 
 file(GLOB main ${PROJECT_SOURCE_DIR}/src/tgf_propa.cc)
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/src/*.cc)
+file(GLOB sourceshh ${PROJECT_SOURCE_DIR}/src/include/*.hh)
 file(GLOB sourcesS ${PROJECT_SOURCE_DIR}/src/src/steppers/*.cc)
 file(GLOB sourcesSH ${PROJECT_SOURCE_DIR}/src/include/steppers/*.hh)
 file(GLOB sourcesBL ${PROJECT_SOURCE_DIR}/src/src/Bline_tracer/*.cc)
@@ -48,7 +49,7 @@ file(GLOB sourcesf2 ${PROJECT_SOURCE_DIR}/src/src/msis/*.for)
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(TGF_Propa ${main} ${sourcesf} ${sourcesf2} ${sourcesc} ${sourcesh} ${sources} ${headers} ${sourcesS} ${sourcesSH} ${sourcesBL} ${sourcesBLH})
+add_executable(TGF_Propa ${main} ${sourcesf} ${sourcesf2} ${sourcesc} ${sourcesh} ${sourceshh} ${sources} ${headers} ${sourcesS} ${sourcesSH} ${sourcesBL} ${sourcesBLH})
 target_link_libraries(TGF_Propa ${Geant4_LIBRARIES})
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")

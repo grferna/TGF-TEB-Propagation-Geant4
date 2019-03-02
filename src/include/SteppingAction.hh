@@ -89,4 +89,6 @@ private:
     void output_produced_bremstrahlung_photons_spec_time(const G4Step *step);
 
     const G4int PDG_positron = -11;
+    const G4int PDG_electron = 11;
+    const G4int PDG_photon = 22;
 };

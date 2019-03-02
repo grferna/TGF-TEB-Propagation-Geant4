@@ -43,31 +43,31 @@
 #include "Randomize.hh"
 #include "G4SystemOfUnits.hh"
 
-class EarthMagField_alt : public G4MagneticField
+class EarthMagField_alt: public G4MagneticField
 {
 public:
 
-    EarthMagField_alt();
+  EarthMagField_alt();
 
-    ~EarthMagField_alt() override;
+  ~EarthMagField_alt() override;
 
-    void GetFieldValue(const double Point[3], double *Bfield) const override;
+  void GetFieldValue(const double Point[3],
+                     double      *Bfield) const override;
 
 private:
 
-    mutable int IENTY = 2;
-    mutable float date = 2018.0;
-    mutable double alt = 0;
-    mutable double f = 0, lat = 0, lon = 0;
+  mutable int IENTY = 2;
+  mutable float  date = 2018.0;
+  mutable double alt = 0;
+  mutable double f = 0, lat = 0, lon = 0;
 
-    mutable float Bfield_ecef_x = 0;
-    mutable float Bfield_ecef_y = 0;
-    mutable float Bfield_ecef_z = 0;
+  mutable float Bfield_ecef_x = 0;
+  mutable float Bfield_ecef_y = 0;
+  mutable float Bfield_ecef_z = 0;
 
-    const double earthradius = 6371.2 * kilometer;
-    mutable float Bfield_mag;
-    mutable float XCORD;
-    mutable float YCORD;
-    mutable float ZCORD;
-
+  const double  earthradius = 6371.2 * kilometer;
+  mutable float Bfield_mag;
+  mutable float XCORD;
+  mutable float YCORD;
+  mutable float ZCORD;
 };
