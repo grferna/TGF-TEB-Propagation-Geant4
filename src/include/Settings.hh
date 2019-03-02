@@ -44,16 +44,16 @@ private:
   Settings()
   {
     record_altitudes.clear();
-  } // Private so that it can not be called
-
-  Settings(Settings const&)
-  {}
+  }                                   // Private so that it can not be called
 
   // copy constructor is private
   // assignment operator is private
   static Settings *instance;
 
 public:
+
+  Settings(Settings const&) = delete; // Don't Implement copy costructor
+  void operator = (Settings const&)  = delete; // don't implement equality operator
 
   static Settings* getInstance();
 
