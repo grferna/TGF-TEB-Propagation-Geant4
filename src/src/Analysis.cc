@@ -76,14 +76,12 @@ Analysis *Analysis::getInstance()
 
 void Analysis::save_in_output_buffer(const G4int PDG_NB, const G4double &time, const G4double &energy, const G4double &dist_rad, const G4int ID, const G4double &ecef_x, const G4double &ecef_y, const G4double &ecef_z)
 {
-    // Write to buffer; only gamma can get here
-
     geod_conv::GeodeticConverter::ecef2Geodetic(ecef_x * 1000.0, ecef_y * 1000.0, ecef_z * 1000.0, lat, lon, alt);
     alt = alt / 1000.0;
 
     std::stringstream buffer;
     buffer << std::scientific << std::setprecision(7); // scientific notation with
-    // 5 significant digits
+    // 7 significant digits
     //   asciiFile << name;
     //   asciiFile << ' ';
     buffer << settings->RANDOM_SEED;
