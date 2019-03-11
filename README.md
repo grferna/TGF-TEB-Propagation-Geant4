@@ -51,5 +51,4 @@ The code is built so that the executable can accept input parameters:
 
 ## ToDo / 
 
-- Magnetic field track of particles (using IGRF) is not working properly yet, by comparison to other reference model (MCPEP).
 - Improve 3D view to have more relevant automatic viewing angle
