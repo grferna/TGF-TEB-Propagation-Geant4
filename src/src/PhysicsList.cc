@@ -145,7 +145,7 @@ void TGF_PhysicsList::Add_StepMax_for_record_regions()
     auto particleIterator = GetParticleIterator();
     particleIterator->reset();
 
-    while ((*particleIterator)())
+    while ((*particleIterator)())  // for all particles
     {
         G4ParticleDefinition *particle = particleIterator->value();
         G4ProcessManager *pmanager = particle->GetProcessManager();
@@ -157,7 +157,10 @@ void TGF_PhysicsList::Add_StepMax_for_record_regions()
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 #include "StepMax.hh"
-
+// GLOBAL step max, defined from physics list
+// alternatively, it could have been defined in the detector construction (largest acceptable step)
+// however largest acceptable step concerns only charged particles (i.e. if affected by EM field)
+// here we could also apply it to photons (see implementation of "IsApplicable" in StepMax.cc)
 void TGF_PhysicsList::AddStepMax(G4double stepMax)
 {
     // Step limitation seen as a process
