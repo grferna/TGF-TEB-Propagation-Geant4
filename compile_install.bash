@@ -16,14 +16,14 @@ else
   echo "... OS is Ubuntu"
 fi
 
-echo "checking if current folder name is TGF-Propagation-Geant4..."
-# checking if current folder name is " TGF-Propagation-Geant4 "
+echo "checking if current folder name is "TGF-TEB-Propagation-Geant4" ..."
+# checking if current folder name is " TGF-TEB-Propagation-Geant4 "
 result=${PWD##*/}
-if [ ! $result = "TGF-Propagation-Geant4" ]; then
-  echo "Error: Current folder should be TGF-Propagation-Geant4. The bash script compile_install.sh is made to run from it. Aborting."
+if [ ! $result = "TGF-TEB-Propagation-Geant4" ]; then
+  echo "Error: Current folder should be TGF-TEB-Propagation-Geant4. The bash script compile_install.sh is made to run from it. Aborting."
   exit 1
 else
-  echo "...current folder name is TGF-Propagation-Geant4"
+  echo "...current folder name is TGF-TEB-Propagation-Geant4"
 fi
 
 
