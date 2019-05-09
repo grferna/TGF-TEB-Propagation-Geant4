@@ -98,6 +98,8 @@ dpkg -s "${ubuntu_dependences_list[@]}" >/dev/null 2>&1 || run_install
 
 check_dependencies
 
+echo "dependencies are OK"
+
 ##############
 #download_data() {
 #
