@@ -33,23 +33,57 @@
 
 using namespace std;
 
-// interface avec code fortran igrf12 provenance du site : http://www.ngdc.noaa.gov/IAGA/vmod/igrf.html
-extern "C" {
-void igrf12syn_(int *isv, double *date, int *itype, double *alt, double *colat, double *elong, double *x, double *y, double *z, double *f, int *ier);
+// ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+EarthMagField::EarthMagField() {
+
+    /* Memory allocation */
+
+    strncpy(VersionDate, VERSIONDATE_LARGE + 39, 11);
+    VersionDate[11] = '\0';
+
+    char filename[] = "WMM.COF";
+
+    if (!MAG_robustReadMagModels(filename, &MagneticModels, epochs)) {
+        printf("\n WMM.COF not found.  Aborting... \n ");
+        std::abort();
+    }
+
+    if (nMax < MagneticModels[0]->nMax) nMax = MagneticModels[0]->nMax;
+    NumTerms = ((nMax + 1) * (nMax + 2) / 2);
+    TimedMagneticModel = MAG_AllocateModelMemory(NumTerms); /* For storing the time modified WMM Model parameters */
+
+    MAG_SetDefaults(&Ellip, &Geoid); /* Set default values and constants */
+
+    Geoid.Geoid_Initialized = 1;
+    /* Set EGM96 Geoid parameters END */
+
+    UserDate.Year = settings->year;
+    UserDate.Day = settings->day;
+    UserDate.Month = settings->month;
+    UserDate.DecimalYear = double(UserDate.Year) + UserDate.Month / 12.0 + UserDate.Day / 365.24;
+
+    MAG_TimelyModifyMagneticModel(UserDate, MagneticModels[0],
+                                  TimedMagneticModel); /* Time adjust the coefficients, Equation 19, WMM Technical report */
+
+//    typedef struct {
+//        double lambda; /* longitude */
+//        double phi; /* geodetic latitude */
+//        double HeightAboveEllipsoid; /* height above the ellipsoid (HaE) */
+//        double HeightAboveGeoid; /* (height above the EGM96 geoid model ) */
+//        int UseGeoid;
+//    } MAGtype_CoordGeodetic;
+
+
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-EarthMagField::EarthMagField() = default;
+EarthMagField::~EarthMagField() {}
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-EarthMagField::~EarthMagField() = default;
-
-// ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void EarthMagField::GetFieldValue(const double Point[3], double *Bfield) const
-{
+void EarthMagField::GetFieldValue(const double Point[3], double *Bfield) const {
     //  geodetic_converter::GeodeticConverter g_geodetic_converter;
 
     xx = Point[0] / m;
@@ -61,8 +95,7 @@ void EarthMagField::GetFieldValue(const double Point[3], double *Bfield) const
     // input x y z in meters, output altitude in km, output lat lon in degrees
     geod_conv::GeodeticConverter::ecef2Geodetic(xx, yy, zz, lat, lon, alt);
 
-    if (alt < 45000.0)
-    {
+    if (alt < 45000.0) {
         Bfield[0] = 0;
         Bfield[1] = 0;
         Bfield[2] = 0;
@@ -83,7 +116,25 @@ void EarthMagField::GetFieldValue(const double Point[3], double *Bfield) const
     //           = distance from centre of Earth in km if itype = 2 (>3485 km)                                              // degrees
 
     // IGRF magnetic field
-    igrf12syn_(&isv, &date, &itype, &alt_km, &colat, &elong, &Bx, &By, &Bz, &f, &ier); // gives NED (North East Down) components, in nT
+//    igrf12syn_(&isv, &date, &itype, &alt_km, &colat, &elong, &Bx, &By, &Bz, &f, &ier); // gives NED (North East Down) components, in nT
+
+    CoordGeodetic.lambda = lon;
+    CoordGeodetic.phi = lat;
+    CoordGeodetic.HeightAboveEllipsoid = alt_km;
+
+//    if (MAG_GetUserInput(MagneticModels[0], &Geoid, &CoordGeodetic, &UserDate) == 1) /*Get User Input */
+//    {
+
+    MAG_GeodeticToSpherical(Ellip, CoordGeodetic,
+                            &CoordSpherical); /*Convert from geodetic to Spherical Equations: 17-18, WMM Technical report*/
+
+    MAG_Geomag(Ellip, CoordSpherical, CoordGeodetic, TimedMagneticModel,
+               &GeoMagneticElements); /* Computes the geoMagnetic field elements and their time change*/
+//    }
+
+    Bx = GeoMagneticElements.X; // X Y Z output in nanoTesla
+    By = GeoMagneticElements.Y;
+    Bz = GeoMagneticElements.Z;
 
     //     G4cout << Bx << " " << By << " " << Bz << G4endl;
 

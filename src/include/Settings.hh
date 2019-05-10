@@ -60,6 +60,11 @@ public:
 public:
 
   //////////////// Parameters are listed below ////////////////
+  // date
+  int year = 2018;
+  double day=24;
+  double month=3;
+
   // Earth radius
   const G4double earthRadius = 6378.137 * km;
 

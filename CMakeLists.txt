@@ -1,6 +1,7 @@
 #----------------------------------------------------------------------------
 # Setup the project
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+#project(TGF_propa C CXX Fortran)
 project(TGF_propa C CXX Fortran)
 
 execute_process(COMMAND "source ~/.bashrc")
@@ -31,7 +32,7 @@ include(${Geant4_USE_FILE})
 # Locate sources and headers for this project
 #
 include_directories(${PROJECT_SOURCE_DIR}/src/include
-        ${Geant4_INCLUDE_DIR}/src)
+        ${Geant4_INCLUDE_DIR}/src ${PROJECT_SOURCE_DIR}/src/src/C/WMM/src/ )
 
 file(GLOB main ${PROJECT_SOURCE_DIR}/src/tgf_propa.cc)
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/src/*.cc)
@@ -43,13 +44,16 @@ file(GLOB sourcesBLH ${PROJECT_SOURCE_DIR}/src/include/Bline_tracer/*.hh)
 
 file(GLOB sourcesc ${PROJECT_SOURCE_DIR}/src/src/C/*.c)
 file(GLOB sourcesh ${PROJECT_SOURCE_DIR}/src/include/C/*.h)
-file(GLOB sourcesf ${PROJECT_SOURCE_DIR}/src/src/fortran/*.f)
+#file(GLOB sourcesf ${PROJECT_SOURCE_DIR}/src/src/fortran/*.f)
 file(GLOB sourcesf2 ${PROJECT_SOURCE_DIR}/src/src/msis/*.for)
+
+file(GLOB sources_mag_c ${PROJECT_SOURCE_DIR}/src/src/C/WMM/src/*.c)
+file(GLOB sources_mag_h ${PROJECT_SOURCE_DIR}/src/src/C/WMM/src/*.h)
 
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(TGF_Propa ${main} ${sourcesf} ${sourcesf2} ${sourcesc} ${sourcesh} ${sourceshh} ${sources} ${headers} ${sourcesS} ${sourcesSH} ${sourcesBL} ${sourcesBLH})
+add_executable(TGF_Propa ${main} ${sourcesf2} ${sources_mag_c} ${sources_mag_h} ${sourcesc} ${sourcesh} ${sourceshh} ${sources} ${headers} ${sourcesS} ${sourcesSH} ${sourcesBL} ${sourcesBLH})
 target_link_libraries(TGF_Propa ${Geant4_LIBRARIES})
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
