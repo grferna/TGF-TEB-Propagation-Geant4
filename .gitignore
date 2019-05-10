@@ -41,3 +41,4 @@ cmake-build-Debug/
 cmake-build-Release/
 .idea/workspace.xml
 src/src/C/WMM/bin/
+.idea/

@@ -29,7 +29,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <DetectorConstruction.hh>
-#include <fortran.hh>
+//#include <fortran.hh>
 
 using namespace std;
 
@@ -95,29 +95,27 @@ using namespace std;
 // IYD,SEC,ALT,GLAT,GLONG,STL,F107A,F107,AP,MASS,D,T
 
 // extrernal fortran subroutine to get MSIS atmospheric densities
-extern "C" {
-void gtd7_(INTEGER &IYD, // YEAR AND DAY AS YYDDD (day of year from 1 to 365 (or 366))
-           REAL &SEC, // UT(SEC)
-           REAL &ALT, // ALTITUDE(KM)
-           REAL &GLAT, // GEODETIC LATITUDE(DEG)
-           REAL &GLONG, // GEODETIC LONGITUDE(DEG)
-           REAL &STL, // LOCAL APPARENT SOLAR TIME
-           REAL &F107A, // 81 day AVERAGE OF F10.7 FLUX (centered on day DDD
-           REAL &F107, // DAILY F10.7 FLUX FOR PREVIOUS DAY
-           REAL &AP,  // MAGNETIC INDEX(DAILY)
-           INTEGER &MASS, // MASS NUMBER
-           REAL *D, REAL *T); // OUTPUT VARIABLES temperatures
-}
+//extern "C" {
+//void gtd7_(INTEGER &IYD, // YEAR AND DAY AS YYDDD (day of year from 1 to 365 (or 366))
+//           REAL &SEC, // UT(SEC)
+//           REAL &ALT, // ALTITUDE(KM)
+//           REAL &GLAT, // GEODETIC LATITUDE(DEG)
+//           REAL &GLONG, // GEODETIC LONGITUDE(DEG)
+//           REAL &STL, // LOCAL APPARENT SOLAR TIME
+//           REAL &F107A, // 81 day AVERAGE OF F10.7 FLUX (centered on day DDD
+//           REAL &F107, // DAILY F10.7 FLUX FOR PREVIOUS DAY
+//           REAL &AP,  // MAGNETIC INDEX(DAILY)
+//           INTEGER &MASS, // MASS NUMBER
+//           REAL *D, REAL *T); // OUTPUT VARIABLES temperatures
+//}
 
-TGFDetectorConstruction::TGFDetectorConstruction()
-{
+TGFDetectorConstruction::TGFDetectorConstruction() {
     logicalWorld = nullptr;
     physicalWorld = nullptr;
 
     globalfieldMgr = nullptr;
 
-    if (settings->OUTPUT_ALT_LAYERS_TO_FILE)
-    {
+    if (settings->OUTPUT_ALT_LAYERS_TO_FILE) {
         asciiFile.open("alt_dens_debug.txt", std::ios::trunc);
 
         asciiFile << "altitude (km) // density (g/cm2)" << G4endl;
@@ -130,8 +128,7 @@ TGFDetectorConstruction::~TGFDetectorConstruction() = default;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-G4VPhysicalVolume *TGFDetectorConstruction::Construct()
-{
+G4VPhysicalVolume *TGFDetectorConstruction::Construct() {
     //    G4FieldManager *null_field = nullptr;
 
     // cleaning geometry
@@ -141,8 +138,7 @@ G4VPhysicalVolume *TGFDetectorConstruction::Construct()
     G4SolidStore::Clean();
 
     // construct field managers (for magnetic fields)
-    if (settings->MAG_FIELD_ON)
-    {
+    if (settings->MAG_FIELD_ON) {
         Construct_MagField_Managers();
     }
 
@@ -160,15 +156,15 @@ G4VPhysicalVolume *TGFDetectorConstruction::Construct()
 
     // World solid
     G4Sphere *solidWorld;
-    solidWorld = new G4Sphere("world_S", settings->earthRadius, (settings->earthRadius + world_max_altitude), 0 * degree, 360 * degree, 0 * degree, 180 * degree); // earth radius + 100 km
+    solidWorld = new G4Sphere("world_S", settings->earthRadius, (settings->earthRadius + world_max_altitude),
+                              0 * degree, 360 * degree, 0 * degree, 180 * degree); // earth radius + 100 km
     // World logical
 
     logicalWorld = new G4LogicalVolume(solidWorld,  // solid
                                        vac,         // material
                                        "world_L");
-           
-    if (settings->MAG_FIELD_ON)
-    {
+
+    if (settings->MAG_FIELD_ON) {
         logicalWorld->SetFieldManager(globalfieldMgr, true);
     }
 
@@ -191,7 +187,8 @@ G4VPhysicalVolume *TGFDetectorConstruction::Construct()
     // Make Invisible
     //  logicalWorld -> SetVisAttributes(G4VisAttributes::Invisible);
 
-    std::vector<G4Material *> Airs = TGFDetectorConstruction::Construct_Atmos_layers_Materials(altitudes_geodetic); // used MSIS C++ code; creates the Airs[jj]
+    std::vector<G4Material *> Airs = TGFDetectorConstruction::Construct_Atmos_layers_Materials(
+            altitudes_geodetic); // used MSIS C++ code; creates the Airs[jj]
 
     // considered atmosphere region (particle flying out this region are killed)
 
@@ -206,49 +203,50 @@ G4VPhysicalVolume *TGFDetectorConstruction::Construct()
 
     // atmosphere construction
 
-    const G4double ALT_MAX_RECORDED = *std::max_element(settings->record_altitudes.begin(), settings->record_altitudes.end());
+    const G4double ALT_MAX_RECORDED = *std::max_element(settings->record_altitudes.begin(),
+                                                        settings->record_altitudes.end());
 
     for (unsigned int jj = 0; jj < altitudes_geodetic.size() - 1; jj++) // geocentric altitudes
     {
         innerRad = settings->earthRadius + altitudes_geodetic[jj];
         outerRad = settings->earthRadius + altitudes_geodetic[jj + 1];
 
-        atmosLayers_S.push_back(new G4Sphere("atmosLayer_S_" + std::to_string(jj), innerRad, outerRad, 0 * degree, 360 * degree, 0 * degree, 180 * degree));
+        atmosLayers_S.push_back(
+                new G4Sphere("atmosLayer_S_" + std::to_string(jj), innerRad, outerRad, 0 * degree, 360 * degree,
+                             0 * degree, 180 * degree));
 
-        if ((innerRad + outerRad) / 2. < (settings->earthRadius + ALT_MAX_RECORDED * km))
+        if ((innerRad + outerRad) / 2. < (settings->earthRadius + ALT_MAX_RECORDED * km)) {
+            atmosLayers_LV.push_back(
+                    new G4LogicalVolume(atmosLayers_S.back(), Airs[jj], "atmosphere_LV_" + std::to_string(jj), nullptr,
+                                        nullptr, nullptr));
+        } else  // vaccum if altitude > ALT_MAX
         {
-            atmosLayers_LV.push_back(new G4LogicalVolume(atmosLayers_S.back(), Airs[jj], "atmosphere_LV_" + std::to_string(jj), nullptr, nullptr, nullptr)); 
-        }
-        else  // vaccum if altitude > ALT_MAX
-        {
-            atmosLayers_LV.push_back(new G4LogicalVolume(atmosLayers_S.back(), vac, "atmosphere_LV_" + std::to_string(jj), nullptr, nullptr, nullptr));
+            atmosLayers_LV.push_back(
+                    new G4LogicalVolume(atmosLayers_S.back(), vac, "atmosphere_LV_" + std::to_string(jj), nullptr,
+                                        nullptr, nullptr));
         }
 
         // assigning sensitive detector
-        for (G4double rec_alt : settings->record_altitudes)
-        {
-            if (altitudes_geodetic[jj] == rec_alt * km)
-            {
-                sens_det_List.push_back(new SensitiveDet("sens_det_" + std::to_string(id_SD), id_SD, altitudes_geodetic[jj] / km));
+        for (G4double rec_alt : settings->record_altitudes) {
+            if (altitudes_geodetic[jj] == rec_alt * km) {
+                sens_det_List.push_back(
+                        new SensitiveDet("sens_det_" + std::to_string(id_SD), id_SD, altitudes_geodetic[jj] / km));
                 atmosLayers_LV.back()->SetSensitiveDetector(sens_det_List.back());
                 G4SDManager::GetSDMpointer()->AddNewDetector(sens_det_List.back());
                 id_SD++;
 
-                if (settings->USE_STEP_MAX_for_record)
-                {
+                if (settings->USE_STEP_MAX_for_record) {
                     atmosLayers_LV.back()->SetUserLimits(stepLimit);
                 }
             }
         }
 
         // assigning magnetic field
-        if (settings->MAG_FIELD_ON)
-        {
+        if (settings->MAG_FIELD_ON) {
             atmosLayers_LV.back()->SetFieldManager(globalfieldMgr, true);
 
             // null magnetic field if altitude < 45 km
-            if ((innerRad + outerRad) / 2. < (settings->earthRadius + alt_account_Mag_Field))
-            {
+            if ((innerRad + outerRad) / 2. < (settings->earthRadius + alt_account_Mag_Field)) {
                 atmosLayers_LV.back()->SetFieldManager(Null_FieldManager, true);
             }
         }
@@ -258,7 +256,9 @@ G4VPhysicalVolume *TGFDetectorConstruction::Construct()
         considered_atmos_Region->AddRootLogicalVolume(atmosLayers_LV.back());
 
         G4String name_PV = "atmosphere_PV_" + std::to_string(jj);
-        atmosLayers_PV.push_back(new G4PVPlacement(nullptr, G4ThreeVector(), name_PV, atmosLayers_LV.back(), physicalWorld, false, 0, false));
+        atmosLayers_PV.push_back(
+                new G4PVPlacement(nullptr, G4ThreeVector(), name_PV, atmosLayers_LV.back(), physicalWorld, false, 0,
+                                  false));
     }
 
     G4cout << G4endl << "Geometry built successfully." << G4endl << G4endl;
@@ -272,7 +272,8 @@ G4VPhysicalVolume *TGFDetectorConstruction::Construct()
 void TGFDetectorConstruction::calculate_altitudes_list()
 // fills the vector altitudes
 {
-    const G4double ALT_MAX_RECORDED = *std::max_element(settings->record_altitudes.begin(), settings->record_altitudes.end());
+    const G4double ALT_MAX_RECORDED = *std::max_element(settings->record_altitudes.begin(),
+                                                        settings->record_altitudes.end());
 
     const G4double alt_max_construction = min(alt_max_atmosphere, ALT_MAX_RECORDED * km);
     // it is either 200 km, either the maximum detection altitude if smaller than 200 km
@@ -280,7 +281,8 @@ void TGFDetectorConstruction::calculate_altitudes_list()
     // defining the altitude vector
     for (G4int jj = 0; jj < nb_altitudes; jj++)   // geocentric altitudes
     {
-        altitudes_geodetic.push_back(exp(log(alt_min) + (log(alt_max_construction) - log(alt_min)) * double(jj) / double(nb_altitudes - 1)));
+        altitudes_geodetic.push_back(
+                exp(log(alt_min) + (log(alt_max_construction) - log(alt_min)) * double(jj) / double(nb_altitudes - 1)));
     }
 
     // adding an extra altitude 1km more than the max of the recorded altitude
@@ -288,17 +290,14 @@ void TGFDetectorConstruction::calculate_altitudes_list()
 
     // adding the record volume : a thin layer volume starting at the record altitude
 
-    for (G4double rec_alt : settings->record_altitudes)
-    {
-        if (not_contains(rec_alt * km, altitudes_geodetic))
-        {
+    for (G4double rec_alt : settings->record_altitudes) {
+        if (not_contains(rec_alt * km, altitudes_geodetic)) {
             altitudes_geodetic.push_back(rec_alt * km);
         }
 
         G4double rec_alt2 = rec_alt * km + 0.01 * km;
 
-        if (not_contains(rec_alt2, altitudes_geodetic))
-        {
+        if (not_contains(rec_alt2, altitudes_geodetic)) {
             altitudes_geodetic.push_back(rec_alt2);
         }
     }
@@ -306,21 +305,16 @@ void TGFDetectorConstruction::calculate_altitudes_list()
     // sorting in increasing value
     std::sort(altitudes_geodetic.begin(), altitudes_geodetic.end());
 
-    if (hasDuplicates(altitudes_geodetic))
-    {
+    if (hasDuplicates(altitudes_geodetic)) {
         G4cout << "ERROR : There are duplicates values in the altitude list. Aborting." << G4endl;
         std::abort();
     }
 }
 
-bool TGFDetectorConstruction::hasDuplicates(const std::vector<G4double> &arr)
-{
-    for (uint i = 0; i < arr.size(); ++i)
-    {
-        for (uint j = i + 1; j < arr.size(); ++j)
-        {
-            if (arr[i] == arr[j])
-            {
+bool TGFDetectorConstruction::hasDuplicates(const std::vector<G4double> &arr) {
+    for (uint i = 0; i < arr.size(); ++i) {
+        for (uint j = i + 1; j < arr.size(); ++j) {
+            if (arr[i] == arr[j]) {
                 return true;
             }
         }
@@ -330,8 +324,7 @@ bool TGFDetectorConstruction::hasDuplicates(const std::vector<G4double> &arr)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-G4bool TGFDetectorConstruction::not_contains(G4double x, const std::vector<G4double> &v)
-{
+G4bool TGFDetectorConstruction::not_contains(G4double x, const std::vector<G4double> &v) {
     return !(std::find(v.begin(), v.end(), x) != v.end());
 }
 
@@ -340,8 +333,8 @@ G4bool TGFDetectorConstruction::not_contains(G4double x, const std::vector<G4dou
 // Caltulating materials of the atmopsheric layers, based on the MSIS C++ model integrated to this code
 // ref : https://ccmc.gsfc.nasa.gov/modelweb/atmos/nrlmsise00.html
 
-std::vector<G4Material *> TGFDetectorConstruction::Construct_Atmos_layers_Materials(const std::vector<G4double> altitudes_)
-{
+std::vector<G4Material *>
+TGFDetectorConstruction::Construct_Atmos_layers_Materials(const std::vector<G4double> altitudes_) {
     std::vector<G4Material *> Airs;
 
     // Vaccum
@@ -351,48 +344,60 @@ std::vector<G4Material *> TGFDetectorConstruction::Construct_Atmos_layers_Materi
     //    elHe = new G4Element(name = "Helium", symbol = "He", z = 2., He_molarMass);
     //    elH  = new G4Element(name = "Hydrogen", symbol = "H", z = 1., H_molarMass);
 
-    for (uint idx_alt = 0; idx_alt < altitudes_.size() - 1; idx_alt++)
-    {
+    for (uint idx_alt = 0; idx_alt < altitudes_.size() - 1; idx_alt++) {
         const double innerAlt = altitudes_[idx_alt];
         const double outerAlt = altitudes_[idx_alt + 1];
         const double altitude_in_km = (innerAlt + outerAlt) / 2. / km; // geocentric altitude
 
         //            G4cout << altitude_in_km << G4endl;
 
-        if (altitude_in_km > alt_max_atmosphere / km)
-        {
+        if (altitude_in_km > alt_max_atmosphere / km) {
             Airs.push_back(vaccum);
-        }
-        else
-        {
-            INTEGER input_iyd = 172; // IYD - YEAR AND DAY AS YYDDD
-            REAL input_sec = 29000.0;
-            REAL input_alt = (REAL) altitude_in_km;
-            REAL input_g_lat = (REAL) settings->SOURCE_LAT;
-            REAL input_g_long = (REAL) settings->SOURCE_LONG;
-            REAL input_lst = 16.0;
-            REAL input_f107A = 150.0;
-            REAL input_f107 = 150.0;
-            REAL input_ap = 4.0;
-            INTEGER input_mass = 48;
-            REAL output_D[9];
-            REAL output_T[2];
+        } else {
+
+            struct nrlmsise_output output{};
+            struct nrlmsise_input input{};
+            struct nrlmsise_flags flags{};
+            struct ap_array aph{};
+
+            /* input values */
+            for (int i = 0; i < 7; i++) {
+                aph.a[i] = 100;
+            }
+
+            flags.switches[0] = 0;
+            for (int i = 1; i < 24; i++) {
+                flags.switches[i] = 1;
+            }
+
+            input.doy = int(settings->month * 30 + settings->day);
+            input.year = settings->year; /* without effect */
+            input.sec = 29000;
+            input.alt = altitude_in_km;
+            input.g_lat = settings->SOURCE_LAT;
+            input.g_long = settings->SOURCE_LONG;
+            input.lst = 16;
+            input.f107A = 150;
+            input.f107 = 150;
+            input.ap = 4;
+            input.ap_a = &aph;
+
+            gtd7(&input, &flags, &output);
 
             // G4cout << altitude << G4endl;
 
-            gtd7_(input_iyd, input_sec, input_alt, input_g_lat, input_g_long, input_lst, input_f107A, input_f107, input_ap, input_mass, output_D, output_T); // MSIS, fortran function call
+//            gtd7_(input_iyd, input_sec, input_alt, input_g_lat, input_g_long, input_lst, input_f107A, input_f107, input_ap, input_mass, output_D, output_T); // MSIS, fortran function call
 
-            if (std::isnan(output_D[5]) || std::isinf(isnan(output_D[5])))
-            {
+            if (std::isnan(output.d[5]) || std::isinf(isnan(output.d[5]))) {
                 G4cout << "ERROR : density from gtd7_ is NaN. Aborting" << G4endl;
                 std::abort();
             }
 
-            G4double density_air = output_D[5] * g / cm3; // getting density and converting it to the GEANT4 system of unit
+            G4double density_air =
+                    output.d[5] * g / cm3; // getting density and converting it to the GEANT4 system of unit
 
-            if (settings->OUTPUT_ALT_LAYERS_TO_FILE)
-            {
-                asciiFile << altitude_in_km << " " << output_D[5] << G4endl;
+            if (settings->OUTPUT_ALT_LAYERS_TO_FILE) {
+                asciiFile << altitude_in_km << " " << output.d[5] << G4endl;
             }
 
             Airs.push_back(man->BuildMaterialWithNewDensity("Air_" + std::to_string(idx_alt), "G4_AIR", density_air));
@@ -407,8 +412,7 @@ std::vector<G4Material *> TGFDetectorConstruction::Construct_Atmos_layers_Materi
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 
-void TGFDetectorConstruction::Construct_MagField_Managers()
-{
+void TGFDetectorConstruction::Construct_MagField_Managers() {
     /////////// Magnetic field
 
     // myEarthMagField = new EarthMagField_alt;
@@ -420,17 +424,14 @@ void TGFDetectorConstruction::Construct_MagField_Managers()
 
     globalfieldMgr = G4TransportationManager::GetTransportationManager()->GetFieldManager();
 
-    if (settings->CACHED_LENGTH == 0.0)
-    {
+    if (settings->CACHED_LENGTH == 0.0) {
         //            globalfieldMgr->CreateChordFinder(myEarthMagField);
         pMagFldEquation = new G4Mag_UsualEqRhs(myEarthMagField);
         fStepper = new G4DormandPrince745(pMagFldEquation);
         fChordFinder = new G4ChordFinder(myEarthMagField, fMinStep, fStepper);
         globalfieldMgr->SetChordFinder(fChordFinder);
         globalfieldMgr->SetDetectorField(myEarthMagField);
-    }
-    else
-    {
+    } else {
         //            globalfieldMgr->CreateChordFinder(myCachedEarthMagField);
         pMagFldEquation = new G4Mag_UsualEqRhs(myCachedEarthMagField);
         fStepper = new G4DormandPrince745(pMagFldEquation);
@@ -466,7 +467,8 @@ void TGFDetectorConstruction::Construct_MagField_Managers()
     Null_FieldManager->GetChordFinder()->SetDeltaChord(1000. * cm / 2);
 
     // set maximum acceptable step everywhere, only for charged particles (i.e. affected by EM-field)
-    G4TransportationManager::GetTransportationManager()->GetPropagatorInField()->SetLargestAcceptableStep(settings->STEP_MAX_DetConst);
+    G4TransportationManager::GetTransportationManager()->GetPropagatorInField()->SetLargestAcceptableStep(
+            settings->STEP_MAX_DetConst);
 
 }
 

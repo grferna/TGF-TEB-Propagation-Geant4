@@ -44,7 +44,7 @@ class G4VPhysicalVolume;
 #include "G4Element.hh"
 
 extern "C" {
-#include <C/nrlmsise-00.h>
+#include <nrlmsise-00.h>
 }
 
 #include "G4UnitsTable.hh"
