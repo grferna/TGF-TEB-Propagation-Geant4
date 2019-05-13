@@ -28,7 +28,7 @@ For non-Ubuntu users look at the code in the file `compile_install.bash` to chec
 
 ### Windows
 - A Geant4 installation script (compilation and installation) is provided here : https://git.app.uib.no/David.Sarria/windows-geant4-installation-script-qt5 . Use at your own risk. No guarantees.
-- After Geant4 is compiled and installed, run `compile_windows.bat` to compile and run this project with defautl settings. Open `TGF_propa.sln` to edit the code. 
+- After Geant4 is compiled and installed, run `compile_windows.bat` to compile and run this project with default settings. Open `TGF_propa.sln` to edit the code. 
 
 ## Simulation Settings:
 - Most of settings can be adjusted in `src/Settings.cc`. In particular:
