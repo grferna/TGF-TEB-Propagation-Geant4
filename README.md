@@ -32,7 +32,7 @@ For non-Ubuntu users look at the code in the file `compile_install.bash` to chec
 - After Geant4 is compiled and installed successfully, run `compile_windows.bat` to compile `TGF-TEB-Propagation-Geant4` and launch a test run with default settings. Open `TGF_propa.sln` to edit the code. 
 
 ## Simulation Settings:
-- Most of settings can be adjusted in `src/Settings.cc`. In particular:
+Most of settings can be adjusted in `src/Settings.cc`. In particular:
 - `settings->RECORD_ELEC_POSI_ONLY` = boolean to record only electrons and positrons (not recording photons)
 - `settings->RECORD_PHOT_ONLY` = boolean to record only photons (not recording electrons and positrons)
 - If both are set to `false`, all particles are recorded.
