@@ -49,12 +49,12 @@ extern "C" {
 
 #include "Settings.hh"
 
-class EarthMagField : public G4MagneticField {
+class EarthMagField_WMM : public G4MagneticField {
 public:
 
-    EarthMagField();
+    EarthMagField_WMM();
 
-    ~EarthMagField() override;
+    ~EarthMagField_WMM() override;
 
     void GetFieldValue(const double Point[3],
                        double *Bfield) const override;

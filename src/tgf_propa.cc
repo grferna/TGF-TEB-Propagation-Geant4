@@ -80,7 +80,7 @@ int main(int argc, char **argv)
     settings->RANDOM_SEED = start;
     //
 
-    G4String nb_to_get_per_run = "10000";
+    G4String nb_to_get_per_run = "1000";
 
     settings->record_altitudes.push_back(400.);
 

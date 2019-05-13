@@ -34,8 +34,7 @@
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
-TGF_PhysicsList::TGF_PhysicsList() : G4VUserPhysicsList()
-{
+TGF_PhysicsList::TGF_PhysicsList() : G4VUserPhysicsList() {
     emPhysicsList = new G4EmStandardPhysics_option1();
 
     this->DumpCutValuesTable();
@@ -43,15 +42,13 @@ TGF_PhysicsList::TGF_PhysicsList() : G4VUserPhysicsList()
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
-TGF_PhysicsList::~TGF_PhysicsList()
-{
+TGF_PhysicsList::~TGF_PhysicsList() {
     delete emPhysicsList;
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
-void TGF_PhysicsList::ConstructParticle()
-{
+void TGF_PhysicsList::ConstructParticle() {
     emPhysicsList->ConstructParticle();
 
     //   G4GenericIon::GenericIon();
@@ -65,8 +62,7 @@ void TGF_PhysicsList::ConstructParticle()
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
-void TGF_PhysicsList::ConstructProcess()
-{
+void TGF_PhysicsList::ConstructProcess() {
     AddTransportation();
     emPhysicsList->ConstructProcess();
 
@@ -85,8 +81,7 @@ void TGF_PhysicsList::ConstructProcess()
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
-void TGF_PhysicsList::SetCuts()
-{
+void TGF_PhysicsList::SetCuts() {
     defaultCutValue = 1. * nm;
 
     //
@@ -94,8 +89,6 @@ void TGF_PhysicsList::SetCuts()
     cutForElectron = defaultCutValue;
     cutForPositron = defaultCutValue;
 
-    //
-    //
     //
     SetCutValue(cutForGamma, "gamma");
     SetCutValue(cutForElectron, "e-");
@@ -120,13 +113,11 @@ void TGF_PhysicsList::SetCuts()
     G4ProductionCutsTable *aPCTable = G4ProductionCutsTable::GetProductionCutsTable();
     aPCTable->SetEnergyRange(lowlimit, 100 * CLHEP::GeV);
 
-    if (settings->USE_STEP_MAX_for_record)
-    {
+    if (settings->USE_STEP_MAX_for_record) {
         Add_StepMax_for_record_regions();
     }
 
-    if (settings->USE_STEP_MAX_global)
-    {
+    if (settings->USE_STEP_MAX_global) {
         AddStepMax(step_max);
     }
 }
@@ -136,8 +127,7 @@ void TGF_PhysicsList::SetCuts()
 #include "G4StepLimiter.hh"
 #include "G4ProcessManager.hh"
 
-void TGF_PhysicsList::Add_StepMax_for_record_regions()
-{
+void TGF_PhysicsList::Add_StepMax_for_record_regions() {
     // Step limitation seen as a process
     G4StepLimiter *stepLimiter = new G4StepLimiter();
     ////G4UserSpecialCuts* userCuts = new G4UserSpecialCuts();
@@ -157,12 +147,12 @@ void TGF_PhysicsList::Add_StepMax_for_record_regions()
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 #include "StepMax.hh"
+
 // GLOBAL step max, defined from physics list
 // alternatively, it could have been defined in the detector construction (largest acceptable step)
 // however largest acceptable step concerns only charged particles (i.e. if affected by EM field)
 // here we could also apply it to photons (see implementation of "IsApplicable" in StepMax.cc)
-void TGF_PhysicsList::AddStepMax(G4double stepMax)
-{
+void TGF_PhysicsList::AddStepMax(G4double stepMax) {
     // Step limitation seen as a process
     StepMax *stepMaxProcess = new StepMax();
     stepMaxProcess->SetMaxStep(stepMax);
@@ -170,13 +160,11 @@ void TGF_PhysicsList::AddStepMax(G4double stepMax)
     auto particleIterator = GetParticleIterator();
     particleIterator->reset();
 
-    while ((*particleIterator)())
-    {
+    while ((*particleIterator)()) {
         G4ParticleDefinition *particle = particleIterator->value();
         G4ProcessManager *pmanager = particle->GetProcessManager();
 
-        if (stepMaxProcess->IsApplicable(*particle))
-        {
+        if (stepMaxProcess->IsApplicable(*particle)) {
             pmanager->AddDiscreteProcess(stepMaxProcess);
         }
     }

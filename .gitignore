@@ -3,6 +3,7 @@ build/output/*.out
 build/CMakeCache.txt
 build/cmake_install.cmake
 build/Makefile
+src/build/
 *~
 *.nfs*
 *.mat

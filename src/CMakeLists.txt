@@ -1,8 +1,14 @@
 #----------------------------------------------------------------------------
 # Setup the project
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
-#project(TGF_propa C CXX Fortran)
-project(TGF_propa C CXX)
+
+if (UNIX)
+    project(TGF_propa C CXX Fortran)
+endif (UNIX)
+
+if (WIN32) # do not include Fortran code if Window platform
+    project(TGF_propa C CXX)
+endif (WIN32)
 
 execute_process(COMMAND "source ~/.bashrc")
 
@@ -44,8 +50,10 @@ file(GLOB sourcesBLH ${PROJECT_SOURCE_DIR}/include/Bline_tracer/*.hh)
 
 file(GLOB sourcesc ${PROJECT_SOURCE_DIR}/src/C/*.c)
 file(GLOB sourcesh ${PROJECT_SOURCE_DIR}/include/C/*.h)
-#file(GLOB sourcesf ${PROJECT_SOURCE_DIR}/src/fortran/*.f)
-#file(GLOB sourcesf2 ${PROJECT_SOURCE_DIR}/src/msis/*.for)
+
+if (UNIX)
+    file(GLOB sourcesf ${PROJECT_SOURCE_DIR}/src/fortran/*.f)
+endif (UNIX)
 
 file(GLOB sources_mag_c ${PROJECT_SOURCE_DIR}/src/C/WMM/src/*.c)
 file(GLOB sources_mag_h ${PROJECT_SOURCE_DIR}/src/C/WMM/src/*.h)
@@ -56,7 +64,14 @@ file(GLOB sources_msis_h ${PROJECT_SOURCE_DIR}/src/C/MSIS/*.h)
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(TGF_Propa ${main} ${sources_msis_c} ${sources_msis_h} ${sourcesf2} ${sources_mag_c} ${sources_mag_h} ${sourcesc} ${sourcesh} ${sourceshh} ${sources} ${headers} ${sourcesS} ${sourcesSH} ${sourcesBL} ${sourcesBLH})
+if (UNIX)
+    add_executable(TGF_Propa ${main} ${sourcesf} ${sources_msis_c} ${sources_msis_h} ${sourcesf2} ${sources_mag_c} ${sources_mag_h} ${sourcesc} ${sourcesh} ${sourceshh} ${sources} ${headers} ${sourcesS} ${sourcesSH} ${sourcesBL} ${sourcesBLH})
+endif (UNIX)
+
+if (WIN32)
+    add_executable(TGF_Propa ${main} ${sources_msis_c} ${sources_msis_h} ${sourcesf2} ${sources_mag_c} ${sources_mag_h} ${sourcesc} ${sourcesh} ${sourceshh} ${sources} ${headers} ${sourcesS} ${sourcesSH} ${sourcesBL} ${sourcesBLH})
+endif (WIN32)
+
 target_link_libraries(TGF_Propa ${Geant4_LIBRARIES})
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")

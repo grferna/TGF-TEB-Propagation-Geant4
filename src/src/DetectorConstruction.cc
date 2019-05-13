@@ -419,23 +419,58 @@ void TGFDetectorConstruction::Construct_MagField_Managers() {
     /////////// Magnetic field
 
     // myEarthMagField = new EarthMagField_alt;
-    myEarthMagField = new EarthMagField;
 
     G4double distanceConst = settings->CACHED_LENGTH;
 
-    myCachedEarthMagField = new G4CachedMagneticField(myEarthMagField, distanceConst);
-
     globalfieldMgr = G4TransportationManager::GetTransportationManager()->GetFieldManager();
 
-    if (settings->CACHED_LENGTH == 0.0) {
-        //            globalfieldMgr->CreateChordFinder(myEarthMagField);
-        pMagFldEquation = new G4Mag_UsualEqRhs(myEarthMagField);
+    if (distanceConst == 0.0) {
+
+#ifdef _WIN32
+        G4cout << "Windows system detected : magnetic field model must be WMM." << G4endl;
+
+        pMagFldEquation = new G4Mag_UsualEqRhs(new EarthMagField_WMM);
         fStepper = new G4DormandPrince745(pMagFldEquation);
-        fChordFinder = new G4ChordFinder(myEarthMagField, fMinStep, fStepper);
+        fChordFinder = new G4ChordFinder(new EarthMagField_WMM, fMinStep, fStepper);
         globalfieldMgr->SetChordFinder(fChordFinder);
-        globalfieldMgr->SetDetectorField(myEarthMagField);
+        globalfieldMgr->SetDetectorField(new EarthMagField_WMM);
+#elif  __unix__
+        if (settings->MAGNETIC_FIELD_MODEL == "IGRF") {
+            G4cout << "Windows system detected : magnetic field model must be WMM." << G4endl;
+            pMagFldEquation = new G4Mag_UsualEqRhs(new EarthMagField_IGRF);
+            fStepper = new G4DormandPrince745(pMagFldEquation);
+            fChordFinder = new G4ChordFinder(new EarthMagField_IGRF, fMinStep, fStepper);
+            globalfieldMgr->SetChordFinder(fChordFinder);
+            globalfieldMgr->SetDetectorField(new EarthMagField_IGRF);
+        } else if (settings->MAGNETIC_FIELD_MODEL == "WMM") {
+            G4cout << "Windows system detected : magnetic field model must be WMM." << G4endl;
+            pMagFldEquation = new G4Mag_UsualEqRhs(new EarthMagField_WMM);
+            fStepper = new G4DormandPrince745(pMagFldEquation);
+            fChordFinder = new G4ChordFinder(new EarthMagField_WMM, fMinStep, fStepper);
+            globalfieldMgr->SetChordFinder(fChordFinder);
+            globalfieldMgr->SetDetectorField(new EarthMagField_WMM);
+        } else {
+            G4cout << "ERROR : settings->MAGNETIC_FIELD_MODEL is not a string of value 'IGRF' or 'WMM' . Aborting."
+                   << G4endl;
+            std::abort();
+        }
+#endif
+
     } else {
-        //            globalfieldMgr->CreateChordFinder(myCachedEarthMagField);
+#ifdef _WIN32
+        G4cout << "Windows system detected : magnetic field model must be WMM." << G4endl;
+        myCachedEarthMagField = new G4CachedMagneticField(new EarthMagField_WMM, distanceConst);
+#elif  __unix__
+        if (settings->MAGNETIC_FIELD_MODEL == "IGRF") {
+            myCachedEarthMagField = new G4CachedMagneticField(new EarthMagField_IGRF, distanceConst);
+        } else if (settings->MAGNETIC_FIELD_MODEL == "WMM") {
+            myCachedEarthMagField = new G4CachedMagneticField(new EarthMagField_WMM, distanceConst);
+        } else {
+            G4cout << "ERROR : settings->MAGNETIC_FIELD_MODEL is not a string of value 'IGRF' or 'WMM' . Aborting."
+                   << G4endl;
+            std::abort();
+        }
+#endif
         pMagFldEquation = new G4Mag_UsualEqRhs(myCachedEarthMagField);
         fStepper = new G4DormandPrince745(pMagFldEquation);
         fChordFinder = new G4ChordFinder(myCachedEarthMagField, fMinStep, fStepper);
@@ -470,8 +505,8 @@ void TGFDetectorConstruction::Construct_MagField_Managers() {
     Null_FieldManager->GetChordFinder()->SetDeltaChord(1000. * cm / 2);
 
     // set maximum acceptable step everywhere, only for charged particles (i.e. affected by EM-field)
-    G4TransportationManager::GetTransportationManager()->GetPropagatorInField()->SetLargestAcceptableStep(
-            settings->STEP_MAX_DetConst);
+//    G4TransportationManager::GetTransportationManager()->GetPropagatorInField()->SetLargestAcceptableStep(
+//            settings->STEP_MAX_DetConst);
 
 }
 

@@ -30,8 +30,9 @@
 #pragma once
 
 #include <Settings.hh>
-#include "EarthMagField_alternative.hh"
-#include "EarthMagField.hh"
+
+#include "EarthMagField_WMM.hh"
+#include "EarthMagField_IGRF.hh"
 
 class G4VPhysicalVolume;
 
@@ -89,7 +90,7 @@ extern "C" {
 #include "G4PVParameterised.hh"
 #include "G4FieldManager.hh"
 #include "G4TransportationManager.hh"
-#include "EarthMagField.hh"
+#include "EarthMagField_WMM.hh"
 #include <string>
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
@@ -118,8 +119,7 @@ class G4UserLimits;
 
 using namespace std;
 
-class TGFDetectorConstruction : public G4VUserDetectorConstruction
-{
+class TGFDetectorConstruction : public G4VUserDetectorConstruction {
 public:
 
     TGFDetectorConstruction();
@@ -195,7 +195,7 @@ private:
 
     G4MagIntegratorStepper *fStepper = nullptr;
     G4Mag_UsualEqRhs *pMagFldEquation = nullptr;
-    EarthMagField *myEarthMagField = nullptr;
+
     // EarthMagField_alt *myEarthMagField = nullptr;
     G4MagneticField *myCachedEarthMagField = nullptr;
 

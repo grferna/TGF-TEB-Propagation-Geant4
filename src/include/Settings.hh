@@ -37,65 +37,67 @@
 // singleton pattern with parameters set as public to avoid the overhead of using getters and setters
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-class Settings
-{
+class Settings {
 private:
 
-  Settings()
-  {
-    record_altitudes.clear();
-  }                                   // Private so that it can not be called
+    Settings() {
+        record_altitudes.clear();
+    }                                   // Private so that it can not be called
 
-  // copy constructor is private
-  // assignment operator is private
-  static Settings *instance;
-
-public:
-
-  Settings(Settings const&) = delete; // Don't Implement copy costructor
-  void operator = (Settings const&)  = delete; // don't implement equality operator
-
-  static Settings* getInstance();
+    // copy constructor is private
+    // assignment operator is private
+    static Settings *instance;
 
 public:
 
-  //////////////// Parameters are listed below ////////////////
-  // date
-  int year = 2018;
-  double day=24;
-  double month=3;
+    Settings(Settings const &) = delete; // Don't Implement copy costructor
+    void operator=(Settings const &) = delete; // don't implement equality operator
 
-  // Earth radius
-  const G4double earthRadius = 6378.137 * km;
+    static Settings *getInstance();
 
-  // parameters : initialization values, can be modified in the main code
-  G4long RANDOM_SEED = 12345;               // dummy value that will be replaced
-  G4int  NB_EVENT    = 0;
+public:
 
-  const double CACHED_LENGTH = 0.0 * meter; // for magnetic field solver, in meters
+    //////////////// Parameters are listed below ////////////////
+    // date
+    int year = 2018;
+    double day = 24;
+    double month = 3;
 
-  // Source parameters, geodetic coordinates ( = geographic = GPS)
-  const G4double SOURCE_LAT  = 11.01;       // degree
-  const G4double SOURCE_LONG = -95.40;      // degree
-  G4double SOURCE_ALT        = 15.;         // km
-  G4double OPENING_ANGLE     = 40.;         // degree
-  G4String BEAMING_TYPE      = "Uniform";
-  G4double TILT_ANGLE        = 0.0;
+    // Earth radius
+    const G4double earthRadius = 6378.137 * km;
 
-  G4double TIME_LIMIT        = 2.0 * second;
-  G4double MIN_ENERGY_OUTPUT = 10.0 * keV;
-  G4double SOURCE_SIGMA_TIME = 0.;           // microsecond
-  std::vector < G4double > record_altitudes; // ! : geodetic altitudes (remark: when building the geometry, geocentric altitudes are used)
-  G4bool MAG_FIELD_ON              = true;
-  G4bool USE_STEP_MAX_for_record   = false;  // force max step only for layers where particles are recorded
-  G4bool USE_STEP_MAX_global       = false;  // force max step everywhere
-  const double STEP_MAX_VAL        = 1000.0 * meter;
-  const double STEP_MAX_DetConst   = 15.0 * meter;
-  G4bool OUTPUT_ALT_LAYERS_TO_FILE = false;  // output list of altitude and densities of layer to file (for debug)
-  G4bool RECORD_ELEC_POSI_ONLY     = true;   // record only electron and positrons
-  G4bool RECORD_PHOT_ONLY          = false;  // record only photons
-  G4bool OUTPUT_ECEF_COORDS        = false;
-  G4bool OUTPUT_RadDist            = false;  // Radial distance can also be calculated a posteriori form ECEF data (e.g. Matlab routines)
+    // parameters : initialization values, can be modified in the main code
+    G4long RANDOM_SEED = 12345;               // dummy value that will be replaced
+    G4int NB_EVENT = 0;
+
+    const double CACHED_LENGTH = 0.0 * meter; // for magnetic field solver, in meters
+
+    // Source parameters, geodetic coordinates ( = geographic = GPS)
+    const G4double SOURCE_LAT = 11.01;       // degree
+    const G4double SOURCE_LONG = -95.40;      // degree
+    G4double SOURCE_ALT = 15.;         // km
+    G4double OPENING_ANGLE = 40.;         // degree
+    G4String BEAMING_TYPE = "Uniform";
+    G4double TILT_ANGLE = 0.0;
+
+    G4double TIME_LIMIT = 2.0 * second;
+    G4double MIN_ENERGY_OUTPUT = 10.0 * keV;
+    G4double SOURCE_SIGMA_TIME = 0.;           // microsecond
+    std::vector<G4double> record_altitudes; // ! : geodetic altitudes (remark: when building the geometry, geocentric altitudes are used)
+    G4bool MAG_FIELD_ON = true;
+    G4bool USE_STEP_MAX_for_record = false;  // force max step only for layers where particles are recorded
+    G4bool USE_STEP_MAX_global = true;  // force max step everywhere
+    //
+    const double STEP_MAX_VAL = 500.0 * meter;
+    const double STEP_MAX_DetConst = 15.0 * meter;
+    //
+    G4bool OUTPUT_ALT_LAYERS_TO_FILE = false;  // output list of altitude and densities of layer to file (for debug)
+    G4bool RECORD_ELEC_POSI_ONLY = true;   // record only electron and positrons
+    G4bool RECORD_PHOT_ONLY = false;  // record only photons
+    G4bool OUTPUT_ECEF_COORDS = false;
+    G4bool OUTPUT_RadDist = false;  // Radial distance can also be calculated a posteriori form ECEF data (e.g. Matlab routines)
+
+    G4String MAGNETIC_FIELD_MODEL = "WMM"; // "WMM" or "IGRF" ; "IGRF" only possible on LINUX. Windows only has WWM
 };
 
 

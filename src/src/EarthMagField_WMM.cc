@@ -29,13 +29,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "PrimaryGeneratorAction.hh"
-#include "EarthMagField.hh"
+#include "EarthMagField_WMM.hh"
 
 using namespace std;
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-EarthMagField::EarthMagField() {
+EarthMagField_WMM::EarthMagField_WMM() {
 
     /* Memory allocation */
 
@@ -79,11 +79,11 @@ EarthMagField::EarthMagField() {
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-EarthMagField::~EarthMagField() {}
+EarthMagField_WMM::~EarthMagField_WMM() {}
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void EarthMagField::GetFieldValue(const double Point[3], double *Bfield) const {
+void EarthMagField_WMM::GetFieldValue(const double Point[3], double *Bfield) const {
     //  geodetic_converter::GeodeticConverter g_geodetic_converter;
 
     xx = Point[0] / m;
@@ -191,4 +191,4 @@ void EarthMagField::GetFieldValue(const double Point[3], double *Bfield) const {
     //   Bfield[2]=fact*(2.*pow(z,2)-pow(x,2)-pow(y,2));
 
     // G4cout << Bvec[0] << Bvec[1] << Bvec[2]<< G4endl;
-} // EarthMagField::GetFieldValue
+} // EarthMagField_WMM::GetFieldValue

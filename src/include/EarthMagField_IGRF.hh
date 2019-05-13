@@ -27,10 +27,9 @@
 // // * acceptance of all terms of the Geant4 Software license.          *
 // // ********************************************************************
 ////////////////////////////////////////////////////////////////////////////////
-// implementation of the IGRF 12 magnetic field that is faster than EarthMagField.hh/cc
-// because it uses ECEF cartesian coordinates all the time, so does not require multiple coordinate conversions
-////////////////////////////////////////////////////////////////////////////////
 #pragma once
+
+#ifndef _WIN32 // not usable on Windows
 
 #include <vector>
 
@@ -43,31 +42,38 @@
 #include "Randomize.hh"
 #include "G4SystemOfUnits.hh"
 
-class EarthMagField_alt: public G4MagneticField
+class EarthMagField_IGRF: public G4MagneticField
 {
 public:
 
-  EarthMagField_alt();
+    EarthMagField_IGRF();
 
-  ~EarthMagField_alt() override;
+    ~EarthMagField_IGRF() override;
 
-  void GetFieldValue(const double Point[3],
-                     double      *Bfield) const override;
+    void GetFieldValue(const double Point[3],
+                       double      *Bfield) const override;
 
 private:
 
-  mutable int IENTY = 2;
-  mutable float  date = 2018.0;
-  mutable double alt = 0;
-  mutable double f = 0, lat = 0, lon = 0;
+    mutable int isv = 0;
+    mutable int itype = 1;
+    mutable int ier = 0;
+    mutable double date = 2018;
+    mutable double alt = 0;
+    mutable double Bx = 0, By = 0, Bz = 0, f = 0, lat = 0, lon = 0;
+    mutable double xx, yy, zz;
+    mutable double coslon = 0, sinlon = 0, sinlat = 0, coslat = 0;
 
-  mutable float Bfield_ecef_x = 0;
-  mutable float Bfield_ecef_y = 0;
-  mutable float Bfield_ecef_z = 0;
+    mutable double elong  = 0; // degrees
+    mutable double colat  = 0; // degrees
+    mutable double alt_km = 0; // km
 
-  const double  earthradius = 6371.2 * kilometer;
-  mutable float Bfield_mag;
-  mutable float XCORD;
-  mutable float YCORD;
-  mutable float ZCORD;
+    mutable double Bfield_ecef_x = 0;
+    mutable double Bfield_ecef_y = 0;
+    mutable double Bfield_ecef_z = 0;
+
+    const G4double nano_tesla_to_G4 = tesla * 1.e-9;
 };
+
+
+#endif
