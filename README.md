@@ -48,7 +48,6 @@ Other settings:
 - Record is made in a layer at chosen altitude(s). Record altitudes have to be set at the beginning of the main function inside `src/tgf_propa.cc`, e.g. `settings->record_altitudes.push_back(400.);` (input is altitude in km)
 - The simulation stops when the number of recorded particles has reached `nb_to_get_per_run`, that can be changed.
 - Atmosphere density is not constant with altitude, it evolves ~exponentially. However, Geant4 can only handle volumes with constant density, therefore the atmosphere is simulated by 256 exponentially spaced layers, each with constant density, covering altitude from 1 km to 150 km (negligible above). This can be changed in the source code, with the `src/src/DetectorConstruction.hh` and `src/src/DetectorConstruction.cc` files.
-- Recorded particles are outputed as a list (one by one) in files located in `build/output/`. See `src/src/Analysis.cc` to find which quantity is in which column.
 - If required, Magnetic Field can be turned ON with the Setting : `settings->MAG_FIELD_ON` set to `true`. Magnetic field is always turned OFF below 45 km altitude (where it is negligible), for performance.
 
 The code is built so that the executable can accept input parameters in this order: 
@@ -59,6 +58,7 @@ The code is built so that the executable can accept input parameters in this ord
 - `settings->SOURCE_SIGMA_TIME` = TGF sigma time. Assumes the TGF has an intrinsic duration, that has Gaussian (=normal) distribution. The parameter is the sigma of this distribution, in microseconds
 
 ## Additional information:
+- Recorded particles are outputed as a list (one by one) in files located in `build/output/`. See `src/src/Analysis.cc` to find which quantity is in which column.
 - By default, the code uses the `G4EmStandardPhysics_option1` physics list, which is fast and accurate enough for this problem. This can be changed inside the source file `src/src/PhysicsList.cc`.
 - The python script `build/run_on_multiple_cpu.py` makes it possible to run the code on multiple threads (CPU cores) by running several times the executable (possibly with different settings). Implementation is straightforward since every initial particle is independent. See comments inside the file. It requires `mpi4py`, `numpy`, and possibly other python libraries. Communication between python script and executable is done with the help of the parameters `int argv` and `char** argc`  of the main function in `src/tgf_propa.cc`.
 - The code is made so that each run will have a different random seed (that is a `long` integer storing the current time given by the `std::chrono::high_resolution_clock` function, in nanoseconds). It assumes that the program cannot be launched twice during the exact same nanosecond.
