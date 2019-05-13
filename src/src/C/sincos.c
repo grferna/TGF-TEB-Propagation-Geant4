@@ -23,6 +23,8 @@
 // * use  in  resulting  scientific  publications,  and indicate your *
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
+#ifndef _WIN32
+
 #define _GNU_SOURCE
 
 #include <math.h>
@@ -31,3 +33,5 @@ void
 sincos_(double *x, double *sin, double *cos) {
     sincos(*x, sin, cos);
 }
+
+#endif

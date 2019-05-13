@@ -12,8 +12,9 @@ contact : <david.sarria@uib.no>
 - Integrates the [NRL-MSISE-00 model](https://ccmc.gsfc.nasa.gov/pub/modelweb/atmospheric/msis/nrlmsise00/) for the atmosphere and the [IGRF-12](http://wdc.kugi.kyoto-u.ac.jp/igrf/index.html) model for the magnetic field.
 
 ## Compilation, installation
-- The source code of `TGF-TEB-Propagation-Geant4` is localted in `src/` and the build should be done in the folder `build/`.
+- The source code of `TGF-TEB-Propagation-Geant4` is located in `src/` and the build should be done in the folder `build/`.
 - Requires [Geant4](https://geant4.web.cern.ch/) compiled and [installed](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html) properly. Recommended to use geant4-10-04-patch-02 (25-May-2018). Minor changes in the source code may be required for other versions. Geant4 source code is included in folder `geant4/geant4_source/`.
+# Linux
 - Once Geant4 is installed and set-up properly, open a terminal in the `build/` folder and run `cmake ../` (to generate the `makefile` using CMake) and then `make` to compile. It will make the executable file `build/tgf_propa`.
 
 Alternatively, for Ubuntu users, an installation script is provided:
@@ -24,6 +25,10 @@ Alternatively, for Ubuntu users, an installation script is provided:
 - It was successfully tested on Ubuntu 16.04 and 18.04, but is probably not free of bugs.
 
 For non-Ubuntu users look at the code in the file `compile_install.bash` to check the compile and set-up steps, and read the [Geant4 installation instructions](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html)
+
+# Windows
+- A Geant4 installation script (compilation and installation) is provided here : https://git.app.uib.no/David.Sarria/windows-geant4-installation-script-qt5 . Use at your own risk. No guarantees.
+- After Geant4 is compiled and installed in Windows, run `compile_windows.bat` to compile and run this project with defautl settings. Open `TGF_propa.sln` to edit the code. 
 
 ## Simulation Settings:
 - Most of settings can be adjusted in `src/Settings.cc`. In particular:

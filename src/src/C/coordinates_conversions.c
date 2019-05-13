@@ -53,8 +53,16 @@ geocentric_to_ecef(struct geocentric_coords *input, struct ecef_coords *output) 
     double lat_rad = (input->lat) * pi / 180.; // conversion to radians
     double long_rad = (input->lon) * pi / 180.; // conversion to radians
 
-    sincos(lat_rad, &sinlat, &coslat);
-    sincos(long_rad, &sinlong, &coslong);
+#ifdef _WIN32
+	sinlat = sin(lat_rad);
+	coslat = cos(lat_rad);
+	sinlong = sin(long_rad);
+	coslong = cos(long_rad);
+#else
+
+	sincos(lat_rad, &sinlat, &coslat);
+	sincos(long_rad, &sinlong, &coslong);
+#endif
 
     output->x = R * coslong * coslat;
     output->y = R * sinlong * coslat;
@@ -74,8 +82,16 @@ geodetic_to_ecef(struct geodetic_coords *input, struct ecef_coords *output) {
     double lat_rad = (input->lat) * pi / 180.;
     double long_rad = (input->lon) * pi / 180.;
 
-    sincos(lat_rad, &sinlat, &coslat);
-    sincos(long_rad, &sinlong, &coslong);
+#ifdef _WIN32
+	sinlat = sin(lat_rad);
+	coslat = cos(lat_rad);
+	sinlong = sin(long_rad);
+	coslong = cos(long_rad);
+#else
+
+	sincos(lat_rad, &sinlat, &coslat);
+	sincos(long_rad, &sinlong, &coslong);
+#endif
 
     localVertical[0] = coslong * coslat;
     localVertical[1] = sinlong * coslat;
@@ -140,15 +156,19 @@ ecef_to_geodetic(struct ecef_coords *input, struct geodetic_coords *output) {
     // Compute latitude recursively
     int i;
 
-    for (i = 0; i < 6; i++)   // 6 iterations is enough to get
+    for (i = 0; i < 6; i++)   // 6 iterations is enough to get a precision of better than a centimeter
     {
-        // a precision of better than a centimeter
         sinlat = sin(lat);
         Nphi = aa / sqrt(1. - e2 * sinlat * sinlat);
         lat = atan((z + Nphi * e2 * sinlat) / p);
     }
 
-    sincos(lat, &sinlat, &coslat);
+#ifdef _WIN32
+	sinlat = sin(lat);
+	coslat = cos(lat);
+#else
+	sincos(lat, &sinlat, &coslat);
+#endif
 
     //
     // // Get altitude from latitude

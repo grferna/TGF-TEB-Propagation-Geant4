@@ -109,6 +109,8 @@ using namespace std;
 //           REAL *D, REAL *T); // OUTPUT VARIABLES temperatures
 //}
 
+typedef unsigned int uint;
+
 TGFDetectorConstruction::TGFDetectorConstruction() {
     logicalWorld = nullptr;
     physicalWorld = nullptr;
@@ -388,8 +390,8 @@ TGFDetectorConstruction::Construct_Atmos_layers_Materials(const std::vector<G4do
 
 //            gtd7_(input_iyd, input_sec, input_alt, input_g_lat, input_g_long, input_lst, input_f107A, input_f107, input_ap, input_mass, output_D, output_T); // MSIS, fortran function call
 
-            if (std::isnan(output.d[5]) || std::isinf(isnan(output.d[5]))) {
-                G4cout << "ERROR : density from gtd7_ is NaN. Aborting" << G4endl;
+            if (std::isnan(output.d[5]) || std::isinf(output.d[5])) {
+                G4cout << "ERROR : density from gtd7_ is NaN of inf. Aborting" << G4endl;
                 std::abort();
             }
 

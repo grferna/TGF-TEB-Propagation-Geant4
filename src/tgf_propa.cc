@@ -51,8 +51,6 @@
 
 #include "Bline_tracer/G4BlineTracer.hh"
 
-#include <sys/time.h>
-
 #include <chrono>
 
 using namespace std;

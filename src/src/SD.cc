@@ -213,8 +213,15 @@ G4double SensitiveDet::project_to_record_alt(const G4int     type_number,
 {
   G4double sin_lon, cos_lon, sin_lat, cos_lat;
 
+#ifdef _WIN32
+  sin_lat = sin(lat_in*degree);
+  cos_lat = cos(lat_in*degree);
+  sin_lon = sin(lon_in*degree);
+  cos_lon = cos(lon_in*degree);
+#else
   sincos(lon_in * degree, &sin_lon, &cos_lon);
   sincos(lat_in * degree, &sin_lat, &cos_lat);
+#endif
 
   const G4double local_vertical_x = cos_lon * cos_lat;
   const G4double local_vertical_y = sin_lon * cos_lat;

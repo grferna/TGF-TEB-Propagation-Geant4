@@ -1,6 +1,9 @@
 #pragma once
 
+#define _USE_MATH_DEFINES
+
 #include <cmath>
+#include <math.h>
 
 // A bunch of static functions to convert coordinates
 
@@ -35,8 +38,16 @@ public:
       double lon_rad = deg2Rad(longitude);
       double coslat = 0, sinlat = 0, sinlon = 0, coslon = 0;
 
+#ifdef _WIN32
+	  sinlat = sin(lat_rad);
+	  coslat = cos(lat_rad);
+	  sinlon = sin(lon_rad);
+	  coslon = cos(lon_rad);
+#else
       sincos(lat_rad, &sinlat, &coslat);
       sincos(lon_rad, &sinlon, &coslon);
+#endif
+
 
       double xi = sqrt(1 - kFirstEccentricitySquared * sinlat * sinlat);
       x = (kSemimajorAxis / xi + altitude) * coslat * coslon;

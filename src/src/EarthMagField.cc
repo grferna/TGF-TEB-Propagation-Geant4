@@ -152,8 +152,15 @@ void EarthMagField::GetFieldValue(const double Point[3], double *Bfield) const {
     lat = lat * degree;   // degree to radians
     lon = lon * degree;   // degree to radians
 
-    sincos(lon, &sinlon, &coslon); // important for performance
-    sincos(lat, &sinlat, &coslat);
+#ifdef _WIN32
+	sinlat = sin(lat);
+	coslat = cos(lat);
+	sinlon = sin(lon);
+	coslon = cos(lon);
+#else
+	sincos(lon, &sinlon, &coslon); // important for performance
+	sincos(lat, &sinlat, &coslat);
+#endif
 
     Bfield_ecef_x = -coslon * sinlat * Bx - sinlon * By - coslon * coslat * Bz;
     Bfield_ecef_y = -sinlon * sinlat * Bx + coslon * By - sinlon * coslat * Bz;
