@@ -14,7 +14,7 @@ contact : <david.sarria@uib.no>
 ## Compilation, installation
 - The source code of `TGF-TEB-Propagation-Geant4` is located in `src/` and the build should be done in the folder `build/`.
 - Requires [Geant4](https://geant4.web.cern.ch/) compiled and [installed](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html) properly. Recommended to use geant4-10-04-patch-02 (25-May-2018). Minor changes in the source code may be required for other versions. Geant4 source code is included in folder `geant4/geant4_source/`.
-# Linux
+### Linux
 - Once Geant4 is installed and set-up properly, open a terminal in the `build/` folder and run `cmake ../` (to generate the `makefile` using CMake) and then `make` to compile. It will make the executable file `build/tgf_propa`.
 
 Alternatively, for Ubuntu users, an installation script is provided:
@@ -26,9 +26,9 @@ Alternatively, for Ubuntu users, an installation script is provided:
 
 For non-Ubuntu users look at the code in the file `compile_install.bash` to check the compile and set-up steps, and read the [Geant4 installation instructions](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html)
 
-# Windows
+### Windows
 - A Geant4 installation script (compilation and installation) is provided here : https://git.app.uib.no/David.Sarria/windows-geant4-installation-script-qt5 . Use at your own risk. No guarantees.
-- After Geant4 is compiled and installed in Windows, run `compile_windows.bat` to compile and run this project with defautl settings. Open `TGF_propa.sln` to edit the code. 
+- After Geant4 is compiled and installed, run `compile_windows.bat` to compile and run this project with defautl settings. Open `TGF_propa.sln` to edit the code. 
 
 ## Simulation Settings:
 - Most of settings can be adjusted in `src/Settings.cc`. In particular:
