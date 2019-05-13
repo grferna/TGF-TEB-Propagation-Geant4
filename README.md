@@ -27,7 +27,7 @@ Alternatively, for Ubuntu users, an installation script is provided:
 For non-Ubuntu users look at the code in the file `compile_install.bash` to check the compile and set-up steps, and read the [Geant4 installation instructions](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html)
 
 ### Windows
-- To install Geant4 on windows, read the [Geant4 installation instructions](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html)
+- To install Geant4 on Windows, first read the [Geant4 installation instructions](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html)
 - A Geant4 "easy" installation script (compilation and installation) is provided here : https://git.app.uib.no/David.Sarria/windows-geant4-installation-script-qt5 . Use at your own risk. No guarantees.
 - After Geant4 is compiled and installed successfully, run `compile_windows.bat` to compile and do a test run of this project with default settings. Open `TGF_propa.sln` to edit the code. 
 
