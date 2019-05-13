@@ -180,7 +180,7 @@ build_tgf_propa() {
   ../cmake/bin/cmake \
   -DCMAKE_BUILD_TYPE=DEBUG \
   -DGeant4_DIR=$geant4_lib_dir \
-  ../
+  ../src/
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
