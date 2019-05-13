@@ -392,6 +392,7 @@ TGFDetectorConstruction::Construct_Atmos_layers_Materials(const std::vector<G4do
 
             if (std::isnan(output.d[5]) || std::isinf(output.d[5])) {
                 G4cout << "ERROR : density from gtd7_ is NaN of inf. Aborting" << G4endl;
+
                 std::abort();
             }
 
