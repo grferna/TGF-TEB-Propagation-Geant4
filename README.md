@@ -29,7 +29,7 @@ For non-Ubuntu users look at the code in the file `compile_install.bash` to chec
 ### Windows
 - To install Geant4 on Windows, first read the [Geant4 installation instructions](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html)
 - A Geant4 "easy" installation script (compilation and installation) is provided here : https://git.app.uib.no/David.Sarria/windows-geant4-installation-script-qt5 . Use at your own risk. No guarantees.
-- After Geant4 is compiled and installed successfully, run `compile_windows.bat` to compile `TGF-TEB-Propagation-Geant4` and launch a test run with default settings. Open `TGF_propa.sln` to edit the code. Requires exactly Visual Studio 2015 with Visual C++.
+- After Geant4 is compiled and installed successfully, run `compile_windows.bat` to compile `TGF-TEB-Propagation-Geant4` and launch a test run with default settings. Open `TGF_propa.sln` to edit the code. Requires Visual Studio 2015 with Visual C++ (newer or earlier versions may not work).
 
 ## Simulation Settings:
 Most of settings can be adjusted in `src/Settings.cc`. In particular:
