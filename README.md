@@ -36,6 +36,13 @@ Most of settings can be adjusted in `src/Settings.cc`. In particular:
 - `settings->RECORD_ELEC_POSI_ONLY` = boolean to record only electrons and positrons (not recording photons)
 - `settings->RECORD_PHOT_ONLY` = boolean to record only photons (not recording electrons and positrons)
 - If both are set to `false`, all particles are recorded.
+- `settings->SOURCE_ALT` = TGF source altitude in km
+- `settings->OPENING_ANGLE` = half-cone TGF opening angle in degrees. If "Gaussian" is selected for `settings->BEAMING_TYPE`, it is the sigma of the gaussian distribution.
+- `settings->TILT_ANGLE` = TGF tilt angle in degrees
+- `settings->BEAMING_TYPE` = TGF beaming type, that is a string that values "Uniform" or "Gaussian" for isotropic or gaussian distribution
+- `settings->SOURCE_SIGMA_TIME` = TGF sigma time. Assumes the TGF has an intrinsic duration, that has Gaussian (=normal) distribution. The parameter is the sigma of this distribution, in microseconds
+
+Other settings:
 - Two mode are possible "visualization" and "run". "visualization" will show the 3D geometry (simplified Earth) and particle track. "run" will not show any 3D visualization, to run the code as quickly as possible. This can be changed by editing the `G4String` variable `Mode` in the main function located in the source file `src/tgf_propa.cc`, that can be set to `"visu"` or `"run"`.
 - Primary Generator is a point source, with adjustable altitude and geometry. See `src/src/PrimaryGeneratorAction.hh` and `src/src/PrimaryGeneratorAction.cc`
 - Record is made in a layer at chosen altitude(s). Record altitudes have to be set at the beginning of the main function inside `src/tgf_propa.cc`, e.g. `settings->record_altitudes.push_back(400.);` (input is altitude in km)
@@ -44,7 +51,7 @@ Most of settings can be adjusted in `src/Settings.cc`. In particular:
 - Recorded particles are outputed as a list (one by one) in files located in `build/output/`. See `src/src/Analysis.cc` to find which quantity is in which column.
 - If required, Magnetic Field can be turned ON with the Setting : `settings->MAG_FIELD_ON` set to `true`. Magnetic field is always turned OFF below 45 km altitude (where it is negligible), for performance.
 
-The code is built so that the executable can accept input parameters: 
+The code is built so that the executable can accept input parameters in this order: 
 - `settings->SOURCE_ALT` = TGF source altitude in km
 - `settings->OPENING_ANGLE` = half-cone TGF opening angle in degrees. If "Gaussian" is selected for `settings->BEAMING_TYPE`, it is the sigma of the gaussian distribution.
 - `settings->TILT_ANGLE` = TGF tilt angle in degrees
