@@ -17,6 +17,6 @@ if exist CMakeCache.txt del CMakeCache.txt
 
 %G4_bat_file_dir%\cmake_win32\bin\cmake.exe --build . --config RelWithDebInfo
 
-start "" %G4_bat_file_dir%\ExampleB1\build\%build_type%\TGF_propa.exe
+start "" %G4_bat_file_dir%\ExampleB1\build\RelWithDebInfo\TGF_propa.exe
 
 PAUSE
