@@ -50,11 +50,10 @@ The code is built so that the executable can accept input parameters:
 - `settings->BEAMING_TYPE` = TGF beaming type, that is a string that values "Uniform" or "Gaussian" for isotropic or gaussian distribution
 - `settings->SOURCE_SIGMA_TIME` = TGF sigma time. Assumes the TGF has an intrinsic duration, that has Gaussian (=normal) distribution. The parameter is the sigma of this distribution, in microseconds
 
+Additional information:
+- By default, the code uses the `G4EmStandardPhysics_option1` physics list, which is fast and accurate enough for this problem. This can be changed inside the source file `src/src/PhysicsList.cc`.
 - The python script `build/run_on_multiple_cpu.py` makes it possible to run the code on multiple threads (CPU cores) by running several times the executable (possibly with different settings). Implementation is straightforward since every initial particle is independent. See comments inside the file. It requires `mpi4py`, `numpy`, and possibly other python libraries. Communication between python script and executable is done with the help of the parameters `int argv` and `char** argc`  of the main function in `src/tgf_propa.cc`.
 - The code is made so that each run will have a different random seed (that is a `long` integer storing the current time given by the `std::chrono::high_resolution_clock` function, in nanoseconds). It assumes that the program cannot be launched twice during the exact same nanosecond.
 
-- By default, it uses the `G4EmStandardPhysics_option1` physics list, which is fast and accurate enough for this problem. This can be changed inside the source file `src/src/PhysicsList.cc`.
-
 ## ToDo / 
-
 - Improve 3D view to have more relevant automatic viewing angle
