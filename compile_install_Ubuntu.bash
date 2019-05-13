@@ -19,7 +19,7 @@ fi
 echo "checking if current folder name is "TGF-TEB-Propagation-Geant4" ..."
 # checking if current folder name is " TGF-TEB-Propagation-Geant4 "
 result=${PWD##*/}
-if [ ! $result = "TGF-TEB-Propagation-Geant4" ]; then
+if [ ! [$result = "TGF-TEB-Propagation-Geant4" || $result = "TGF-TEB-Propagation-Geant4-master" ] ]; then
   echo "Error: Current folder should be TGF-TEB-Propagation-Geant4. The bash script compile_install.sh is made to run from it. Aborting."
   exit 1
 else
