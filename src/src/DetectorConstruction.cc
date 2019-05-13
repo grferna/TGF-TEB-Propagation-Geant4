@@ -382,7 +382,7 @@ std::vector<G4Material *> TGFDetectorConstruction::Construct_Atmos_layers_Materi
 
             gtd7_(input_iyd, input_sec, input_alt, input_g_lat, input_g_long, input_lst, input_f107A, input_f107, input_ap, input_mass, output_D, output_T); // MSIS, fortran function call
 
-            if (std::isnan(output_D[5]) || std::isinf(isnan(output_D[5])))
+            if (std::isnan(output_D[5]) || std::isinf(output_D[5]))
             {
                 G4cout << "ERROR : density from gtd7_ is NaN. Aborting" << G4endl;
                 std::abort();
