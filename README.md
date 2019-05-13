@@ -9,7 +9,7 @@ contact : <david.sarria@uib.no>
 - Propagation of photons, electrons and positron in Earth's environment (atmosphere, ionosphere, magnetosphere), in the context of Terrestrial Gamma-ray Flashes (TGF) and associated electrons and positrons beams.
 - This code is probably not perfect. Feel free to suggest improvements.
 - Uses mostly Geant4 features. See [documentation](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/ForApplicationDeveloper/html/index.html "Geant4 documentation").
-- Integrates the [NRL-MSISE-00 model](https://ccmc.gsfc.nasa.gov/pub/modelweb/atmospheric/msis/nrlmsise00/) for the atmosphere and the [IGRF-12](http://wdc.kugi.kyoto-u.ac.jp/igrf/index.html) model for the magnetic field (now, IGRF-12 is for Linux only, as it requires a Fortran compiler). Alternatively, the [WMM](https://www.ngdc.noaa.gov/geomag/WMM/soft.shtml) can be used (in both Linux and Windows).
+- Integrates the [NRL-MSISE-00 model](https://ccmc.gsfc.nasa.gov/pub/modelweb/atmospheric/msis/nrlmsise00/) for the atmosphere and the [IGRF-12](http://wdc.kugi.kyoto-u.ac.jp/igrf/index.html) model for the magnetic field (now, IGRF-12 is for Linux only, as it requires a Fortran compiler). Alternatively, the [WMM](https://www.ngdc.noaa.gov/geomag/WMM/soft.shtml) can be used (in both Linux and Windows, only available option for this last).
 
 ## Compilation, installation
 - The source code of `TGF-TEB-Propagation-Geant4` is located in `src/` and the build should be done in the folder `build/`.
