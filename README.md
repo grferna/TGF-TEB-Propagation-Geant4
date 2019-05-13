@@ -42,7 +42,7 @@ For non-Ubuntu users look at the code in the file `compile_install.bash` to chec
 - The simulation stops when the number of recorded particles has reached `nb_to_get_per_run`, that can be changed.
 - Atmosphere density is not constant with altitude, it evolves ~exponentially. However, Geant4 can only handle volumes with constant density, therefore the atmosphere is simulated by 256 exponentially spaced layers, each with constant density, covering altitude from 1 km to 150 km (negligible above). This can be changed in the source code, with the `src/src/DetectorConstruction.hh` and `src/src/DetectorConstruction.cc` files.
 - Recorded particles are outputed as a list (one by one) in files located in `build/output/`. See `src/src/Analysis.cc` to find which quantity is in which column.
-- If required, Magnetic Field can be turned ON with the Setting : `settings->MAG_FIELD_ON` set to `true`. Magnetic field is always turned OFF below 45 km altitude (where it is negligible), for performance. The model of magnetic field is [IGRF-12](http://wdc.kugi.kyoto-u.ac.jp/igrf/index.html).
+- If required, Magnetic Field can be turned ON with the Setting : `settings->MAG_FIELD_ON` set to `true`. Magnetic field is always turned OFF below 45 km altitude (where it is negligible), for performance.
 
 The code is built so that the executable can accept input parameters: 
 - `settings->SOURCE_ALT` = TGF source altitude in km
