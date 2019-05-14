@@ -116,6 +116,8 @@ int main(int argc, char **argv)
 		std::abort;
 	}
 
+	settings->diplay_settings();
+
 	// choose the Random engine and give seed
 	//    G4Random::setTheEngine(new CLHEP::MTwistEngine);
 	G4Random::setTheSeed(settings->RANDOM_SEED);

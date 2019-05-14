@@ -17,36 +17,31 @@ Settings * Settings::getInstance()
 ///// (singleton pattern)
 // Settings *Settings::instance = 0;
 
-// void
-// Settings::diplay_settings()
-// {
-//    G4cout << G4endl;
-//    G4cout << "*************************************************************" << G4endl;
-//    G4cout << " SIMULATION SETTINGS : " << G4endl;
-//    G4cout << "    Random Number Seed : " << Rand_seed << G4endl;
-//    G4cout << "    Cached length for Integrator : " << CACHED_LENGTH << " m" << G4endl;
-//    G4cout << "    Initial altitude : " << SOURCE_ALT << " km" << G4endl;
-//    G4cout << "    Beaming : " << G4endl;
-//    G4cout << "        Type : " << BEAMING_TYPE << G4endl;
-//    G4cout << "        Angle : " << OPENING_ANGLE << " degrees; corresponds to" << G4endl;
-//    G4cout << "          - max angle if Type = uniform;" << G4endl;
-//    G4cout << "          - sigma if Type = gaussian (normal)" << G4endl;
+void Settings::diplay_settings() const
+{
+	G4cout << G4endl;
+	G4cout << "*************************************************************" << G4endl;
+	G4cout << " SIMULATION SETTINGS : " << G4endl;
+	G4cout << "    Random Number Seed : " << RANDOM_SEED << G4endl;
+	G4cout << "    Initial altitude : " << SOURCE_ALT << " km" << G4endl;
+	G4cout << "    Beaming : " << G4endl;
+	G4cout << "        Type : " << BEAMING_TYPE << G4endl;
+	G4cout << "        Angle : " << OPENING_ANGLE << " degrees; corresponds to" << G4endl;
+	G4cout << "          - max angle if Type = uniform;" << G4endl;
+	G4cout << "          - sigma if Type = gaussian (normal)" << G4endl;
 
-//    G4cout << "    Source timimg (gaussian sigma) : " << SOURCE_SIGMA_TIME << " microsecond" << G4endl;
+	G4cout << "    Source timimg (gaussian sigma) : " << SOURCE_SIGMA_TIME << " microsecond" << G4endl;
 
-//    G4cout << "    Output Altitudes : " << G4endl;
-//    G4cout << "        ";
+	G4cout << "    Output Altitudes : " << G4endl;
+	G4cout << "        ";
 
-//    for (unsigned int ii = 0; ii < record_altitudes.size(); ++ii)
-//        {
-//            G4cout << record_altitudes[ii] << " km, ";
-//        }
+		G4cout << record_altitude[0] << " km, ";
 
-//    G4cout << G4endl;
+	G4cout << G4endl;
 
-//    G4cout << "*************************************************************" << G4endl;
-//    G4cout << G4endl;
-// }
+	G4cout << "*************************************************************" << G4endl;
+	G4cout << G4endl;
+}
 
 // G4String Settings::BeamingType() const
 // {

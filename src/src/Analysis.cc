@@ -49,13 +49,13 @@ Analysis::Analysis()
 		std::to_string(settings->RANDOM_SEED) + "_" + std::to_string(int(ALT_MAX_RECORDED)) + "_" + std::to_string(int(settings->SOURCE_ALT)) + "_" + std::to_string(int(settings->OPENING_ANGLE)) + "_" + settings->BEAMING_TYPE + "_" +
 		std::to_string(int(settings->SOURCE_SIGMA_TIME)) + ".out";
 
-#ifndef _WIN32
+//#ifndef _WIN32
 	asciiFileName_phot = "./output/detPhotons_" + output_filename_second_part;
 	asciiFileName_lept = "./output/detLeptons_" + output_filename_second_part;
-#else
-	asciiFileName_phot = "detPhotons_" + output_filename_second_part;
-	asciiFileName_lept = "detLeptons_" + output_filename_second_part;
-#endif
+//#else
+//	asciiFileName_phot = "detPhotons_" + output_filename_second_part;
+//	asciiFileName_lept = "detLeptons_" + output_filename_second_part;
+//#endif
 
 	std::ofstream asciiFile00(asciiFileName_phot, std::ios::trunc); // to clean the output file
 	asciiFile00.close();

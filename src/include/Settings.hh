@@ -50,10 +50,12 @@ private:
 
 public:
 
-	Settings(Settings const &) = delete; // Don't Implement copy costructor
+	Settings(Settings const &) = delete; // Don't Implement copy constructor
 	void operator=(Settings const &) = delete; // don't implement equality operator
 
 	static Settings *getInstance();
+
+	void diplay_settings() const;
 
 public:
 
