@@ -88,14 +88,14 @@ public:
 	G4bool USE_STEP_MAX_for_record = false;  // force max step only for layers where particles are recorded
 	G4bool USE_STEP_MAX_global = true;  // force max step everywhere
 	//
-	const double STEP_MAX_VAL = 500.0 * meter;
+	const double STEP_MAX_VAL = 800.0 * meter;
 	const double STEP_MAX_DetConst = 15.0 * meter;
 	//
 	G4bool OUTPUT_ALT_LAYERS_TO_FILE = false;  // output list of altitude and densities of layer to file (for debug)
-	G4bool RECORD_ELEC_POSI_ONLY = true;   // record only electron and positrons
+	G4bool RECORD_ELEC_POSI_ONLY = false;   // record only electron and positrons
 	G4bool RECORD_PHOT_ONLY = false;  // record only photons
 	G4bool OUTPUT_ECEF_COORDS = false;
-	G4bool OUTPUT_RadDist = false;  // Radial distance can also be calculated a posteriori form ECEF data (e.g. Matlab routines)
+	G4bool OUTPUT_RadDist = true;  // Radial distance can also be calculated a posteriori form ECEF data (e.g. Matlab routines)
 
 	G4String MAGNETIC_FIELD_MODEL = "IGRF"; // "WMM" or "IGRF" ; "IGRF" only possible on LINUX. Windows only has WWM
 };

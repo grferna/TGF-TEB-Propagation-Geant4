@@ -62,11 +62,15 @@ private:
 
 	Settings *settings = Settings::getInstance();
 
-	std::vector<G4String> output_lines;
+	std::vector<G4String> output_lines_phot;
+	std::vector<G4String> output_lines_lept;
 
+	G4String asciiFileName_phot;
+	G4String asciiFileName_lept;
 	G4String asciiFileName2;
 
-	const unsigned int output_buffer_size = 1;
+	const unsigned int output_buffer_size_phot = 10;
+	const unsigned int output_buffer_size_lept = 1;
 
 	G4int NB_RECORDED = 0;
 

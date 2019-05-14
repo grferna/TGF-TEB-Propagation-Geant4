@@ -24,11 +24,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\build\TGF_p.vcxproj">
-      <Name>TGF_p</Name>
-      <Project>{8d5e0d9f-a9ab-371c-a82b-51fe19e5b356}</Project>
+    <ProjectReference Include="..\build\TGF_Propa.vcxproj">
+      <Name>TGF_Propa</Name>
+      <Project>{b96f24ba-6711-3220-9d53-850e7de24f11}</Project>
       <Private>True</Private>
-      <OutputsToImport>PrimaryOutput;LocalizedResourcesOutput</OutputsToImport>
+      <CreateShortcut>False</CreateShortcut>
+      <OutputsToImport>PrimaryOutput;ContentOutput;LocalizedResourcesOutput</OutputsToImport>
     </ProjectReference>
   </ItemGroup>
   <Target Name="Build">

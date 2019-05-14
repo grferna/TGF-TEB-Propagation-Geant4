@@ -60,7 +60,7 @@ using namespace std;
 double get_wall_time()
 {
     std::chrono::high_resolution_clock m_clock;
-    double time = std::chrono::duration_cast<std::chrono::seconds>(m_clock.now().time_since_epoch()).count();
+    double time = (double)std::abs(std::chrono::duration_cast<std::chrono::seconds>(m_clock.now().time_since_epoch()).count());
     return time;
 }
 
@@ -75,7 +75,7 @@ int main(int argc, char **argv)
 
     // random seed, different each time code is run
     std::chrono::high_resolution_clock m_clock;
-    long start = std::chrono::duration_cast<std::chrono::nanoseconds>(m_clock.now().time_since_epoch()).count();
+    long start = (long)std::abs(std::chrono::duration_cast<std::chrono::nanoseconds>(m_clock.now().time_since_epoch()).count());
     G4cout << start << " ns" << G4endl;
     settings->RANDOM_SEED = start;
     //
@@ -108,7 +108,7 @@ int main(int argc, char **argv)
         {
             // default values can be seen in src/src/Settings.cc
             Mode = "visu";
-            nb_to_get_per_run = "100000";
+            nb_to_get_per_run = "1000";
         }
 
     // choose the Random engine and give seed

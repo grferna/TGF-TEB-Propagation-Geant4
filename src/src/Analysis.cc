@@ -49,12 +49,15 @@ Analysis::Analysis()
 		std::to_string(settings->RANDOM_SEED) + "_" + std::to_string(int(ALT_MAX_RECORDED)) + "_" + std::to_string(int(settings->SOURCE_ALT)) + "_" + std::to_string(int(settings->OPENING_ANGLE)) + "_" + settings->BEAMING_TYPE + "_" +
 		std::to_string(int(settings->SOURCE_SIGMA_TIME)) + ".out";
 
-	asciiFileName2 = "./output/detParticles_" + output_filename_second_part;
+	asciiFileName_phot = "./output/detPhotons_" + output_filename_second_part;
+	asciiFileName_lept = "./output/detLeptons_" + output_filename_second_part;
 
 	std::ofstream asciiFile00(asciiFileName2, std::ios::trunc); // to clean the output file
 	asciiFile00.close();
 
-	output_lines.clear();
+	output_lines_lept.clear();
+	output_lines_phot.clear();
+
 }
 
 G4int Analysis::get_NB_RECORDED() const
@@ -109,8 +112,6 @@ void Analysis::save_in_output_buffer(const G4int PDG_NB, const G4double &time, c
 	buffer << lon;
 	buffer << ' ';
 
-	NB_RECORDED++;
-
 	if (settings->OUTPUT_RadDist)
 	{
 		buffer << dist_rad;
@@ -125,11 +126,18 @@ void Analysis::save_in_output_buffer(const G4int PDG_NB, const G4double &time, c
 		buffer << ecef_z;
 	}
 
+	NB_RECORDED++;
+
 	//    buffer << ' ';
 	//    buffer << creator_process;
 	buffer << G4endl;
 
-	output_lines.push_back(buffer.str());
+	if (PDG_NB == 22) {
+		output_lines_phot.push_back(buffer.str());
+	}
+	else if (PDG_NB == -11 || PDG_NB == 11) {
+		output_lines_lept.push_back(buffer.str());
+	}
 
 	write_in_output_file();
 }
@@ -137,45 +145,84 @@ void Analysis::save_in_output_buffer(const G4int PDG_NB, const G4double &time, c
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 void Analysis::write_in_output_file()
 {
-	if (output_lines.size() <= output_buffer_size)
+	if (output_lines_phot.size() >= output_buffer_size_phot)
 	{
-		return;
-	}
 
-	std::ofstream asciiFile2;
-	asciiFile2.open(asciiFileName2, std::ios::app);
+		std::ofstream asciiFile;
+		asciiFile.open(asciiFileName_phot, std::ios::app);
 
-	if (asciiFile2.is_open())
-	{
-		for (G4String &line : output_lines)
+		if (asciiFile.is_open())
 		{
-			asciiFile2 << line;
+			for (G4String &line : output_lines_phot)
+			{
+				asciiFile << line;
+			}
 		}
 
-		asciiFile2.close();
-		output_lines.clear();
+		asciiFile.close();
+		output_lines_phot.clear();
+
 	}
+
+	if (output_lines_lept.size() >= output_buffer_size_lept)
+	{
+
+		std::ofstream asciiFile;
+		asciiFile.open(asciiFileName_lept, std::ios::app);
+
+		if (asciiFile.is_open())
+		{
+			for (G4String &line : output_lines_lept)
+			{
+				asciiFile << line;
+			}
+		}
+
+		asciiFile.close();
+		output_lines_lept.clear();
+
+	}
+
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 void Analysis::write_in_output_file_endOfRun()
 {
-	if (output_lines.empty())
+	if (output_lines_phot.size() >= 1)
 	{
-		return;
-	}
 
-	std::ofstream asciiFile1;
-	asciiFile1.open(asciiFileName2, std::ios::app);
+		std::ofstream asciiFile;
+		asciiFile.open(asciiFileName_phot, std::ios::app);
 
-	if (asciiFile1.is_open())
-	{
-		for (G4String &line : output_lines)
+		if (asciiFile.is_open())
 		{
-			asciiFile1 << line;
+			for (G4String &line : output_lines_phot)
+			{
+				asciiFile << line;
+			}
 		}
 
-		asciiFile1.close();
-		output_lines.clear();
+		asciiFile.close();
+		output_lines_phot.clear();
+
+	}
+
+	if (output_lines_lept.size() >= 1)
+	{
+
+		std::ofstream asciiFile;
+		asciiFile.open(asciiFileName_lept, std::ios::app);
+
+		if (asciiFile.is_open())
+		{
+			for (G4String &line : output_lines_lept)
+			{
+				asciiFile << line;
+			}
+		}
+
+		asciiFile.close();
+		output_lines_lept.clear();
+
 	}
 }
