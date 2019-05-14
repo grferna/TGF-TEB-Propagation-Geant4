@@ -41,8 +41,8 @@ Most of settings can be adjusted in `src/Settings.cc`. In particular:
 - `settings->TILT_ANGLE` = TGF tilt angle in degrees
 - `settings->BEAMING_TYPE` = TGF beaming type, that is a string that values "Uniform" or "Gaussian" for isotropic or gaussian distribution
 - `settings->SOURCE_SIGMA_TIME` = TGF sigma time. Assumes the TGF has an intrinsic duration, that has Gaussian (=normal) distribution. The parameter is the sigma of this distribution, in microseconds
-- `settings->MAGNETIC_FIELD_MODEL` = Used magnetic field model. `"IGRF"` or `"WMM"`. On Windows, only  WMM works.
-Other settings:
+- `settings->MAGNETIC_FIELD_MODEL` = magnetic field model to use. `"IGRF"` or `"WMM"`. On Windows, only  WMM works.
+### Other settings:
 - Record is made in a layer at chosen altitude(s). Record altitudes have to be set at the beginning of the main function inside `src/tgf_propa.cc`, e.g. `settings->record_altitudes.push_back(400.);` (input is altitude in km)
 - Two modes are possible: `visualization` and `run`. `visualization` will show the 3D geometry (simplified Earth) and particle track. `run` will not show any 3D visualization, to run the code as quickly as possible. This can be changed by editing the `G4String` variable `Mode` in the main function located in the source file `src/tgf_propa.cc`, that can be set to `"visu"` or `"run"`.
 - Primary Generator is a point source, with adjustable altitude and geometry. See `src/src/PrimaryGeneratorAction.hh` and `src/src/PrimaryGeneratorAction.cc`
