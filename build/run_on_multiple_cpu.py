@@ -38,7 +38,7 @@ record_alt = 400
 
 commands=[]
 
-excecutable = './TGF_Propa'
+excecutable = 'TGF_Propa.exe'
 
 # loops over required initial parameters list
 for _ in range(NB_copy_commands):

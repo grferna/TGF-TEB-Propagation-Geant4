@@ -67,9 +67,8 @@ private:
 
 	G4String asciiFileName_phot;
 	G4String asciiFileName_lept;
-	G4String asciiFileName2;
 
-	const unsigned int output_buffer_size_phot = 10;
+	const unsigned int output_buffer_size_phot = 20;
 	const unsigned int output_buffer_size_lept = 1;
 
 	G4int NB_RECORDED = 0;

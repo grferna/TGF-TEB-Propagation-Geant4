@@ -52,8 +52,10 @@ Analysis::Analysis()
 	asciiFileName_phot = "./output/detPhotons_" + output_filename_second_part;
 	asciiFileName_lept = "./output/detLeptons_" + output_filename_second_part;
 
-	std::ofstream asciiFile00(asciiFileName2, std::ios::trunc); // to clean the output file
+	std::ofstream asciiFile00(asciiFileName_phot, std::ios::trunc); // to clean the output file
 	asciiFile00.close();
+	std::ofstream asciiFile01(asciiFileName_lept, std::ios::trunc); // to clean the output file
+	asciiFile01.close();
 
 	output_lines_lept.clear();
 	output_lines_phot.clear();
@@ -188,9 +190,8 @@ void Analysis::write_in_output_file()
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 void Analysis::write_in_output_file_endOfRun()
 {
-	if (output_lines_phot.size() >= 1)
+	if (!output_lines_phot.empty())
 	{
-
 		std::ofstream asciiFile;
 		asciiFile.open(asciiFileName_phot, std::ios::app);
 
@@ -204,12 +205,10 @@ void Analysis::write_in_output_file_endOfRun()
 
 		asciiFile.close();
 		output_lines_phot.clear();
-
 	}
 
-	if (output_lines_lept.size() >= 1)
+	if (!output_lines_lept.empty())
 	{
-
 		std::ofstream asciiFile;
 		asciiFile.open(asciiFileName_lept, std::ios::app);
 
@@ -223,6 +222,5 @@ void Analysis::write_in_output_file_endOfRun()
 
 		asciiFile.close();
 		output_lines_lept.clear();
-
 	}
 }
