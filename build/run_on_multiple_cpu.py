@@ -32,6 +32,7 @@ tilt_angle_list = [0.]
 #beaming_type_list=["Gaussian","Uniform"]
 beaming_type_list=["Uniform"]
 source_sigma_time_list=[0.0]
+record_alt = 400
 
 # defining a list of commands to be run in parallel
 
@@ -47,7 +48,7 @@ for _ in range(NB_copy_commands):
             for beaming_type in beaming_type_list:
                for tilt_ang in tilt_angle_list:
                    commands.append(excecutable +' '+str(nr_record_to_get_per_run)+' '+str(ini_alt)
-                                   +' '+str(beaming_ang)+' '+ str(tilt_ang) +' '+str(beaming_type)+' '+str(source_sigmat))
+                                   +' '+str(beaming_ang)+' '+ str(tilt_ang) +' '+str(beaming_type)+' '+str(source_sigmat)+' '+str(record_alt) )
 
 
 # if number of commands is less than NB_CPU_LOCAL, fill the list with extra commands that are duplicate of previous ones

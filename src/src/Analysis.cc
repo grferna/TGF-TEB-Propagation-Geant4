@@ -43,7 +43,7 @@ Analysis *Analysis::instance = nullptr;
 Analysis::Analysis()
 {
 
-	const G4double ALT_MAX_RECORDED = *std::max_element(settings->record_altitudes.begin(), settings->record_altitudes.end());
+	const G4double ALT_MAX_RECORDED = *std::max_element(settings->record_altitude.begin(), settings->record_altitude.end());
 
 	const G4String output_filename_second_part =
 		std::to_string(settings->RANDOM_SEED) + "_" + std::to_string(int(ALT_MAX_RECORDED)) + "_" + std::to_string(int(settings->SOURCE_ALT)) + "_" + std::to_string(int(settings->OPENING_ANGLE)) + "_" + settings->BEAMING_TYPE + "_" +

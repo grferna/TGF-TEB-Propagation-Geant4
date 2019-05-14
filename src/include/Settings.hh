@@ -41,7 +41,7 @@ class Settings {
 private:
 
 	Settings() {
-		record_altitudes.clear();
+		record_altitude.clear();
 	}                                   // Private so that it can not be called
 
 	// copy constructor is private
@@ -83,7 +83,7 @@ public:
 	G4double TIME_LIMIT = 2.0 * second;
 	G4double MIN_ENERGY_OUTPUT = 10.0 * keV;
 	G4double SOURCE_SIGMA_TIME = 0.;           // microsecond
-	std::vector<G4double> record_altitudes; // ! : geodetic altitudes (remark: when building the geometry, geocentric altitudes are used)
+	std::vector<G4double> record_altitude; // ! : geodetic altitudes (remark: when building the geometry, geocentric altitudes are used)
 	G4bool MAG_FIELD_ON = true;
 	G4bool USE_STEP_MAX_for_record = false;  // force max step only for layers where particles are recorded
 	G4bool USE_STEP_MAX_global = true;  // force max step everywhere

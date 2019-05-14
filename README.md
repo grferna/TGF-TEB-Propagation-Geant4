@@ -43,8 +43,8 @@ Most of settings can be adjusted in `src/Settings.cc`. In particular:
 - `settings->SOURCE_SIGMA_TIME` = TGF sigma time. Assumes the TGF has an intrinsic duration, that has Gaussian (=normal) distribution. The parameter is the sigma of this distribution, in microseconds
 - `settings->MAGNETIC_FIELD_MODEL` = magnetic field model to use. `"IGRF"` or `"WMM"`. On Windows, only  WMM works.
 ### Other settings:
-- Record is made in a layer at chosen altitude(s). Record altitudes have to be set at the beginning of the main function inside `src/tgf_propa.cc`, e.g. `settings->record_altitudes.push_back(400.);` (input is altitude in km)
-- Two modes are possible: `visualization` and `run`. `visualization` will show the 3D geometry (simplified Earth) and particle track. `run` will not show any 3D visualization, to run the code as quickly as possible. This can be changed by editing the `G4String` variable `Mode` in the main function located in the source file `src/tgf_propa.cc`, that can be set to `"visu"` or `"run"`.
+- 
+- Two modes are possible: `visualization` and `run`. `visualization` will show the 3D geometry (simplified Earth) and particle track. `run` will not show any 3D visualization, to run the code as quickly as possible. By default, the mode is set to `visu` if no input argument for the executable is specified and `run` otherwise. This can be changed by editing the `G4String` variable `Mode` in the main function located in the source file `src/tgf_propa.cc`, that can be set to `"visu"` or `"run"`.
 - Primary Generator is a point source, with adjustable altitude and geometry. See `src/src/PrimaryGeneratorAction.hh` and `src/src/PrimaryGeneratorAction.cc`
 - The simulation stops when the number of recorded particles has reached `nb_to_get_per_run`, that can be changed.
 - Atmosphere density is not constant with altitude, it evolves ~exponentially. However, Geant4 can only handle volumes with constant density, therefore the atmosphere is simulated by 256 exponentially spaced layers, each with constant density, covering altitude from 1 km to 150 km (negligible above). This can be changed in the source code, with the `src/src/DetectorConstruction.hh` and `src/src/DetectorConstruction.cc` files.
@@ -56,6 +56,7 @@ The code is built so that the executable can accept input parameters in this ord
 - `settings->TILT_ANGLE` = TGF tilt angle in degrees
 - `settings->BEAMING_TYPE` = TGF beaming type, that is a string that values "Uniform" or "Gaussian" for isotropic or gaussian distribution
 - `settings->SOURCE_SIGMA_TIME` = TGF sigma time. Assumes the TGF has an intrinsic duration, that has Gaussian (=normal) distribution. The parameter is the sigma of this distribution, in microseconds
+- `settings->record_altitude` = record altitude (in km) of the TGF, default is 400 km.
 
 ## Additional information:
 - Recorded particles are outputed as a list (one by one) in files located in `build/output/`. See `src/src/Analysis.cc` to find which quantity is in which column.

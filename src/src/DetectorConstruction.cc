@@ -205,8 +205,8 @@ G4VPhysicalVolume *TGFDetectorConstruction::Construct() {
 
 	// atmosphere construction
 
-	const G4double ALT_MAX_RECORDED = *std::max_element(settings->record_altitudes.begin(),
-		settings->record_altitudes.end());
+	const G4double ALT_MAX_RECORDED = *std::max_element(settings->record_altitude.begin(),
+		settings->record_altitude.end());
 
 	for (unsigned int jj = 0; jj < altitudes_geodetic.size() - 1; jj++) // geocentric altitudes
 	{
@@ -230,7 +230,7 @@ G4VPhysicalVolume *TGFDetectorConstruction::Construct() {
 		}
 
 		// assigning sensitive detector
-		for (G4double rec_alt : settings->record_altitudes) {
+		for (G4double rec_alt : settings->record_altitude) {
 			if (altitudes_geodetic[jj] == rec_alt * km) {
 				sens_det_List.push_back(
 					new SensitiveDet("sens_det_" + std::to_string(id_SD), id_SD, altitudes_geodetic[jj] / km));
@@ -275,8 +275,8 @@ G4VPhysicalVolume *TGFDetectorConstruction::Construct() {
 void TGFDetectorConstruction::calculate_altitudes_list()
 // fills the vector altitudes
 {
-	const G4double ALT_MAX_RECORDED = *std::max_element(settings->record_altitudes.begin(),
-		settings->record_altitudes.end());
+	const G4double ALT_MAX_RECORDED = *std::max_element(settings->record_altitude.begin(),
+		settings->record_altitude.end());
 
 	const G4double alt_max_construction = min(alt_max_atmosphere, ALT_MAX_RECORDED * km);
 	// it is either 200 km, either the maximum detection altitude if smaller than 200 km
@@ -293,7 +293,7 @@ void TGFDetectorConstruction::calculate_altitudes_list()
 
 	// adding the record volume : a thin layer volume starting at the record altitude
 
-	for (G4double rec_alt : settings->record_altitudes) {
+	for (G4double rec_alt : settings->record_altitude) {
 		if (not_contains(rec_alt * km, altitudes_geodetic)) {
 			altitudes_geodetic.push_back(rec_alt * km);
 		}
