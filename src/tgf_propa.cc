@@ -180,9 +180,12 @@ int main(int argc, char **argv)
 	else if (Mode == "run")
 	{
 		G4cout << G4endl;
-		G4cout << std::string("Running code until ") + nb_to_get_per_run + std::string(" particles are recorded.") << G4endl;
+		G4cout << std::string("Running program until ") + nb_to_get_per_run + std::string(" particles are recorded.") << G4endl;
+
 		while (std::stoi(nb_to_get_per_run) > analysis->get_NB_RECORDED())
 			UImanager->ApplyCommand("/run/beamOn " + number_st);
+
+		G4cout << std::string("Progam finished: ") + nb_to_get_per_run + std::string(" particles were recorded.") << G4endl;
 	}
 
 #ifdef _WIN32
