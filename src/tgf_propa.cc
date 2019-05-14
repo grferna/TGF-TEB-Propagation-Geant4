@@ -113,7 +113,7 @@ int main(int argc, char **argv)
 	}
 	else {
 		G4cout << "Wrong number of Arguments passed (should be none, or 7). Aborting" << G4endl;
-		std::abort;
+		std::abort();
 	}
 
 	settings->diplay_settings();
@@ -179,6 +179,8 @@ int main(int argc, char **argv)
 	}
 	else if (Mode == "run")
 	{
+		G4cout << G4endl;
+		G4cout << std::string("Running code until ") + nb_to_get_per_run + std::string(" particles are recorded.") << G4endl;
 		while (std::stoi(nb_to_get_per_run) > analysis->get_NB_RECORDED())
 			UImanager->ApplyCommand("/run/beamOn " + number_st);
 	}

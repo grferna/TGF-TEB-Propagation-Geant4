@@ -37,7 +37,7 @@
 TGF_PhysicsList::TGF_PhysicsList() : G4VUserPhysicsList() {
 	emPhysicsList = new G4EmStandardPhysics_option1();
 
-	this->DumpCutValuesTable();
+	// this->DumpCutValuesTable();
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
