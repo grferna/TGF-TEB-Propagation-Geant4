@@ -68,7 +68,7 @@ class G4BlineEventAction;
 class G4BlinePrimaryGeneratorAction;
 class G4BlineEquation;
 
-class G4BlineTracer: public G4UserRunAction
+class G4BlineTracer : public G4UserRunAction
 {
 public:
 
@@ -78,12 +78,12 @@ public:
 	virtual ~G4BlineTracer();
 
 	virtual void
-	BeginOfRunAction(const G4Run *aRun);
+		BeginOfRunAction(const G4Run *aRun);
 	virtual void
-	EndOfRunAction(const G4Run *aRun);
+		EndOfRunAction(const G4Run *aRun);
 
 	void
-	ComputeBlines(G4int nlines);
+		ComputeBlines(G4int nlines);
 
 	inline void SetMaxTrackingStep(G4double max_step)
 	{
@@ -91,7 +91,7 @@ public:
 	}
 
 	inline G4BlineEventAction *
-	GetEventAction()
+		GetEventAction()
 	{
 		return fEventAction;
 	}
@@ -99,7 +99,7 @@ public:
 private:
 
 	void
-	ResetChordFinders();
+		ResetChordFinders();
 
 private:
 

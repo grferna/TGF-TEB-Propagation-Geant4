@@ -50,7 +50,7 @@
 
 class G4BlineTracer;
 
-class G4BlineSteppingAction: public G4UserSteppingAction
+class G4BlineSteppingAction : public G4UserSteppingAction
 {
 public:
 
@@ -58,9 +58,9 @@ public:
 
 	G4BlineSteppingAction(G4BlineTracer * aBlineTool);
 	virtual
-	~G4BlineSteppingAction();
+		~G4BlineSteppingAction();
 	virtual void
-	UserSteppingAction(const G4Step *);
+		UserSteppingAction(const G4Step *);
 
 private:
 

@@ -42,33 +42,33 @@ class Analysis
 {
 public:
 
-    ~Analysis();
+	~Analysis();
 
-    void save_in_output_buffer(const G4int PDG_NB, const G4double &time, const G4double &energy, const G4double &dist_rad, const G4int ID, const G4double &ecef_x, const G4double &ecef_y, const G4double &ecef_z);
+	void save_in_output_buffer(const G4int PDG_NB, const G4double &time, const G4double &energy, const G4double &dist_rad, const G4int ID, const G4double &ecef_x, const G4double &ecef_y, const G4double &ecef_z);
 
-    static Analysis *getInstance();
+	static Analysis *getInstance();
 
-    void write_in_output_file();
+	void write_in_output_file();
 
-    void write_in_output_file_endOfRun();
+	void write_in_output_file_endOfRun();
 
-    G4int get_NB_RECORDED() const;
+	G4int get_NB_RECORDED() const;
 
 private:
 
-    Analysis();
+	Analysis();
 
-    static Analysis *instance;
+	static Analysis *instance;
 
-    Settings *settings = Settings::getInstance();
+	Settings *settings = Settings::getInstance();
 
-    std::vector<G4String> output_lines;
+	std::vector<G4String> output_lines;
 
-    G4String asciiFileName2;
+	G4String asciiFileName2;
 
-    const unsigned int output_buffer_size = 1;
+	const unsigned int output_buffer_size = 1;
 
-    G4int NB_RECORDED = 0;
+	G4int NB_RECORDED = 0;
 
-    G4double lat = 0, lon = 0, alt = 0;
+	G4double lat = 0, lon = 0, alt = 0;
 };

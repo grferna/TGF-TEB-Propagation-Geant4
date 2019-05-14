@@ -122,85 +122,85 @@ using namespace std;
 class TGFDetectorConstruction : public G4VUserDetectorConstruction {
 public:
 
-    TGFDetectorConstruction();
+	TGFDetectorConstruction();
 
-    ~TGFDetectorConstruction() override;
+	~TGFDetectorConstruction() override;
 
-    G4VPhysicalVolume *Construct() override;
+	G4VPhysicalVolume *Construct() override;
 
 
 private:
 
-    Settings *settings = Settings::getInstance();
+	Settings *settings = Settings::getInstance();
 
-    std::vector<SensitiveDet *> sens_det_List;
+	std::vector<SensitiveDet *> sens_det_List;
 
-    std::vector<G4Material *> Construct_Atmos_layers_Materials(const std::vector<G4double> altitudes_);
+	std::vector<G4Material *> Construct_Atmos_layers_Materials(const std::vector<G4double> altitudes_);
 
-    //    void ConstructAtmosMats2();
-    //    void ConstructAtmosMats3();
-    //    void ReadInputAtmosFile();
+	//    void ConstructAtmosMats2();
+	//    void ConstructAtmosMats3();
+	//    void ReadInputAtmosFile();
 
-    //    double interp1(vector < double >,
-    //                   vector < double >,
-    //                   double);
-    //    int    findNearestNeighbourIndex(double,
-    //                                     vector < double >);
+	//    double interp1(vector < double >,
+	//                   vector < double >,
+	//                   double);
+	//    int    findNearestNeighbourIndex(double,
+	//                                     vector < double >);
 
-    void Construct_MagField_Managers();
+	void Construct_MagField_Managers();
 
-    G4LogicalVolume *logicalWorld;
-    G4VPhysicalVolume *physicalWorld;
-    G4Material *vac = nullptr;
+	G4LogicalVolume *logicalWorld;
+	G4VPhysicalVolume *physicalWorld;
+	G4Material *vac = nullptr;
 
-    G4Material *N2 = nullptr;
-    G4Material *O2 = nullptr;
-    G4Material *O = nullptr;
-    G4Material *N = nullptr;
-    G4Material *H = nullptr;
+	G4Material *N2 = nullptr;
+	G4Material *O2 = nullptr;
+	G4Material *O = nullptr;
+	G4Material *N = nullptr;
+	G4Material *H = nullptr;
 
-    std::vector<G4Sphere *> atmosLayers_S;
-    std::vector<G4LogicalVolume *> atmosLayers_LV;
-    std::vector<G4VPhysicalVolume *> atmosLayers_PV;
+	std::vector<G4Sphere *> atmosLayers_S;
+	std::vector<G4LogicalVolume *> atmosLayers_LV;
+	std::vector<G4VPhysicalVolume *> atmosLayers_PV;
 
-    std::vector<G4double> altitudes_geodetic; // (geodetic)altitudes intervals of the layers
-    G4int nb_altitudes = 256;
-    G4double alt_min = 1. * km; // (geodetic)
-    G4double alt_max_atmosphere = 150. * km; // maximum altitude where the atmosphere is not negigible (with margin)
-    G4double alt_account_Mag_Field = 45. * km; // altitude above which earth's magnetic field is takem into account
+	std::vector<G4double> altitudes_geodetic; // (geodetic)altitudes intervals of the layers
+	G4int nb_altitudes = 256;
+	G4double alt_min = 1. * km; // (geodetic)
+	G4double alt_max_atmosphere = 150. * km; // maximum altitude where the atmosphere is not negigible (with margin)
+	G4double alt_account_Mag_Field = 45. * km; // altitude above which earth's magnetic field is takem into account
 
-    // RK: the difference between geodetic and geographic altitude is small and probabli negligible
+	// RK: the difference between geodetic and geographic altitude is small and probabli negligible
 
-    G4double world_max_altitude = 15000. * km;
+	G4double world_max_altitude = 15000. * km;
 
-    // magnetic field managers
-    G4FieldManager *globalfieldMgr = nullptr;
-    G4FieldManager *Null_FieldManager = nullptr;
-    G4ChordFinder *fChordFinder = nullptr;
-    G4UniformMagField *magField_null = nullptr;
+	// magnetic field managers
+	G4FieldManager *globalfieldMgr = nullptr;
+	G4FieldManager *Null_FieldManager = nullptr;
+	G4ChordFinder *fChordFinder = nullptr;
+	G4UniformMagField *magField_null = nullptr;
 
-    G4double fMinStep = 0.010 * mm;
-    G4double minEps = 1.0e-6; //   Minimum & value for smallest steps
-    G4double maxEps = 1.0e-5; //   Maximum & value for largest steps
+	G4double fMinStep = 0.010 * mm;
+	G4double minEps = 1.0e-6; //   Minimum & value for smallest steps
+	G4double maxEps = 1.0e-5; //   Maximum & value for largest steps
 
-    // regions
-    G4Region *considered_atmos_Region = new G4Region("considered_atmos");
+	// regions
+	G4Region *considered_atmos_Region = new G4Region("considered_atmos");
 
-    void calculate_altitudes_list();
+	void calculate_altitudes_list();
 
-    G4double maxStep = settings->STEP_MAX_VAL;
-    G4UserLimits *stepLimit = new G4UserLimits(maxStep);
+	G4double maxStep = settings->STEP_MAX_VAL;
+	G4UserLimits *stepLimit = new G4UserLimits(maxStep);
 
-    G4bool not_contains(G4double value, const std::vector<G4double> &vec);
+	G4bool not_contains(G4double value, const std::vector<G4double> &vec);
 
-    G4MagIntegratorStepper *fStepper = nullptr;
-    G4Mag_UsualEqRhs *pMagFldEquation = nullptr;
+	G4MagIntegratorStepper *fStepper = nullptr;
+	G4Mag_UsualEqRhs *pMagFldEquation = nullptr;
 
-    // EarthMagField_alt *myEarthMagField = nullptr;
-    G4MagneticField *myCachedEarthMagField = nullptr;
+	// EarthMagField_alt *myEarthMagField = nullptr;
+	G4MagneticField *myCachedEarthMagField = nullptr;
 
-    std::ofstream asciiFile;
+	std::ofstream asciiFile;
 
-    bool hasDuplicates(const std::vector<G4double> &arr);
+	bool hasDuplicates(const std::vector<G4double> &arr);
 
 };

@@ -42,17 +42,17 @@
  * updated releases of this package.
  */
 
-/* ------------------------------------------------------------------- */
-/* ------------------------------- INPUT ----------------------------- */
+ /* ------------------------------------------------------------------- */
+ /* ------------------------------- INPUT ----------------------------- */
 
-/* ------------------------------------------------------------------- */
+ /* ------------------------------------------------------------------- */
 #pragma once
 
 struct nrlmsise_flags
 {
-    int switches[24];
-    double sw[24];
-    double swc[24];
+	int switches[24];
+	double sw[24];
+	double swc[24];
 };
 
 /*
@@ -96,7 +96,7 @@ struct nrlmsise_flags
 
 struct ap_array
 {
-    double a[7];
+	double a[7];
 };
 
 /* Array containing the following magnetic values:
@@ -113,17 +113,17 @@ struct ap_array
 
 struct nrlmsise_input
 {
-    int year; /* year, currently ignored */
-    int doy; /* day of year */
-    double sec; /* seconds in day (UT) */
-    double alt; /* altitude in kilometes */
-    double g_lat; /* geodetic latitude */
-    double g_long; /* geodetic longitude */
-    double lst; /* local apparent solar time (hours), see note below */
-    double f107A; /* 81 day average of F10.7 flux (centered on doy) */
-    double f107; /* daily F10.7 flux for previous day */
-    double ap; /* magnetic index(daily) */
-    struct ap_array *ap_a; /* see above */
+	int year; /* year, currently ignored */
+	int doy; /* day of year */
+	double sec; /* seconds in day (UT) */
+	double alt; /* altitude in kilometes */
+	double g_lat; /* geodetic latitude */
+	double g_long; /* geodetic longitude */
+	double lst; /* local apparent solar time (hours), see note below */
+	double f107A; /* 81 day average of F10.7 flux (centered on doy) */
+	double f107; /* daily F10.7 flux for previous day */
+	double ap; /* magnetic index(daily) */
+	struct ap_array *ap_a; /* see above */
 };
 /*
  *   NOTES ON INPUT VARIABLES:
@@ -146,15 +146,15 @@ struct nrlmsise_input
  *      150., 150., and 4. respectively.
  */
 
-/* ------------------------------------------------------------------- */
-/* ------------------------------ OUTPUT ----------------------------- */
+ /* ------------------------------------------------------------------- */
+ /* ------------------------------ OUTPUT ----------------------------- */
 
-/* ------------------------------------------------------------------- */
+ /* ------------------------------------------------------------------- */
 
 struct nrlmsise_output
 {
-    double d[9]; /* densities */
-    double t[2]; /* temperatures */
+	double d[9]; /* densities */
+	double t[2]; /* temperatures */
 };
 /*
  *   OUTPUT VARIABLES:
@@ -190,14 +190,14 @@ struct nrlmsise_output
  *        in this model, INCLUDING anomalous oxygen.
  */
 
-/* ------------------------------------------------------------------- */
-/* --------------------------- PROTOTYPES ---------------------------- */
-/* ------------------------------------------------------------------- */
+ /* ------------------------------------------------------------------- */
+ /* --------------------------- PROTOTYPES ---------------------------- */
+ /* ------------------------------------------------------------------- */
 
-/* GTD7 */
-/*   Neutral Atmosphere Empircial Model from the surface to lower
- *   exosphere.
- */
+ /* GTD7 */
+ /*   Neutral Atmosphere Empircial Model from the surface to lower
+  *   exosphere.
+  */
 void gtd7(struct nrlmsise_input *input, struct nrlmsise_flags *flags, struct nrlmsise_output *output);
 
 /* GTD7D */

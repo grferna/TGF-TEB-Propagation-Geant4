@@ -32,7 +32,7 @@
 
 #include "G4MagIntegratorStepper.hh"
 
-class G4DormandPrinceRK78: public G4MagIntegratorStepper
+class G4DormandPrinceRK78 : public G4MagIntegratorStepper
 {
 public:
 
@@ -40,10 +40,10 @@ public:
 	~G4DormandPrinceRK78();
 
 	void
-	Stepper(const G4double y[], const G4double dydx[], G4double h, G4double yout[], G4double yerr[]);
+		Stepper(const G4double y[], const G4double dydx[], G4double h, G4double yout[], G4double yerr[]);
 
 	G4double
-	DistChord() const;
+		DistChord() const;
 
 	G4int IntegratorOrder() const
 	{

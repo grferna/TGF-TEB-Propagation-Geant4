@@ -59,7 +59,7 @@ class G4UIcmdWithABool;
 class G4UIcmdWithoutParameter;
 class G4UIcmdWith3Vector;
 
-class G4BlineTracerMessenger: public G4UImessenger
+class G4BlineTracerMessenger : public G4UImessenger
 {
 public:
 
@@ -69,7 +69,7 @@ public:
 	virtual ~G4BlineTracerMessenger();
 
 	virtual void
-	SetNewValue(G4UIcommand *command, G4String newValues);
+		SetNewValue(G4UIcommand *command, G4String newValues);
 
 private:
 

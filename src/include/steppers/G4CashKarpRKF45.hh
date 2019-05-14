@@ -47,7 +47,7 @@
 
 #include "G4MagIntegratorStepper.hh"
 
-class G4CashKarpRKF45: public G4MagIntegratorStepper
+class G4CashKarpRKF45 : public G4MagIntegratorStepper
 {
 public:
 
@@ -57,14 +57,14 @@ public:
 	~G4CashKarpRKF45();
 
 	void
-	Stepper(const G4double y[], const G4double dydx[], G4double h, G4double yout[], G4double yerr[]);
+		Stepper(const G4double y[], const G4double dydx[], G4double h, G4double yout[], G4double yerr[]);
 
 public:
 
 	// without description
 
 	G4double
-	DistChord() const;
+		DistChord() const;
 
 	G4int IntegratorOrder() const
 	{
@@ -74,7 +74,7 @@ public:
 private:
 
 	void
-	StepWithEst(const G4double yIn[], const G4double dydx[], G4double Step, G4double yOut[], G4double & alpha2, G4double & beta2,
+		StepWithEst(const G4double yIn[], const G4double dydx[], G4double Step, G4double yOut[], G4double & alpha2, G4double & beta2,
 			const G4double B1[], G4double B2[]);
 
 	// No longer used. Obsolete.

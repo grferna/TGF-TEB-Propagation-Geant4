@@ -46,30 +46,30 @@ EventAction::~EventAction() = default;
 
 void EventAction::BeginOfEventAction(const G4Event *evt)
 {
-  // initializations
+	// initializations
 
-  evtNb++;
+	evtNb++;
 
 #ifndef NDEBUG // debug mode
 
-  if (evtNb % printModulo == 0) G4cout << "\n---> Begin Of Event: " << evtNb << G4endl;
+	if (evtNb % printModulo == 0) G4cout << "\n---> Begin Of Event: " << evtNb << G4endl;
 
 #endif // ifndef NDEBUG
 
-  settings->NB_EVENT = evtNb;
+	settings->NB_EVENT = evtNb;
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void EventAction::EndOfEventAction(const G4Event *)
 {
-  //     xgreAnalysis* analysis = xgreAnalysis::getInstance();
-  //     if (fTotalEnergyDeposit>5.*keV) analysis->analyseDeposit(fTotalEnergyDeposit);
-  //     if (fTotalEnergyDepositPlas>5.*keV) analysis->analyseDepositPlas(fTotalEnergyDepositPlas);
-  //     if (fOpticalCount>4) analysis->analyseOptical(fOpticalCount);
+	//     xgreAnalysis* analysis = xgreAnalysis::getInstance();
+	//     if (fTotalEnergyDeposit>5.*keV) analysis->analyseDeposit(fTotalEnergyDeposit);
+	//     if (fTotalEnergyDepositPlas>5.*keV) analysis->analyseDepositPlas(fTotalEnergyDepositPlas);
+	//     if (fOpticalCount>4) analysis->analyseOptical(fOpticalCount);
 
-  //   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-  //   analysisManager->FillH1(1, fTotalEnergyDeposit/keV);
+	//   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+	//   analysisManager->FillH1(1, fTotalEnergyDeposit/keV);
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

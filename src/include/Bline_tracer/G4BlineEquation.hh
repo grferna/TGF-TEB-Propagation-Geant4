@@ -49,7 +49,7 @@
 #include "G4Mag_EqRhs.hh"
 #include "G4MagneticField.hh"
 
-class G4BlineEquation: public G4Mag_EqRhs
+class G4BlineEquation : public G4Mag_EqRhs
 {
 public:
 
@@ -61,13 +61,13 @@ public:
 	// Constructor and destructor.
 
 	virtual void
-	EvaluateRhsGivenB(const G4double y[], const G4double B[3], G4double dydx[]) const;
+		EvaluateRhsGivenB(const G4double y[], const G4double B[3], G4double dydx[]) const;
 
 	// Given the value of the magnetic field B, this function
 	// calculates the value of the derivative dydx.
 
 	void
-	SetBackwardDirectionOfIntegration(G4bool abool);
+		SetBackwardDirectionOfIntegration(G4bool abool);
 
 private:
 

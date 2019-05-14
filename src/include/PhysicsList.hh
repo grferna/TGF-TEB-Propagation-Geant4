@@ -39,30 +39,30 @@ class TGF_PhysicsList : public G4VUserPhysicsList
 {
 public:
 
-    TGF_PhysicsList();
+	TGF_PhysicsList();
 
-    ~TGF_PhysicsList() override;
+	~TGF_PhysicsList() override;
 
-    void SetCuts() override;
+	void SetCuts() override;
 
-    void ConstructParticle() override;
+	void ConstructParticle() override;
 
-    void ConstructProcess() override;
+	void ConstructProcess() override;
 
 private:
 
-    Settings *settings = Settings::getInstance();
+	Settings *settings = Settings::getInstance();
 
-    G4double cutForGamma = 0;
-    G4double cutForElectron = 0;
-    G4double cutForPositron = 0;
+	G4double cutForGamma = 0;
+	G4double cutForElectron = 0;
+	G4double cutForPositron = 0;
 
-    G4VPhysicsConstructor *emPhysicsList = nullptr;
-    G4VPhysicsConstructor *radDecPhysicsList = nullptr;
+	G4VPhysicsConstructor *emPhysicsList = nullptr;
+	G4VPhysicsConstructor *radDecPhysicsList = nullptr;
 
-    void Add_StepMax_for_record_regions();
+	void Add_StepMax_for_record_regions();
 
-    double step_max = settings->STEP_MAX_VAL;
+	double step_max = settings->STEP_MAX_VAL;
 
-    void AddStepMax(G4double stepMax);
+	void AddStepMax(G4double stepMax);
 };

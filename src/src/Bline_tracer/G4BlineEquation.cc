@@ -45,9 +45,9 @@
 ///////////////////////////////////////////////////////////////////////////
 
 G4BlineEquation::G4BlineEquation(G4MagneticField *MagField) :
-        G4Mag_EqRhs(MagField) {
-    fBackward_direction = false;
-    fDirection = 1.;
+	G4Mag_EqRhs(MagField) {
+	fBackward_direction = false;
+	fDirection = 1.;
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -58,25 +58,25 @@ G4BlineEquation::~G4BlineEquation() {
 /////////////////////////////////////////////////////////////////////////////
 
 void G4BlineEquation::EvaluateRhsGivenB(const G4double y[], const G4double B[3],
-                                        G4double dydx[]) const {
-    G4double Bmag = fDirection
-                    * std::sqrt(B[0] * B[0] + B[1] * B[1] + B[2] * B[2]);
+	G4double dydx[]) const {
+	G4double Bmag = fDirection
+		* std::sqrt(B[0] * B[0] + B[1] * B[1] + B[2] * B[2]);
 
-    dydx[0] = B[0] / Bmag;
-    dydx[1] = B[1] / Bmag;
-    dydx[2] = B[2] / Bmag;
+	dydx[0] = B[0] / Bmag;
+	dydx[1] = B[1] / Bmag;
+	dydx[2] = B[2] / Bmag;
 
-    dydx[3] = 0. * y[0]; // y[0] is used to remove warning
-    dydx[4] = 0.;
-    dydx[5] = 0.;
+	dydx[3] = 0. * y[0]; // y[0] is used to remove warning
+	dydx[4] = 0.;
+	dydx[5] = 0.;
 }
 
 //////////////////////////////////////////////////////////////////////
 
 void G4BlineEquation::SetBackwardDirectionOfIntegration(G4bool abool) {
-    fBackward_direction = abool;
-    fDirection = 1.;
+	fBackward_direction = abool;
+	fDirection = 1.;
 
-    if (fBackward_direction)
-        fDirection = -1.;
+	if (fBackward_direction)
+		fDirection = -1.;
 }

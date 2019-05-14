@@ -41,22 +41,22 @@ class EventAction : public G4UserEventAction
 {
 public:
 
-    EventAction();
+	EventAction();
 
-    ~EventAction() override;
+	~EventAction() override;
 
 public:
 
-    void BeginOfEventAction(const G4Event *evt);
+	void BeginOfEventAction(const G4Event *evt);
 
-    void EndOfEventAction(const G4Event *) override;
+	void EndOfEventAction(const G4Event *) override;
 
 private:
 
-    G4int printModulo = 20000;
-    G4int evtNb = 0;
+	G4int printModulo = 20000;
+	G4int evtNb = 0;
 
-    Settings *settings = Settings::getInstance();
+	Settings *settings = Settings::getInstance();
 
 };
 

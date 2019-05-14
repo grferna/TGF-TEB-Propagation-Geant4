@@ -5,12 +5,12 @@ Settings *Settings::instance = nullptr;
 
 Settings * Settings::getInstance()
 {
-  if (instance == nullptr)
-  {
-    instance = new Settings;
-  }
+	if (instance == nullptr)
+	{
+		instance = new Settings;
+	}
 
-  return instance;
+	return instance;
 }
 
 ////// Global static pointer used to ensure a single instance of the class.

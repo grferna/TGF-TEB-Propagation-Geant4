@@ -50,9 +50,9 @@
 ///////////////////////////////////////////////////////////////////////////
 
 G4BlinePrimaryGeneratorAction::G4BlinePrimaryGeneratorAction() {
-    fUserPrimaryAction = 0;
-    fFirstPartOfBline = true;
-    fT0 = 0;
+	fUserPrimaryAction = 0;
+	fFirstPartOfBline = true;
+	fT0 = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -63,48 +63,48 @@ G4BlinePrimaryGeneratorAction::~G4BlinePrimaryGeneratorAction() {}
 
 void
 G4BlinePrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent) {
-    if (!fUserPrimaryAction) {
-        G4Exception("G4BlinePrimaryGeneratorAction::GeneratePrimaries()", "NullPointer", JustWarning,
-                    "Primary generator action not defined !");
-        return;
-    }
+	if (!fUserPrimaryAction) {
+		G4Exception("G4BlinePrimaryGeneratorAction::GeneratePrimaries()", "NullPointer", JustWarning,
+			"Primary generator action not defined !");
+		return;
+	}
 
-    // For the first part of a bline the start position and time are defined
-    // by using the USER primary action while for the second part the previous
-    // values are taken.
+	// For the first part of a bline the start position and time are defined
+	// by using the USER primary action while for the second part the previous
+	// values are taken.
 
-    if (fFirstPartOfBline) {
-        // set the position and time defined by using the USER primary action
+	if (fFirstPartOfBline) {
+		// set the position and time defined by using the USER primary action
 
-        G4Event *tmpEvent = new G4Event();
-        fUserPrimaryAction->GeneratePrimaries(tmpEvent);
-        fBlineStartPosition = tmpEvent->GetPrimaryVertex()->GetPosition();
-        fT0 = tmpEvent->GetPrimaryVertex()->GetT0();
-        delete tmpEvent;
-    }
-    fFirstPartOfBline = false;
+		G4Event *tmpEvent = new G4Event();
+		fUserPrimaryAction->GeneratePrimaries(tmpEvent);
+		fBlineStartPosition = tmpEvent->GetPrimaryVertex()->GetPosition();
+		fT0 = tmpEvent->GetPrimaryVertex()->GetT0();
+		delete tmpEvent;
+	}
+	fFirstPartOfBline = false;
 
-    G4PrimaryVertex *primary_vertex = new G4PrimaryVertex(fBlineStartPosition, fT0);
+	G4PrimaryVertex *primary_vertex = new G4PrimaryVertex(fBlineStartPosition, fT0);
 
-    // Define the particle to be tracked as Charged Geantino
+	// Define the particle to be tracked as Charged Geantino
 
-    G4ChargedGeantino *pdef = G4ChargedGeantino::ChargedGeantino();
+	G4ChargedGeantino *pdef = G4ChargedGeantino::ChargedGeantino();
 
-    G4double mass = pdef->GetPDGMass();
-    G4double energy = 10000. * MeV + mass;
-    G4double pmom = std::sqrt(energy * energy - mass * mass);
+	G4double mass = pdef->GetPDGMass();
+	G4double energy = 10000. * MeV + mass;
+	G4double pmom = std::sqrt(energy * energy - mass * mass);
 
-    // The momentum direction and energy do not have an effect in tracing of
-    // bline but still need to be defined.
+	// The momentum direction and energy do not have an effect in tracing of
+	// bline but still need to be defined.
 
-    G4double px = 0.;
-    G4double py = 0.;
-    G4double pz = pmom;
+	G4double px = 0.;
+	G4double py = 0.;
+	G4double pz = pmom;
 
-    G4PrimaryParticle *particle = new G4PrimaryParticle(pdef, px, py, pz);
-    particle->SetMass(mass);
-    particle->SetCharge(pdef->GetPDGCharge());
-    primary_vertex->SetPrimary(particle);
+	G4PrimaryParticle *particle = new G4PrimaryParticle(pdef, px, py, pz);
+	particle->SetMass(mass);
+	particle->SetCharge(pdef->GetPDGCharge());
+	primary_vertex->SetPrimary(particle);
 
-    anEvent->AddPrimaryVertex(primary_vertex);
+	anEvent->AddPrimaryVertex(primary_vertex);
 } // G4BlinePrimaryGeneratorAction::GeneratePrimaries

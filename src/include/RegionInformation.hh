@@ -33,35 +33,35 @@ class RegionInformation : public G4VUserRegionInformation
 {
 public:
 
-    RegionInformation();
+	RegionInformation();
 
 
-    ~RegionInformation() override;
+	~RegionInformation() override;
 
-    void Print() const override;
+	void Print() const override;
 
-    inline void Set_World(G4bool v = true)
-    {
-        fis_world = v;
-    }
+	inline void Set_World(G4bool v = true)
+	{
+		fis_world = v;
+	}
 
-    inline G4bool is_World() const
-    {
-        return fis_world;
-    }
+	inline G4bool is_World() const
+	{
+		return fis_world;
+	}
 
-    inline void set_considered_atmosphere(G4bool v = true)
-    {
-        fis_considered_atmosphere = v;
-    }
+	inline void set_considered_atmosphere(G4bool v = true)
+	{
+		fis_considered_atmosphere = v;
+	}
 
-    inline G4bool is_considered_atmosphere() const
-    {
-        return fis_considered_atmosphere;
-    }
+	inline G4bool is_considered_atmosphere() const
+	{
+		return fis_considered_atmosphere;
+	}
 
 private:
 
-    G4bool fis_world;
-    G4bool fis_considered_atmosphere;
+	G4bool fis_world;
+	G4bool fis_considered_atmosphere;
 };

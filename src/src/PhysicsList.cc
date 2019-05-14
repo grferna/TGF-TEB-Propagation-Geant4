@@ -35,91 +35,91 @@
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 TGF_PhysicsList::TGF_PhysicsList() : G4VUserPhysicsList() {
-    emPhysicsList = new G4EmStandardPhysics_option1();
+	emPhysicsList = new G4EmStandardPhysics_option1();
 
-    this->DumpCutValuesTable();
+	this->DumpCutValuesTable();
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 TGF_PhysicsList::~TGF_PhysicsList() {
-    delete emPhysicsList;
+	delete emPhysicsList;
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 void TGF_PhysicsList::ConstructParticle() {
-    emPhysicsList->ConstructParticle();
+	emPhysicsList->ConstructParticle();
 
-    //   G4GenericIon::GenericIon();
-    //   G4NeutrinoE::NeutrinoEDefinition();
-    //   G4AntiNeutrinoE::AntiNeutrinoEDefinition();
-    //   G4Alpha::AlphaDefinition();
-    //
-    //   G4Geantino::GeantinoDefinition();
-    //   G4ChargedGeantino::ChargedGeantinoDefinition();
+	//   G4GenericIon::GenericIon();
+	//   G4NeutrinoE::NeutrinoEDefinition();
+	//   G4AntiNeutrinoE::AntiNeutrinoEDefinition();
+	//   G4Alpha::AlphaDefinition();
+	//
+	//   G4Geantino::GeantinoDefinition();
+	//   G4ChargedGeantino::ChargedGeantinoDefinition();
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 void TGF_PhysicsList::ConstructProcess() {
-    AddTransportation();
-    emPhysicsList->ConstructProcess();
+	AddTransportation();
+	emPhysicsList->ConstructProcess();
 
-    //   G4RadioactiveDecay* radioactiveDecay = new G4RadioactiveDecay();
+	//   G4RadioactiveDecay* radioactiveDecay = new G4RadioactiveDecay();
 
-    //   radioactiveDecay->SetICM(true);                //Internal Conversion
-    //   radioactiveDecay->SetARM(true);               //Atomic Rearangement
+	//   radioactiveDecay->SetICM(true);                //Internal Conversion
+	//   radioactiveDecay->SetARM(true);               //Atomic Rearangement
 
-    // radioactiveDecay->SetFBeta(true);
-    // radioactiveDecay->SetBRBias(true);
+	// radioactiveDecay->SetFBeta(true);
+	// radioactiveDecay->SetBRBias(true);
 
-    //   G4PhysicsListHelper* ph = G4PhysicsListHelper::GetPhysicsListHelper();
-    //
-    //   ph->RegisterProcess(radioactiveDecay, G4GenericIon::GenericIon());
+	//   G4PhysicsListHelper* ph = G4PhysicsListHelper::GetPhysicsListHelper();
+	//
+	//   ph->RegisterProcess(radioactiveDecay, G4GenericIon::GenericIon());
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
 void TGF_PhysicsList::SetCuts() {
-    defaultCutValue = 1. * nm;
+	defaultCutValue = 1. * nm;
 
-    //
-    cutForGamma = defaultCutValue;
-    cutForElectron = defaultCutValue;
-    cutForPositron = defaultCutValue;
+	//
+	cutForGamma = defaultCutValue;
+	cutForElectron = defaultCutValue;
+	cutForPositron = defaultCutValue;
 
-    //
-    SetCutValue(cutForGamma, "gamma");
-    SetCutValue(cutForElectron, "e-");
-    SetCutValue(cutForPositron, "e+");
+	//
+	SetCutValue(cutForGamma, "gamma");
+	SetCutValue(cutForElectron, "e-");
+	SetCutValue(cutForPositron, "e+");
 
-    // SetCutsWithDefault();
+	// SetCutsWithDefault();
 
-    //    G4EmParameters *param = G4EmParameters::Instance();
-    //   param->SetMinEnergy(20.*keV);
-    //    param->SetMaxEnergy(100.*MeV);
-    //   param->SetLowestElectronEnergy(20.*keV);
-    //    param->SetNumberOfBinsPerDecade(16);
-    //   param->SetMscRangeFactor(0.01);
-    //   param->SetFluo(true);
-    //   param->SetAuger(true);
-    //   param->SetPixe(true);
-    //   param->SetPIXEElectronCrossSectionModel("Penelope");
-    //    param->SetLateralDisplacement(true);
-    //    param->ActivateAngularGeneratorForIonisation(true);
+	//    G4EmParameters *param = G4EmParameters::Instance();
+	//   param->SetMinEnergy(20.*keV);
+	//    param->SetMaxEnergy(100.*MeV);
+	//   param->SetLowestElectronEnergy(20.*keV);
+	//    param->SetNumberOfBinsPerDecade(16);
+	//   param->SetMscRangeFactor(0.01);
+	//   param->SetFluo(true);
+	//   param->SetAuger(true);
+	//   param->SetPixe(true);
+	//   param->SetPIXEElectronCrossSectionModel("Penelope");
+	//    param->SetLateralDisplacement(true);
+	//    param->ActivateAngularGeneratorForIonisation(true);
 
-    G4double lowlimit = settings->MIN_ENERGY_OUTPUT;
-    G4ProductionCutsTable *aPCTable = G4ProductionCutsTable::GetProductionCutsTable();
-    aPCTable->SetEnergyRange(lowlimit, 100 * CLHEP::GeV);
+	G4double lowlimit = settings->MIN_ENERGY_OUTPUT;
+	G4ProductionCutsTable *aPCTable = G4ProductionCutsTable::GetProductionCutsTable();
+	aPCTable->SetEnergyRange(lowlimit, 100 * CLHEP::GeV);
 
-    if (settings->USE_STEP_MAX_for_record) {
-        Add_StepMax_for_record_regions();
-    }
+	if (settings->USE_STEP_MAX_for_record) {
+		Add_StepMax_for_record_regions();
+	}
 
-    if (settings->USE_STEP_MAX_global) {
-        AddStepMax(step_max);
-    }
+	if (settings->USE_STEP_MAX_global) {
+		AddStepMax(step_max);
+	}
 }
 
 ///////////////////////////////////////////////////////
@@ -128,20 +128,20 @@ void TGF_PhysicsList::SetCuts() {
 #include "G4ProcessManager.hh"
 
 void TGF_PhysicsList::Add_StepMax_for_record_regions() {
-    // Step limitation seen as a process
-    G4StepLimiter *stepLimiter = new G4StepLimiter();
-    ////G4UserSpecialCuts* userCuts = new G4UserSpecialCuts();
+	// Step limitation seen as a process
+	G4StepLimiter *stepLimiter = new G4StepLimiter();
+	////G4UserSpecialCuts* userCuts = new G4UserSpecialCuts();
 
-    auto particleIterator = GetParticleIterator();
-    particleIterator->reset();
+	auto particleIterator = GetParticleIterator();
+	particleIterator->reset();
 
-    while ((*particleIterator)())  // for all particles
-    {
-        G4ParticleDefinition *particle = particleIterator->value();
-        G4ProcessManager *pmanager = particle->GetProcessManager();
-        pmanager->AddDiscreteProcess(stepLimiter);
-        ////pmanager ->AddDiscreteProcess(userCuts);
-    }
+	while ((*particleIterator)())  // for all particles
+	{
+		G4ParticleDefinition *particle = particleIterator->value();
+		G4ProcessManager *pmanager = particle->GetProcessManager();
+		pmanager->AddDiscreteProcess(stepLimiter);
+		////pmanager ->AddDiscreteProcess(userCuts);
+	}
 }
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
@@ -153,19 +153,19 @@ void TGF_PhysicsList::Add_StepMax_for_record_regions() {
 // however largest acceptable step concerns only charged particles (i.e. if affected by EM field)
 // here we could also apply it to photons (see implementation of "IsApplicable" in StepMax.cc)
 void TGF_PhysicsList::AddStepMax(G4double stepMax) {
-    // Step limitation seen as a process
-    StepMax *stepMaxProcess = new StepMax();
-    stepMaxProcess->SetMaxStep(stepMax);
+	// Step limitation seen as a process
+	StepMax *stepMaxProcess = new StepMax();
+	stepMaxProcess->SetMaxStep(stepMax);
 
-    auto particleIterator = GetParticleIterator();
-    particleIterator->reset();
+	auto particleIterator = GetParticleIterator();
+	particleIterator->reset();
 
-    while ((*particleIterator)()) {
-        G4ParticleDefinition *particle = particleIterator->value();
-        G4ProcessManager *pmanager = particle->GetProcessManager();
+	while ((*particleIterator)()) {
+		G4ParticleDefinition *particle = particleIterator->value();
+		G4ProcessManager *pmanager = particle->GetProcessManager();
 
-        if (stepMaxProcess->IsApplicable(*particle)) {
-            pmanager->AddDiscreteProcess(stepMaxProcess);
-        }
-    }
+		if (stepMaxProcess->IsApplicable(*particle)) {
+			pmanager->AddDiscreteProcess(stepMaxProcess);
+		}
+	}
 }

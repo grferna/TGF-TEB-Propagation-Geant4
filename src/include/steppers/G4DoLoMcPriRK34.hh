@@ -51,7 +51,7 @@
 
 #include "G4MagIntegratorStepper.hh"
 
-class G4DoLoMcPriRK34: public G4MagIntegratorStepper
+class G4DoLoMcPriRK34 : public G4MagIntegratorStepper
 {
 public:
 

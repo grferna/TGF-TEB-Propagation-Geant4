@@ -7,6 +7,7 @@ src/build/
 *~
 *.nfs*
 *.mat
+Setup1/
 build/output/gaussian_angle_sampling/
 build/output/uniform_angle_sampling/
 analysis/radial_flux.png

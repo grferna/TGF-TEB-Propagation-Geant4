@@ -48,7 +48,7 @@
 #include "G4MagIntegratorStepper.hh"
 #include "G4Mag_EqRhs.hh"
 
-class G4NystromRK4: public G4MagIntegratorStepper
+class G4NystromRK4 : public G4MagIntegratorStepper
 {
 public:
 

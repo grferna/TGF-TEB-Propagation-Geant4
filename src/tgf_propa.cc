@@ -107,7 +107,7 @@ int main(int argc, char **argv)
     else
         {
             // default values can be seen in src/src/Settings.cc
-            Mode = "run";
+            Mode = "visu";
             nb_to_get_per_run = "100000";
         }
 

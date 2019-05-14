@@ -52,47 +52,47 @@ extern "C" {
 class EarthMagField_WMM : public G4MagneticField {
 public:
 
-    EarthMagField_WMM();
+	EarthMagField_WMM();
 
-    ~EarthMagField_WMM() override;
+	~EarthMagField_WMM() override;
 
-    void GetFieldValue(const double Point[3],
-                       double *Bfield) const override;
+	void GetFieldValue(const double Point[3],
+		double *Bfield) const override;
 
 private:
 
-    mutable int isv = 0;
-    mutable int itype = 1;
-    mutable int ier = 0;
-    mutable double date = 2018;
-    mutable double alt = 0;
-    mutable double Bx = 0, By = 0, Bz = 0, f = 0, lat = 0, lon = 0;
-    mutable double xx, yy, zz;
-    mutable double coslon = 0, sinlon = 0, sinlat = 0, coslat = 0;
+	mutable int isv = 0;
+	mutable int itype = 1;
+	mutable int ier = 0;
+	mutable double date = 2018;
+	mutable double alt = 0;
+	mutable double Bx = 0, By = 0, Bz = 0, f = 0, lat = 0, lon = 0;
+	mutable double xx, yy, zz;
+	mutable double coslon = 0, sinlon = 0, sinlat = 0, coslat = 0;
 
-    mutable double elong = 0; // degrees
-    mutable double colat = 0; // degrees
-    mutable double alt_km = 0; // km
+	mutable double elong = 0; // degrees
+	mutable double colat = 0; // degrees
+	mutable double alt_km = 0; // km
 
-    mutable double Bfield_ecef_x = 0;
-    mutable double Bfield_ecef_y = 0;
-    mutable double Bfield_ecef_z = 0;
+	mutable double Bfield_ecef_x = 0;
+	mutable double Bfield_ecef_y = 0;
+	mutable double Bfield_ecef_z = 0;
 
-    const G4double nano_tesla_to_G4 = tesla * 1.e-9;
+	const G4double nano_tesla_to_G4 = tesla * 1.e-9;
 
-    mutable MAGtype_MagneticModel *MagneticModels[1], *TimedMagneticModel;
-    mutable MAGtype_Ellipsoid Ellip;
-    mutable MAGtype_CoordSpherical CoordSpherical;
-    mutable MAGtype_CoordGeodetic CoordGeodetic;
-    mutable MAGtype_Date UserDate;
-    mutable MAGtype_GeoMagneticElements GeoMagneticElements, Errors;
-    mutable MAGtype_Geoid Geoid;
+	mutable MAGtype_MagneticModel *MagneticModels[1], *TimedMagneticModel;
+	mutable MAGtype_Ellipsoid Ellip;
+	mutable MAGtype_CoordSpherical CoordSpherical;
+	mutable MAGtype_CoordGeodetic CoordGeodetic;
+	mutable MAGtype_Date UserDate;
+	mutable MAGtype_GeoMagneticElements GeoMagneticElements, Errors;
+	mutable MAGtype_Geoid Geoid;
 
-    mutable char ans[20], b;
+	mutable char ans[20], b;
 
-    mutable char VersionDate[12];
-    mutable int NumTerms, Flag = 1, nMax = 0;
-    mutable int epochs = 1;
+	mutable char VersionDate[12];
+	mutable int NumTerms, Flag = 1, nMax = 0;
+	mutable int epochs = 1;
 
-    Settings *settings = Settings::getInstance();
+	Settings *settings = Settings::getInstance();
 };

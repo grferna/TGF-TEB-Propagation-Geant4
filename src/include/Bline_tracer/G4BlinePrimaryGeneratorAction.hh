@@ -57,7 +57,7 @@
 
 class G4Event;
 
-class G4BlinePrimaryGeneratorAction: public G4VUserPrimaryGeneratorAction
+class G4BlinePrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
 public:
 
@@ -67,7 +67,7 @@ public:
 	virtual ~G4BlinePrimaryGeneratorAction();
 
 	virtual void
-	GeneratePrimaries(G4Event *anEvent);
+		GeneratePrimaries(G4Event *anEvent);
 
 	inline void SetUserPrimaryAction(G4VUserPrimaryGeneratorAction *anAction)
 	{

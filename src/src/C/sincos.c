@@ -31,7 +31,7 @@
 
 void
 sincos_(double *x, double *sin, double *cos) {
-    sincos(*x, sin, cos);
+	sincos(*x, sin, cos);
 }
 
 #endif

@@ -44,7 +44,6 @@ file(GLOB main ${PROJECT_SOURCE_DIR}/tgf_propa.cc)
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB sourceshh ${PROJECT_SOURCE_DIR}/include/*.hh)
 file(GLOB sourcesS ${PROJECT_SOURCE_DIR}/src/steppers/*.cc)
-file(GLOB sourcesSH ${PROJECT_SOURCE_DIR}/include/steppers/*.hh)
 file(GLOB sourcesBL ${PROJECT_SOURCE_DIR}/src/Bline_tracer/*.cc)
 file(GLOB sourcesBLH ${PROJECT_SOURCE_DIR}/include/Bline_tracer/*.hh)
 
@@ -65,7 +64,7 @@ file(GLOB sources_msis_h ${PROJECT_SOURCE_DIR}/src/C/MSIS/*.h)
 # Add the executable, and link it to the Geant4 libraries
 #
 if (UNIX)
-    add_executable(TGF_Propa ${main} ${sourcesf} ${sources_msis_c} ${sources_msis_h} ${sourcesf2} ${sources_mag_c} ${sources_mag_h} ${sourcesc} ${sourcesh} ${sourceshh} ${sources} ${headers} ${sourcesS} ${sourcesSH} ${sourcesBL} ${sourcesBLH})
+    add_executable(TGF_Propa ${main} ${sourcesf} ${sources_msis_c} ${sources_msis_h} ${sourcesf2} ${sources_mag_c} ${sources_mag_h} ${sourcesc} ${sourcesh} ${sourceshh} ${sources} ${headers} ${sourcesS} ${sourcesBL} ${sourcesBLH})
 endif (UNIX)
 
 if (WIN32)

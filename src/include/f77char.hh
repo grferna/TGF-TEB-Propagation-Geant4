@@ -34,23 +34,23 @@
 class CHARACTER
 {
 public:
-    explicit CHARACTER(char *cstring);
+	explicit CHARACTER(char *cstring);
 
-    CHARACTER(char *cstring, const size_t lstr);
+	CHARACTER(char *cstring, const size_t lstr);
 
-    ~CHARACTER();
+	~CHARACTER();
 
-    CHARACTER operator()(size_t index);
+	CHARACTER operator()(size_t index);
 
-    void pad(size_t first, size_t howmany = 1);
+	void pad(size_t first, size_t howmany = 1);
 
-    void operator=(char *str);
+	void operator=(char *str);
 
-    operator char *();
+	operator char *();
 
 public:
-    char *rep;  // Actual string
-    size_t len;  // String length
+	char *rep;  // Actual string
+	size_t len;  // String length
 };
 
 inline CHARACTER::CHARACTER(char *cstring) : rep(cstring), len(strlen(cstring))
@@ -59,71 +59,71 @@ inline CHARACTER::CHARACTER(char *cstring) : rep(cstring), len(strlen(cstring))
 
 inline CHARACTER::CHARACTER(char *cstring, const size_t lstr) : rep(cstring), len(lstr)
 {
-    // find position from where to start padding
-    size_t slen = strlen(rep);                // upper limit
-    size_t actual = (slen < len) ? slen : len;   // actual <= len.
+	// find position from where to start padding
+	size_t slen = strlen(rep);                // upper limit
+	size_t actual = (slen < len) ? slen : len;   // actual <= len.
 
-    for (size_t i = actual; i < len; i++)
-        rep[i] = ' ';  // Do the padding.
+	for (size_t i = actual; i < len; i++)
+		rep[i] = ' ';  // Do the padding.
 }
 
 inline CHARACTER::~CHARACTER()
 {
-    if (rep[len] == '\0')
-    {
-        return;
-    }     // catches string constants
+	if (rep[len] == '\0')
+	{
+		return;
+	}     // catches string constants
 
-    for (int i = len - 1; i >= 0; i--)
-    {
-        if (rep[i] == '\0')
-            break;      // already zero terminated
+	for (int i = len - 1; i >= 0; i--)
+	{
+		if (rep[i] == '\0')
+			break;      // already zero terminated
 
-        if (rep[i] != ' ')              // non-blank discovered, so
-        {
-            rep[i + 1] = '\0';            // zero-terminate and jump out
-            break;
-        }
-    }
+		if (rep[i] != ' ')              // non-blank discovered, so
+		{
+			rep[i + 1] = '\0';            // zero-terminate and jump out
+			break;
+		}
+	}
 }
 
 inline CHARACTER CHARACTER::operator()(size_t index)
 {
-    // Construct a temporary CHARACTER object for the array element
-    // identified by "index" in order to zero-terminate that element
-    size_t pos = index * len;          // start pos of array element
-    CHARACTER element(rep + pos, len);  // construct new CHARACTER.
-    return element;                  // destructor called here.
+	// Construct a temporary CHARACTER object for the array element
+	// identified by "index" in order to zero-terminate that element
+	size_t pos = index * len;          // start pos of array element
+	CHARACTER element(rep + pos, len);  // construct new CHARACTER.
+	return element;                  // destructor called here.
 }
 
 inline void CHARACTER::pad(size_t first, size_t howmany)
 {
 
-    size_t pos = 0, i = 0, stop = first + howmany - 1;
+	size_t pos = 0, i = 0, stop = first + howmany - 1;
 
-    for (size_t index = first; index <= stop; index++)
-    {
-        pos = index * len;
-        size_t slen = strlen(rep + pos);             // upper limit
-        size_t actual = (slen < len) ? slen : len;
+	for (size_t index = first; index <= stop; index++)
+	{
+		pos = index * len;
+		size_t slen = strlen(rep + pos);             // upper limit
+		size_t actual = (slen < len) ? slen : len;
 
-        for (i = pos + actual; i < pos + len; i++)
-            rep[i] = ' ';  // Do the padding.
-    }
+		for (i = pos + actual; i < pos + len; i++)
+			rep[i] = ' ';  // Do the padding.
+	}
 }
 
 inline void CHARACTER::operator=(char *str)
 {
-    strncpy(rep, str, len);    // this will copy a zero if str < rep
-    rep[len - 1] = '\0';       // zero terminate in case strncpy did not
-    size_t slen = strlen(rep);                // upper limit
-    size_t actual = (slen < len) ? slen : len;   // actual <= len.
+	strncpy(rep, str, len);    // this will copy a zero if str < rep
+	rep[len - 1] = '\0';       // zero terminate in case strncpy did not
+	size_t slen = strlen(rep);                // upper limit
+	size_t actual = (slen < len) ? slen : len;   // actual <= len.
 
-    for (size_t i = actual; i < len; i++)
-        rep[i] = ' ';  // Do the padding.
+	for (size_t i = actual; i < len; i++)
+		rep[i] = ' ';  // Do the padding.
 }
 
 inline CHARACTER::operator char *()
 {
-    return rep;
+	return rep;
 }

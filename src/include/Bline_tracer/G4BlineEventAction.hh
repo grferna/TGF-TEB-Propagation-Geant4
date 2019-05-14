@@ -58,7 +58,7 @@ class G4Polyline;
 class G4Polymarker;
 class G4BlineTracer;
 
-class G4BlineEventAction: public G4UserEventAction
+class G4BlineEventAction : public G4UserEventAction
 {
 public:
 
@@ -68,14 +68,14 @@ public:
 	virtual ~G4BlineEventAction();
 
 	virtual void
-	BeginOfEventAction(const G4Event *);
+		BeginOfEventAction(const G4Event *);
 	virtual void
-	EndOfEventAction(const G4Event *);
+		EndOfEventAction(const G4Event *);
 
 	void
-	DrawFieldLines(G4double zoom, G4double theta, G4double phi);
+		DrawFieldLines(G4double zoom, G4double theta, G4double phi);
 	void
-	ResetVectorObjectToBeDrawn();
+		ResetVectorObjectToBeDrawn();
 
 public:
 

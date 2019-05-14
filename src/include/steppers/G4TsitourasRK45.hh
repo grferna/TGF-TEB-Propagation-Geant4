@@ -11,7 +11,7 @@
 
 #include "G4MagIntegratorStepper.hh"
 
-class G4TsitourasRK45: public G4MagIntegratorStepper
+class G4TsitourasRK45 : public G4MagIntegratorStepper
 {
 public:
 
@@ -19,23 +19,23 @@ public:
 	~G4TsitourasRK45();
 
 	void
-	Stepper(const G4double y[], const G4double dydx[], G4double h, G4double yout[], G4double yerr[]);
+		Stepper(const G4double y[], const G4double dydx[], G4double h, G4double yout[], G4double yerr[]);
 
 	void
-	SetupInterpolation( /* const G4double yInput[],
-	 * const G4double dydx[],
-	 * const G4double Step */
-	);
+		SetupInterpolation( /* const G4double yInput[],
+		 * const G4double dydx[],
+		 * const G4double Step */
+		);
 
 	// For calculating the output at the tau fraction of Step
 	void
-	Interpolate(const G4double yInput[], const G4double dydx[], const G4double Step, G4double yOut[], G4double tau);
+		Interpolate(const G4double yInput[], const G4double dydx[], const G4double Step, G4double yOut[], G4double tau);
 
 	void
-	interpolate(const G4double yInput[], const G4double dydx[], G4double yOut[], G4double Step, G4double tau);
+		interpolate(const G4double yInput[], const G4double dydx[], G4double yOut[], G4double Step, G4double tau);
 
 	G4double
-	DistChord() const;
+		DistChord() const;
 
 	G4int IntegratorOrder() const
 	{

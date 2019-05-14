@@ -48,7 +48,7 @@
 
 #include "G4MagIntegratorStepper.hh"
 
-class G4DormandPrinceRK56: public G4MagIntegratorStepper
+class G4DormandPrinceRK56 : public G4MagIntegratorStepper
 {
 public:
 
@@ -60,10 +60,10 @@ public:
 
 	// Stepper
 	void
-	Stepper(const G4double y[], const G4double dydx[], G4double h, G4double yout[], G4double yerr[]);
+		Stepper(const G4double y[], const G4double dydx[], G4double h, G4double yout[], G4double yerr[]);
 
 	G4double
-	DistChord() const;
+		DistChord() const;
 
 	G4int IntegratorOrder() const
 	{
@@ -75,11 +75,11 @@ public:
 
 	// For Preparing the Interpolant and calculating the extra stages
 	void
-	SetupInterpolate_low(const G4double yInput[], const G4double dydx[], const G4double Step);
+		SetupInterpolate_low(const G4double yInput[], const G4double dydx[], const G4double Step);
 
 	// For calculating the output at the tau fraction of Step
 	void
-	Interpolate_low(const G4double yInput[], const G4double dydx[], const G4double Step, G4double yOut[], G4double tau);
+		Interpolate_low(const G4double yInput[], const G4double dydx[], const G4double Step, G4double yOut[], G4double tau);
 
 	void SetupInterpolation()
 	{
@@ -104,11 +104,11 @@ public:
 	}
 
 	void
-	SetupInterpolate_high(const G4double yInput[], const G4double dydx[], const G4double Step);
+		SetupInterpolate_high(const G4double yInput[], const G4double dydx[], const G4double Step);
 
 	// For calculating the output at the tau fraction of Step
 	void
-	Interpolate_high(const G4double yInput[], const G4double dydx[], const G4double Step, G4double yOut[], G4double tau);
+		Interpolate_high(const G4double yInput[], const G4double dydx[], const G4double Step, G4double yOut[], G4double tau);
 
 private:
 

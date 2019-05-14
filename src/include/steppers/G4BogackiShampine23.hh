@@ -53,7 +53,7 @@
 
 #include "G4MagIntegratorStepper.hh"
 
-class G4BogackiShampine23: public G4MagIntegratorStepper
+class G4BogackiShampine23 : public G4MagIntegratorStepper
 {
 public:
 
@@ -65,10 +65,10 @@ public:
 
 	// Stepper
 	void
-	Stepper(const G4double y[], const G4double dydx[], G4double h, G4double yout[], G4double yerr[]);
+		Stepper(const G4double y[], const G4double dydx[], G4double h, G4double yout[], G4double yerr[]);
 
 	G4double
-	DistChord() const;
+		DistChord() const;
 
 	G4int IntegratorOrder() const
 	{
@@ -81,7 +81,7 @@ public:
 	}
 
 	G4double *
-	getLastDydx();
+		getLastDydx();
 
 	G4BogackiShampine23(const G4BogackiShampine23&);
 	G4BogackiShampine23& operator =(const G4BogackiShampine23 &);
