@@ -181,6 +181,10 @@ int main(int argc, char **argv)
 			UImanager->ApplyCommand("/run/beamOn " + number_st);
 	}
 
+#ifdef _WIN32
+	system("pause");
+#endif
+
 	delete runManager;
 
 	return 0;
