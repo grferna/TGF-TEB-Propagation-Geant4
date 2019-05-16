@@ -98,7 +98,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
 
 	if ((settings->BEAMING_TYPE == "Uniform") || (settings->BEAMING_TYPE == "uniform"))
 	{
-		R_max = std::tan(settings->OPENING_ANGLE * degree);
+		R_max = std::tan(settings->SOURCE_OPENING_ANGLE * degree);
 		R_try = R_max + 10.; // just for initialization
 
 		while (R_try > R_max)
@@ -115,7 +115,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
 	else if ((settings->BEAMING_TYPE == "Gaussian") || (settings->BEAMING_TYPE == "gaussian") || (settings->BEAMING_TYPE == "normal") || (settings->BEAMING_TYPE == "Normal"))
 	{
 		R_max = 10000.;      // -> maximum angle is atan(10000) = 89.9943 degrees
-		sigma_sample_R = std::tan(settings->OPENING_ANGLE * degree);
+		sigma_sample_R = std::tan(settings->SOURCE_OPENING_ANGLE * degree);
 		R_try = R_max + 10.; // just for initialization
 
 		while (R_try > R_max)

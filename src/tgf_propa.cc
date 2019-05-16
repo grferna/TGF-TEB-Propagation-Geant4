@@ -92,18 +92,20 @@ int main(int argc, char **argv)
 	//         std::cout << argv[i] << std::endl;
 	//     }
 
-	if (argc == 8)
+	if (argc == 10)
 	{
 		Mode = "run";
 		nb_to_get_per_run = argv[1];
 		settings->SOURCE_ALT = std::stod(argv[2]);
-		settings->OPENING_ANGLE = std::stod(argv[3]);
-		settings->TILT_ANGLE = std::stod(argv[4]);
-		settings->BEAMING_TYPE = argv[5];
-		settings->SOURCE_SIGMA_TIME = std::stod(argv[6]);
+		settings->SOURCE_LAT = std::stod(argv[3]);
+		settings->SOURCE_LONG = std::stod(argv[4]);
+		settings->SOURCE_SIGMA_TIME = std::stod(argv[5]);
+		settings->SOURCE_OPENING_ANGLE = std::stod(argv[6]);
+		settings->TILT_ANGLE = std::stod(argv[7]);
+		settings->BEAMING_TYPE = argv[8];
 
 		settings->record_altitude.clear();
-		settings->record_altitude.push_back(std::stod(argv[7]));
+		settings->record_altitude.push_back(std::stod(argv[9]));
 	}
 	else if (argc == 1)
 	{

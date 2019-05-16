@@ -46,7 +46,7 @@ Analysis::Analysis()
 	const G4double ALT_MAX_RECORDED = *std::max_element(settings->record_altitude.begin(), settings->record_altitude.end());
 
 	const G4String output_filename_second_part =
-		std::to_string(settings->RANDOM_SEED) + "_" + std::to_string(int(ALT_MAX_RECORDED)) + "_" + std::to_string(int(settings->SOURCE_ALT)) + "_" + std::to_string(int(settings->OPENING_ANGLE)) + "_" + settings->BEAMING_TYPE + "_" +
+		std::to_string(settings->RANDOM_SEED) + "_" + std::to_string(int(ALT_MAX_RECORDED)) + "_" + std::to_string(int(settings->SOURCE_ALT)) + "_" + std::to_string(int(settings->SOURCE_OPENING_ANGLE)) + "_" + settings->BEAMING_TYPE + "_" +
 		std::to_string(int(settings->SOURCE_SIGMA_TIME)) + ".out";
 
 //#ifndef _WIN32
@@ -98,7 +98,7 @@ void Analysis::save_in_output_buffer(const G4int PDG_NB, const G4double &time, c
 	buffer << ' ';
 	buffer << settings->SOURCE_ALT;
 	buffer << ' ';
-	buffer << settings->OPENING_ANGLE;
+	buffer << settings->SOURCE_OPENING_ANGLE;
 	buffer << ' ';
 	buffer << settings->TILT_ANGLE;
 	buffer << ' ';

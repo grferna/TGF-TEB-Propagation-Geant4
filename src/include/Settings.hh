@@ -75,10 +75,10 @@ public:
 	const double CACHED_LENGTH = 0.0 * meter; // for magnetic field solver, in meters
 
 	// Source parameters, geodetic coordinates ( = geographic = GPS)
-	const G4double SOURCE_LAT = 11.01;       // degree
-	const G4double SOURCE_LONG = -95.40;      // degree
+	G4double SOURCE_LAT = 11.01;       // degree
+	G4double SOURCE_LONG = -95.40;      // degree
 	G4double SOURCE_ALT = 15.;         // km
-	G4double OPENING_ANGLE = 40.;         // degree
+	G4double SOURCE_OPENING_ANGLE = 40.;         // degree
 	G4String BEAMING_TYPE = "Uniform";
 	G4double TILT_ANGLE = 0.0;
 
