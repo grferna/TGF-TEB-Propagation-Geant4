@@ -27,10 +27,7 @@ Alternatively, for Ubuntu users, an installation script is provided:
 For non-Ubuntu users look at the code in the file `compile_install.bash` to check the compile and set-up steps, and read the [Geant4 installation instructions](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html)
 
 ### Windows
-- To install Geant4 on Windows, first read the [Geant4 installation instructions](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html)
-- A Geant4 "easy" installation script (compilation and installation) is provided here : https://git.app.uib.no/David.Sarria/windows-geant4-installation-script-qt5 . Use at your own risk. No guarantees.
-- After Geant4 is compiled and installed successfully, run `compile_windows.bat` to compile `TGF-TEB-Propagation-Geant4` and launch a test run with default settings. Open `TGF_propa.sln` to edit the code. Requires Visual Studio 2015 with Visual C++ (newer or earlier versions may not work).
-- **Alternatively, you can try the an experimental installer (`TGF_TEB_propa_1.2.1.msi`)**, provided in the release part of this repository. Once installed it makes two shortcuts in the Desktop : one to launch the program with default parameters, and one to open the output folder where output files (particle lists) are produced. You can edit `[Program Files]\dsarria\TGF_TEB_propa\Bin\run_windows_no_gui.bat` to change the simulation parameters (record altitude, production altitude, beaming, etc...)
+- *You can try the an experimental installer (`TGF_TEB_propa_1.2.1.msi`)**, provided in the release part of this repository. Once installed it makes two shortcuts in the Desktop : `run_TGF_TEB_propa_noGui` to launch the program with default parameters, and `TGF_TEB_Propa_output_dir` to open the output folder where output files (particle lists) are produced. You can edit `[Program Files]\dsarria\TGF_TEB_propa\Bin\run_windows_no_gui.bat` to change the simulation parameters (record altitude, TGF altitude, latitude, longitude, beaming, etc...)
 
 ## Simulation Settings:
 Most of settings can be adjusted in `src/Settings.cc`. In particular:
@@ -38,11 +35,12 @@ Most of settings can be adjusted in `src/Settings.cc`. In particular:
 - `settings->RECORD_PHOT_ONLY` = boolean to record only photons (not recording electrons and positrons)
 - If both are set to `false`, all particles are recorded.
 - `settings->SOURCE_ALT` = TGF source altitude in km
+- `settings->SOURCE_LAT` = TGF source latitude in deg
+- `settings->SOURCE_LONG` = TGF source longitude in deg
 - `settings->OPENING_ANGLE` = half-cone TGF opening angle in degrees. If "Gaussian" is selected for `settings->BEAMING_TYPE`, it is the sigma of the gaussian distribution.
 - `settings->TILT_ANGLE` = TGF tilt angle in degrees
 - `settings->BEAMING_TYPE` = TGF beaming type, that is a string that values "Uniform" or "Gaussian" for isotropic or gaussian distribution
 - `settings->SOURCE_SIGMA_TIME` = TGF sigma time. Assumes the TGF has an intrinsic duration, that has Gaussian (=normal) distribution. The parameter is the sigma of this distribution, in microseconds
-- `settings->MAGNETIC_FIELD_MODEL` = magnetic field model to use. `"IGRF"` or `"WMM"`. On Windows, only  WMM works.
 ### Other settings:
 - 
 - Two modes are possible: `visualization` and `run`. `visualization` will show the 3D geometry (simplified Earth) and particle track. `run` will not show any 3D visualization, to run the code as quickly as possible. By default, the mode is set to `visu` if no input argument for the executable is specified and `run` otherwise. This can be changed by editing the `G4String` variable `Mode` in the main function located in the source file `src/tgf_propa.cc`, that can be set to `"visu"` or `"run"`.
@@ -50,17 +48,21 @@ Most of settings can be adjusted in `src/Settings.cc`. In particular:
 - The simulation stops when the number of recorded particles has reached `nb_to_get_per_run`, that can be changed.
 - Atmosphere density is not constant with altitude, it evolves ~exponentially. However, Geant4 can only handle volumes with constant density, therefore the atmosphere is simulated by 256 exponentially spaced layers, each with constant density, covering altitude from 1 km to 150 km (negligible above). This can be changed in the source code, with the `src/src/DetectorConstruction.hh` and `src/src/DetectorConstruction.cc` files.
 - If required, Magnetic Field can be turned ON with the Setting : `settings->MAG_FIELD_ON` set to `true`. Magnetic field is always turned OFF below 45 km altitude (where it is negligible), for performance.
+- `settings->MAGNETIC_FIELD_MODEL` = magnetic field model to use. `"IGRF"` or `"WMM"`. On Windows, only WMM works.
 
-The code is built so that the executable can accept input parameters in this order: 
+## The program executable can accept input parameters in this order: 
+- `nb_to_get_per_run` = number of particles to record before stopping run
 - `settings->SOURCE_ALT` = TGF source altitude in km
+- `settings->SOURCE_LAT` = TGF source latitude in deg
+- `settings->SOURCE_LONG` = TGF source longitude in deg
+- `settings->SOURCE_SIGMA_TIME` = TGF sigma time. Assumes the TGF has an intrinsic duration, that has Gaussian (=normal) distribution. The parameter is the sigma of this distribution, in microseconds
 - `settings->OPENING_ANGLE` = half-cone TGF opening angle in degrees. If "Gaussian" is selected for `settings->BEAMING_TYPE`, it is the sigma of the gaussian distribution.
 - `settings->TILT_ANGLE` = TGF tilt angle in degrees
 - `settings->BEAMING_TYPE` = TGF beaming type, that is a string that values "Uniform" or "Gaussian" for isotropic or gaussian distribution
-- `settings->SOURCE_SIGMA_TIME` = TGF sigma time. Assumes the TGF has an intrinsic duration, that has Gaussian (=normal) distribution. The parameter is the sigma of this distribution, in microseconds
 - `settings->record_altitude` = record altitude (in km) of the TGF, default is 400 km.
 
 ## Additional information:
-- Recorded particles are outputed as a list (one by one) in files located in `build/output/`. See `src/src/Analysis.cc` to find which quantity is in which column.
+- Recorded particles are outputed as a list (one by one) in files located in the `/output/` dir (`build/output/` on Linux). See `README_output.txt` to find what quantity is in what column.
 - By default, the code uses the `G4EmStandardPhysics_option1` physics list, which is fast and accurate enough for this problem. This can be changed inside the source file `src/src/PhysicsList.cc`.
 - The python script `build/run_on_multiple_cpu.py` makes it possible to run the code on multiple threads (CPU cores) by running several times the executable (possibly with different settings). Implementation is straightforward since every initial particle is independent. See comments inside the file. It requires `mpi4py`, `numpy`, and possibly other python libraries. Communication between python script and executable is done with the help of the parameters `int argv` and `char** argc`  of the main function in `src/tgf_propa.cc`.
 - The code is made so that each run will have a different random seed (that is a `long` integer storing the current time given by the `std::chrono::high_resolution_clock` function, in nanoseconds). It assumes that the program cannot be launched twice during the exact same nanosecond.

@@ -23,7 +23,9 @@ void Settings::diplay_settings() const
 	G4cout << "*************************************************************" << G4endl;
 	G4cout << " SIMULATION SETTINGS : " << G4endl;
 	G4cout << "    Random Number Seed : " << RANDOM_SEED << G4endl;
-	G4cout << "    Initial altitude : " << SOURCE_ALT << " km" << G4endl;
+	G4cout << "    TGF altitude : " << SOURCE_ALT << " km" << G4endl;
+	G4cout << "    TGF latitude : " << SOURCE_LAT << " km" << G4endl;
+	G4cout << "    TGF longitude : " << SOURCE_LONG << " km" << G4endl;
 	G4cout << "    Beaming : " << G4endl;
 	G4cout << "        Type : " << BEAMING_TYPE << G4endl;
 
@@ -37,7 +39,7 @@ void Settings::diplay_settings() const
 	G4cout << "    Output Altitudes : " << G4endl;
 	G4cout << "        ";
 
-		G4cout << record_altitude[0] << " km, ";
+	G4cout << record_altitude[0] << " km, ";
 
 	G4cout << G4endl;
 
