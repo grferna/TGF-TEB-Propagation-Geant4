@@ -8,7 +8,7 @@ Each output file contains a list of recorded particles with the following column
 	- settings->NB_EVENT : number of TGF photons sampled when this record is made, only a small fraction of them leads to a detection
 	- ID : Geant4 creation number of particle (=1 for primary TGF photons, >1 for secondaries)
 	- PDG particle identification number (=22 for photon, =11 for e- and =-11 for e+)
-	- time of record (us), withb respect to TGF photon sampling time
+	- time of record (us), with respect to TGF photon sampling time
 	- energy of record (keV)
 	- altitude of record (km), should always be equal to the same value (e.g. 400)
 	- latitude of record (deg)
