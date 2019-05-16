@@ -98,6 +98,10 @@ void Analysis::save_in_output_buffer(const G4int PDG_NB, const G4double &time, c
 	buffer << ' ';
 	buffer << settings->SOURCE_ALT;
 	buffer << ' ';
+	buffer << settings->SOURCE_LAT;
+	buffer << ' ';
+	buffer << settings->SOURCE_LONG;
+	buffer << ' ';
 	buffer << settings->SOURCE_OPENING_ANGLE;
 	buffer << ' ';
 	buffer << settings->TILT_ANGLE;
