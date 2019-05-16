@@ -187,7 +187,9 @@ int main(int argc, char **argv)
 		while (std::stoi(nb_to_get_per_run) > analysis->get_NB_RECORDED())
 			UImanager->ApplyCommand("/run/beamOn " + number_st);
 
+		G4cout << G4endl;
 		G4cout << std::string("Program finished: ") + nb_to_get_per_run + std::string(" particles were recorded.") << G4endl;
+	        G4cout << G4endl;
 	}
 
 #ifdef _WIN32

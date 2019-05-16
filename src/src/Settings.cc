@@ -26,8 +26,10 @@ void Settings::diplay_settings() const
 	G4cout << "    Initial altitude : " << SOURCE_ALT << " km" << G4endl;
 	G4cout << "    Beaming : " << G4endl;
 	G4cout << "        Type : " << BEAMING_TYPE << G4endl;
-	G4cout << "        Angle : " << SOURCE_OPENING_ANGLE << " degrees; corresponds to" << G4endl;
-	G4cout << "          - half cone openign angle if Type = uniform;" << G4endl;
+
+	G4cout << "        Angle : " << OPENING_ANGLE << " degrees; corresponds to" << G4endl;
+	G4cout << "          - half cone opening angle if Type = uniform;" << G4endl;
+
 	G4cout << "          - sigma if Type = gaussian (normal)" << G4endl;
 
 	G4cout << "    Source timimg (gaussian sigma) : " << SOURCE_SIGMA_TIME << " microsecond" << G4endl;
