@@ -34,16 +34,16 @@ For non-Ubuntu users look at the code in the file `compile_install.bash` to chec
 
 ## Simulation Settings:
 Most of settings can be adjusted in `include/Settings.hh`. In particular:
-- `settings->RECORD_ELEC_POSI_ONLY` = boolean to record only electrons and positrons (not recording photons)
-- `settings->RECORD_PHOT_ONLY` = boolean to record only photons (not recording electrons and positrons)
-- If both are set to `false`, all particles are recorded.
-- `settings->SOURCE_ALT` = TGF source altitude in km
-- `settings->SOURCE_LAT` = TGF source latitude in deg
-- `settings->SOURCE_LONG` = TGF source longitude in deg
-- `settings->OPENING_ANGLE` = half-cone TGF opening angle in degrees. If "Gaussian" is selected for `settings->BEAMING_TYPE`, it is the sigma of the gaussian distribution.
+- `settings->RECORD_ELEC_POSI_ONLY` = boolean to record only electrons and positrons (not recording photons).
+- `settings->RECORD_PHOT_ONLY` = boolean to record only photons (not recording electrons and positrons).
+- If both are set to `false`, all particles are recorded (that is the default setting).
+- `settings->SOURCE_ALT` = TGF source altitude in km, default is 15 km
+- `settings->SOURCE_LAT` = TGF source latitude in deg, default is 11.01 degrees
+- `settings->SOURCE_LONG` = TGF source longitude in deg, default is -95.40 degrees
+- `settings->OPENING_ANGLE` = half-cone TGF opening angle in degrees. If "Gaussian" is selected for `settings->BEAMING_TYPE`, it is the sigma of the gaussian distribution. Default is Uniform and 40 degrees.
 - `settings->TILT_ANGLE` = TGF tilt angle in degrees
-- `settings->BEAMING_TYPE` = TGF beaming type, that is a string that values "Uniform" or "Gaussian" for isotropic or gaussian distribution
-- `settings->SOURCE_SIGMA_TIME` = TGF sigma time. Assumes the TGF has an intrinsic duration, that has Gaussian (=normal) distribution. The parameter is the sigma of this distribution, in microseconds
+- `settings->BEAMING_TYPE` = TGF beaming type, that is a string that values "Uniform" or "Gaussian" for isotropic or gaussian distribution. Default is Uniform.
+- `settings->SOURCE_SIGMA_TIME` = TGF sigma time. Assumes the TGF has an intrinsic duration, that has Gaussian (=normal) distribution. The parameter is the sigma of this distribution, in microseconds. Default is 0.
 ### Other settings:
 - Two modes are possible: `visualization` and `run`. `visualization` will show the 3D geometry (simplified Earth) and particle track. `run` will not show any 3D visualization, to run the code as quickly as possible. By default, the mode is set to `visu` if no input argument for the executable is specified and `run` otherwise. This can be changed by editing the `G4String` variable `Mode` in the main function located in the source file `src/tgf_propa.cc`, that can be set to `"visu"` or `"run"`.
 - Primary Generator is a point source, with adjustable altitude and geometry. See `src/src/PrimaryGeneratorAction.hh` and `src/src/PrimaryGeneratorAction.cc`
