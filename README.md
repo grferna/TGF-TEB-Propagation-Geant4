@@ -37,6 +37,7 @@ Most of settings can be adjusted in `include/Settings.hh`. In particular:
 - `settings->RECORD_ELEC_POSI_ONLY` = boolean to record only electrons and positrons (not recording photons).
 - `settings->RECORD_PHOT_ONLY` = boolean to record only photons (not recording electrons and positrons).
 - If both are set to `false`, all particles are recorded (that is the default setting).
+- `settings->record_altitude` = record altitude (in km) of the TGF, default is 400 km.
 - `settings->SOURCE_ALT` = TGF source altitude in km, default is 15 km
 - `settings->SOURCE_LAT` = TGF source latitude in degrees, default is 11.01 degrees
 - `settings->SOURCE_LONG` = TGF source longitude in degrees, default is -95.40 degrees
