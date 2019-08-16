@@ -38,8 +38,8 @@ Most of settings can be adjusted in `include/Settings.hh`. In particular:
 - `settings->RECORD_PHOT_ONLY` = boolean to record only photons (not recording electrons and positrons).
 - If both are set to `false`, all particles are recorded (that is the default setting).
 - `settings->SOURCE_ALT` = TGF source altitude in km, default is 15 km
-- `settings->SOURCE_LAT` = TGF source latitude in deg, default is 11.01 degrees
-- `settings->SOURCE_LONG` = TGF source longitude in deg, default is -95.40 degrees
+- `settings->SOURCE_LAT` = TGF source latitude in degrees, default is 11.01 degrees
+- `settings->SOURCE_LONG` = TGF source longitude in degrees, default is -95.40 degrees
 - `settings->OPENING_ANGLE` = half-cone TGF opening angle in degrees if "Uniform" is selected for `settings->BEAMING_TYPE`. If "Gaussian" is selected for `settings->BEAMING_TYPE`, it is the sigma of the gaussian distribution. Default is "Uniform" and 30 degrees.
 - `settings->TILT_ANGLE` = TGF tilt angle in degrees. Default is 0 degrees.
 - `settings->BEAMING_TYPE` = TGF beaming type, that is a string that values "Uniform" or "Gaussian" for isotropic or gaussian distribution. Default is "Uniform".
