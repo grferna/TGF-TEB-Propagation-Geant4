@@ -15,7 +15,7 @@ contact : <david.sarria@uib.no>
 - The source code of `TGF-TEB-Propagation-Geant4` is located in `src/` and the build should be done in the folder `build/`.
 - Requires [Geant4](https://geant4.web.cern.ch/) compiled and [installed](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html) properly. Recommended to use geant4-10-04-patch-02 (25-May-2018). Minor changes in the source code may be required for other versions. Geant4 source code is included in folder `geant4/geant4_source/`.
 ### Linux
-- Once Geant4 is installed and set-up properly, open a terminal in the `build/` folder and run `cmake ../src/` (to generate the `makefile` using CMake) and then `make` to compile. It will make the executable file `build/tgf_propa`. Easy installation scripts of Geant4 for Linux and Ubuntu are provided here : https://github.com/DavidSarria89/GEANT4-easy-install-scripts
+- Once Geant4 is installed and set-up properly, open a terminal in the `build/` folder and run `cmake ../src/` (to generate the `makefile` using CMake) and then `make` to compile. It will make the executable file `build/tgf_propa`. Easy installation scripts of Geant4 for Linux and Ubuntu are provided [here](https://github.com/DavidSarria89/GEANT4-easy-install-scripts)
 
 Alternatively, for Ubuntu users, an installation script is provided:
 - Go to `TGF-TEB-Propagation-Geant4` directory and run in terminal `bash compile_install.bash`.
@@ -24,7 +24,7 @@ Alternatively, for Ubuntu users, an installation script is provided:
 - alternatively, run before-hand the command `sudo apt-get install build-essential qt4-default qtcreator cmake-qt-gui gcc g++ gfortran zlib1g-dev libxerces-c-dev libx11-dev libexpat1-dev libxmu-dev libmotif-dev libboost-filesystem-dev libeigen3-dev qt4-qmake` to install dependencies, and `sudo` should not be required.
 - It was successfully tested on Ubuntu 16.04 and 18.04, but is probably not free of bugs.
 
-For non-Ubuntu users look at the code in the file `compile_install.bash` to check the compile and set-up steps, and read the [Geant4 installation instructions](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html)
+For non-Ubuntu users look at the code in the file `compile_install.bash` to check the compile and set-up steps, and read the [Geant4 installation instructions](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html), or look to the [easy install scripts](https://github.com/DavidSarria89/GEANT4-easy-install-scripts)
 
 ### Windows
 - You can try the an experimental installer (`TGF_TEB_propa_1.2.1.msi`), provided in the release part of this repository. Once installed it makes two shortcuts in the Desktop : `run_TGF_TEB_propa_noGui` to launch the program with default parameters, and `TGF_TEB_Propa_output_dir` to open the output folder where output files (particle lists) are produced. You can edit `[INSTALL DIR]\dsarria\TGF_TEB_propa\Bin\run_windows_no_gui.bat` to change the simulation parameters (record altitude, TGF altitude, latitude, longitude, beaming, etc...).
