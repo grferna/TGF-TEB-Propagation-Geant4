@@ -55,8 +55,8 @@ Most of settings can be adjusted in `include/Settings.hh`. In particular:
 ## The program executable can accept input parameters in this order: 
 - `nb_to_get_per_run` = number of particles to record before stopping run
 - `settings->SOURCE_ALT` = TGF source altitude in km
-- `settings->SOURCE_LAT` = TGF source latitude in deg
-- `settings->SOURCE_LONG` = TGF source longitude in deg
+- `settings->SOURCE_LAT` = TGF source latitude in degrees
+- `settings->SOURCE_LONG` = TGF source longitude in degrees
 - `settings->SOURCE_SIGMA_TIME` = TGF sigma time. Assumes the TGF has an intrinsic duration, that has Gaussian (=normal) distribution. The parameter is the sigma of this distribution, in microseconds
 - `settings->OPENING_ANGLE` = half-cone TGF opening angle in degrees. If "Gaussian" is selected for `settings->BEAMING_TYPE`, it is the sigma of the gaussian distribution.
 - `settings->TILT_ANGLE` = TGF tilt angle in degrees
