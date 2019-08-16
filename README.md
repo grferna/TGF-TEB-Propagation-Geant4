@@ -24,7 +24,7 @@ contact : <david.sarria@uib.no>
 - Will require super user priviledges (`sudo`) to download missing dependencies. 
 - alternatively, run before-hand the command `sudo apt-get install build-essential qt4-default qtcreator cmake-qt-gui gcc g++ gfortran zlib1g-dev libxerces-c-dev libx11-dev libexpat1-dev libxmu-dev libmotif-dev libboost-filesystem-dev libeigen3-dev qt4-qmake` to install dependencies, and `sudo` should not be required.
 - It was successfully tested on Ubuntu 16.04 and 18.04, but is probably not free of bugs.
-- If it works properly, it will launch the program that should open a Geant4 GUI window displaying a 3D sphere.
+- If it works properly, it will launch the program that should open a Geant4 GUI window displaying a 3D sphere. BY default it does not shot any photons. To shoot photons with the default parameters, run `/run/beamOn 1000` (that will shot 1000 photons).
 
 For non-Ubuntu users look at the code in the file `compile_install.bash` to check the compile and set-up steps, and read the [Geant4 installation instructions](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html), or look to the [easy install scripts](https://github.com/DavidSarria89/GEANT4-easy-install-scripts)
 
