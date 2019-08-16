@@ -55,6 +55,9 @@ ubuntu_dependences_list=("build-essential"
   "libboost-filesystem-dev"
   "libeigen3-dev"
   "qt4-qmake"
+  "libtool"
+  "m4"
+  "automake"
 )
 
 entered_one_time=true
