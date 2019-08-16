@@ -28,7 +28,7 @@ For non-Ubuntu users look at the code in the file `compile_install.bash` to chec
 
 ### Windows
 - You can try the an experimental installer (`TGF_TEB_propa_1.2.1.msi`), provided in the release part of this repository. Once installed it makes two shortcuts in the Desktop : `run_TGF_TEB_propa_noGui` to launch the program with default parameters, and `TGF_TEB_Propa_output_dir` to open the output folder where output files (particle lists) are produced. You can edit `[Program Files]\dsarria\TGF_TEB_propa\Bin\run_windows_no_gui.bat` to change the simulation parameters (record altitude, TGF altitude, latitude, longitude, beaming, etc...).
-- It is not recommended to install it inside "C:\Program Files (x86)\"  because in this case, admin rights will be required to modify the installed files. You may install inside "C:\Dev\" for example.
+- It is not recommended to install it inside `C:\Program Files (x86)\`  because in this case, admin rights will be required to modify the installed files. You may install inside `C:\Dev\` for example.
 
 ## Simulation Settings:
 Most of settings can be adjusted in `include/Settings.hh`. In particular:
