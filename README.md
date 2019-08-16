@@ -19,11 +19,12 @@ contact : <david.sarria@uib.no>
 - Once Geant4 is installed and set-up properly, open a terminal in the `build/` folder and run `cmake ../src/` (to generate the `makefile` using CMake) and then `make` to compile. It will make the executable file `build/tgf_propa`. 
 
 **Alternatively**, for Ubuntu users, an installation script is provided:
-- Go to main/root directory (that must be called `TGF-TEB-Propagation-Geant4`) and run in terminal `bash compile_install.bash`. If it works properly, it will launch the program that should open a Geant4 GUI window displaying a 3D sphere.
+- Go to main/root directory (that must be called `TGF-TEB-Propagation-Geant4`) and run in terminal `bash compile_install.bash`.
 - it will compile and install Geant4 [from source](https://geant4.web.cern.ch/node/1604), set up the environement variables and compile the `TGF-TEB-Propagation-Geant4` code in the `build/` folder.
 - Will require super user priviledges (`sudo`) to download missing dependencies. 
 - alternatively, run before-hand the command `sudo apt-get install build-essential qt4-default qtcreator cmake-qt-gui gcc g++ gfortran zlib1g-dev libxerces-c-dev libx11-dev libexpat1-dev libxmu-dev libmotif-dev libboost-filesystem-dev libeigen3-dev qt4-qmake` to install dependencies, and `sudo` should not be required.
 - It was successfully tested on Ubuntu 16.04 and 18.04, but is probably not free of bugs.
+- If it works properly, it will launch the program that should open a Geant4 GUI window displaying a 3D sphere.
 
 For non-Ubuntu users look at the code in the file `compile_install.bash` to check the compile and set-up steps, and read the [Geant4 installation instructions](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html), or look to the [easy install scripts](https://github.com/DavidSarria89/GEANT4-easy-install-scripts)
 
