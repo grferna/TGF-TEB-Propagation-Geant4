@@ -15,7 +15,7 @@ contact : <david.sarria@uib.no>
 - The source code of `TGF-TEB-Propagation-Geant4` is located in `src/` and the build should be done in the folder `build/`.
 - Requires [Geant4](https://geant4.web.cern.ch/) compiled and [installed](http://geant4-userdoc.web.cern.ch/geant4-userdoc/UsersGuides/InstallationGuide/html/index.html) properly. Recommended to use geant4-10-04-patch-02 (25-May-2018). Minor changes in the source code may be required for other versions. Geant4 source code is included in folder `geant4/geant4_source/`.
 ### Linux
-- Once Geant4 is installed and set-up properly, open a terminal in the `build/` folder and run `cmake ../src/` (to generate the `makefile` using CMake) and then `make` to compile. It will make the executable file `build/tgf_propa`. Easy installation scripts for Geant4 under Linux and Ubuntu ar eprovided here : https://github.com/DavidSarria89/GEANT4-easy-install-scripts
+- Once Geant4 is installed and set-up properly, open a terminal in the `build/` folder and run `cmake ../src/` (to generate the `makefile` using CMake) and then `make` to compile. It will make the executable file `build/tgf_propa`. Easy installation scripts of Geant4 for Linux and Ubuntu are provided here : https://github.com/DavidSarria89/GEANT4-easy-install-scripts
 
 Alternatively, for Ubuntu users, an installation script is provided:
 - Go to `TGF-TEB-Propagation-Geant4` directory and run in terminal `bash compile_install.bash`.
