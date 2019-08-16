@@ -22,7 +22,7 @@ contact : <david.sarria@uib.no>
 - Go to main/root directory (that must be called `TGF-TEB-Propagation-Geant4`) and run in terminal `bash compile_install.bash`.
 - it will compile and install Geant4 [from source](https://geant4.web.cern.ch/node/1604), set up the environement variables and compile the `TGF-TEB-Propagation-Geant4` code in the `build/` folder.
 - Will require super user priviledges (`sudo`) to download missing dependencies. 
-- alternatively, run before-hand the command `sudo apt-get install build-essential qt4-default qtcreator cmake-qt-gui gcc g++ gfortran zlib1g-dev libxerces-c-dev libx11-dev libexpat1-dev libxmu-dev libmotif-dev libboost-filesystem-dev libeigen3-dev qt4-qmake` to install dependencies, and `sudo` should not be required.
+- alternatively, run before-hand the command `sudo apt-get install build-essential qt4-default qtcreator cmake-qt-gui gcc g++ gfortran zlib1g-dev libxerces-c-dev libx11-dev libexpat1-dev libxmu-dev libmotif-dev libboost-filesystem-dev libeigen3-dev qt4-qmake automake libtool m4` to install dependencies, and `sudo` should not be required.
 - It was successfully tested on Ubuntu 16.04 and 18.04, but is probably not free of bugs.
 - If it works properly, it will launch the program that should open a Geant4 GUI window displaying a 3D sphere. By default ,it does not sample any TGF photons. To sample photons with the default parameters, run `/run/beamOn 1000` (that will shot 1000 photons).
 
