@@ -515,7 +515,7 @@ void TGFDetectorConstruction::Construct_MagField_Managers() {
 }
 
 //// Based on MSIS model from NASA website
-// void XrayTelDetectorConstruction::ConstructAtmosMats2() {
+// void TGFDetectorConstruction::ConstructAtmosMats2() {
 //
 //    G4String name, symbol;
 //    G4double z;
@@ -671,7 +671,7 @@ void TGFDetectorConstruction::Construct_MagField_Managers() {
 // }
 //
 //// based NIST air and variations of density according to MSIS NASA website values
-// void XrayTelDetectorConstruction::ConstructAtmosMats3() {
+// void TGFDetectorConstruction::ConstructAtmosMats3() {
 //
 //    G4double density;
 //
@@ -697,7 +697,7 @@ void TGFDetectorConstruction::Construct_MagField_Managers() {
 // }
 //
 //// reading the data file generated from website NASA MSIS E 90 model
-// void XrayTelDetectorConstruction::ReadInputAtmosFile() {
+// void TGFDetectorConstruction::ReadInputAtmosFile() {
 //    static double sss, d, e, f, gg, h, i, j, k;
 //
 //    ifstream file("../atmosphere/misise90.dat");
