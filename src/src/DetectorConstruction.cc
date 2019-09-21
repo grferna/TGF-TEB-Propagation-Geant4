@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
-// /* GEANT4 code for propagation of gamma-rays, electron and positrons in Earth's atmosphere */
+// /* GEANT4 code for propagation of gamma-rays, electron and positrons in Earth's environment */
 //
 // //
 // // ********************************************************************
