@@ -34,7 +34,7 @@
 using namespace std;
 
 // ....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+// COPY PASTED COMMENT FROM MSIS FORTRAN CODE
 //C     INPUT VARIABLES:
 //C        IYD - YEAR AND DAY AS YYDDD (day of year from 1 to 365 (or 366))
 //C              (Year ignored in current model)
@@ -108,6 +108,7 @@ using namespace std;
 //           INTEGER &MASS, // MASS NUMBER
 //           REAL *D, REAL *T); // OUTPUT VARIABLES temperatures
 //}
+// END COPY PASTED COMMENT FROM MSIS FORTRAN CODE
 
 typedef unsigned int uint;
 
@@ -159,7 +160,7 @@ G4VPhysicalVolume *TGFDetectorConstruction::Construct() {
 	// World solid
 	G4Sphere *solidWorld;
 	solidWorld = new G4Sphere("world_S", settings->earthRadius, (settings->earthRadius + world_max_altitude),
-		0 * degree, 360 * degree, 0 * degree, 180 * degree); // earth radius + 100 km
+		0 * degree, 360 * degree, 0 * degree, 180 * degree);
 // World logical
 
 	logicalWorld = new G4LogicalVolume(solidWorld,  // solid
@@ -192,8 +193,6 @@ G4VPhysicalVolume *TGFDetectorConstruction::Construct() {
 	std::vector<G4Material *> Airs = TGFDetectorConstruction::Construct_Atmos_layers_Materials(
 		altitudes_geodetic); // used MSIS C++ code; creates the Airs[jj]
 
-// considered atmosphere region (particle flying out this region are killed)
-
 	auto *Reginfo = new RegionInformation();
 	Reginfo->set_considered_atmosphere();
 	considered_atmos_Region->SetUserInformation(Reginfo);
@@ -208,7 +207,7 @@ G4VPhysicalVolume *TGFDetectorConstruction::Construct() {
 	const G4double ALT_MAX_RECORDED = *std::max_element(settings->record_altitude.begin(),
 		settings->record_altitude.end());
 
-	for (unsigned int jj = 0; jj < altitudes_geodetic.size() - 1; jj++) // geocentric altitudes
+	for (unsigned int jj = 0; jj < altitudes_geodetic.size() - 1; jj++)
 	{
 		innerRad = settings->earthRadius + altitudes_geodetic[jj];
 		outerRad = settings->earthRadius + altitudes_geodetic[jj + 1];
@@ -279,10 +278,9 @@ void TGFDetectorConstruction::calculate_altitudes_list()
 		settings->record_altitude.end());
 
 	const G4double alt_max_construction = min(alt_max_atmosphere, ALT_MAX_RECORDED * km);
-	// it is either 200 km, either the maximum detection altitude if smaller than 200 km
 
 	// defining the altitude vector
-	for (G4int jj = 0; jj < nb_altitudes; jj++)   // geocentric altitudes
+	for (G4int jj = 0; jj < nb_altitudes; jj++)
 	{
 		altitudes_geodetic.push_back(
 			exp(log(alt_min) + (log(alt_max_construction) - log(alt_min)) * double(jj) / double(nb_altitudes - 1)));
@@ -292,7 +290,6 @@ void TGFDetectorConstruction::calculate_altitudes_list()
 	altitudes_geodetic.push_back(ALT_MAX_RECORDED * km + 1. * km);
 
 	// adding the record volume : a thin layer volume starting at the record altitude
-
 	for (G4double rec_alt : settings->record_altitude) {
 		if (not_contains(rec_alt * km, altitudes_geodetic)) {
 			altitudes_geodetic.push_back(rec_alt * km);
@@ -308,7 +305,7 @@ void TGFDetectorConstruction::calculate_altitudes_list()
 	// sorting in increasing value
 	std::sort(altitudes_geodetic.begin(), altitudes_geodetic.end());
 
-	if (hasDuplicates(altitudes_geodetic)) {
+	if (hasDuplicates(altitudes_geodetic)) { // ERROR if there is any duplicates
 		G4cout << "ERROR : There are duplicates values in the altitude list. Aborting." << G4endl;
 		std::abort();
 	}
@@ -335,7 +332,8 @@ G4bool TGFDetectorConstruction::not_contains(G4double x, const std::vector<G4dou
 
 // Caltulating materials of the atmopsheric layers, based on the MSIS C++ model integrated to this code
 // ref : https://ccmc.gsfc.nasa.gov/modelweb/atmos/nrlmsise00.html
-
+// simplified version where it is standard G4_AIR material with varying density
+// It is also possible to include all MSIS-given elements with the corresponding densities; but in practice it give very similar results and runs slower
 std::vector<G4Material *>
 TGFDetectorConstruction::Construct_Atmos_layers_Materials(const std::vector<G4double> altitudes_) {
 	std::vector<G4Material *> Airs;
@@ -438,7 +436,7 @@ void TGFDetectorConstruction::Construct_MagField_Managers() {
 		globalfieldMgr->SetDetectorField(new EarthMagField_WMM);
 #elif  __unix__
 		if (settings->MAGNETIC_FIELD_MODEL == "IGRF") {
-			G4cout << "Windows system detected : magnetic field model must be WMM." << G4endl;
+			G4cout << "Linux system detected, and magnetic field model set to IGRF." << G4endl;
 			pMagFldEquation = new G4Mag_UsualEqRhs(new EarthMagField_IGRF);
 			fStepper = new G4DormandPrince745(pMagFldEquation);
 			fChordFinder = new G4ChordFinder(new EarthMagField_IGRF, fMinStep, fStepper);
@@ -446,7 +444,7 @@ void TGFDetectorConstruction::Construct_MagField_Managers() {
 			globalfieldMgr->SetDetectorField(new EarthMagField_IGRF);
 		}
 		else if (settings->MAGNETIC_FIELD_MODEL == "WMM") {
-			G4cout << "Windows system detected : magnetic field model must be WMM." << G4endl;
+			G4cout << "Linux system detected, and magnetic field model set to WMM." << G4endl;
 			pMagFldEquation = new G4Mag_UsualEqRhs(new EarthMagField_WMM);
 			fStepper = new G4DormandPrince745(pMagFldEquation);
 			fChordFinder = new G4ChordFinder(new EarthMagField_WMM, fMinStep, fStepper);
@@ -463,7 +461,6 @@ void TGFDetectorConstruction::Construct_MagField_Managers() {
 	}
 	else {
 #ifdef _WIN32
-		G4cout << "Windows system detected : magnetic field model must be WMM." << G4endl;
 		myCachedEarthMagField = new G4CachedMagneticField(new EarthMagField_WMM, distanceConst);
 #elif  __unix__
 		if (settings->MAGNETIC_FIELD_MODEL == "IGRF") {
