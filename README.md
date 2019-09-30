@@ -3,7 +3,7 @@ TGF-TEB-Propagation-Geant4
 Geant4 model for Terrestrial Gamma-ray Flashes (TGF) and associated electrons and positrons (TEB) propagation in Earth atmosphere and environment (magnetic field).
 =======
 
-contact : <david.sarria@uib.no>
+contact : <david (dot) sarria (at) uib (dot) no>
 
 ## Generalities
 - Propagation of photons, electrons and positron in Earth's environment (atmosphere, ionosphere, magnetosphere), in the context of Terrestrial Gamma-ray Flashes (TGF) and associated electrons and positrons beams.
