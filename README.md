@@ -3,7 +3,7 @@ TGF-TEB-Propagation-Geant4
 Geant4 model for Terrestrial Gamma-ray Flashes (TGF) and associated electrons and positrons (TEB) propagation in Earth atmosphere and environment (magnetic field).
 =======
 
-- contact : <david (dot) sarria (at) uib (dot) no>
+- Contact : <david (dot) sarria (at) uib (dot) no>
 - See updated version here: https://github.com/DavidSarria89/TGF-TEB-Propagation-Geant4-V2
 
 ## Generalities
