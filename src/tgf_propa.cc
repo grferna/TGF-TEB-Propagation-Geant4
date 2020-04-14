@@ -122,6 +122,7 @@ int main(int argc, char **argv)
 
 	// choose the Random engine and give seed
 	//    G4Random::setTheEngine(new CLHEP::MTwistEngine);
+	G4Random::setTheEngine(new CLHEP::MixMaxRng);
 	G4Random::setTheSeed(settings->RANDOM_SEED);
 
 	// Construct the default run manager
